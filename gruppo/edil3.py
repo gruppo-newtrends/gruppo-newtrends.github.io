@@ -53,7 +53,7 @@ def root_vars():
             "--dk70:color-mix(in srgb,var(--dark) 72%,transparent);--dk85:color-mix(in srgb,var(--dark) 86%,transparent)}")
 
 CSS = (b2.COMMON_CSS + """
-html{scroll-behavior:smooth}html,body{overflow-x:clip}body{background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--fb);-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}html,body{overflow-x:clip}body{background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--fb);-webkit-font-smoothing:antialiased}
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}main{animation:pe .55s cubic-bezier(.2,.7,.2,1) both}@keyframes pe{from{opacity:0}}}
 .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,60px)}
 h1,h2,h3{font-family:var(--fh);font-weight:600;letter-spacing:-.03em;line-height:1.06;margin:0;text-wrap:balance}
@@ -227,8 +227,11 @@ html:not(.js) .cfg .q,html:not(.js) .cfg .prog,html:not(.js) .hdr .menu,html:not
 .lite .pstep{opacity:1}.lite .pstep span{background:var(--acc);color:var(--onacc)}.lite .steps .fill{display:none}
 @media (max-width:860px){.lite .pstep h3,.lite .pstep p{display:block;position:static;width:auto}.lite .steps{grid-template-columns:1fr 1fr;gap:16px;padding-bottom:0}.lite .pstep h3{margin-top:10px}}
 .lite *,.lite *::before,.lite *::after{box-shadow:none!important}.lite img{transition:none!important}.lite a:hover img,.lite .hero .f>img{transform:none!important;animation:none!important}
-.lite .reveal{transform:none!important;transition:opacity .4s ease}.lite .svc a:hover,.lite .wk a:hover,.lite .wg>div:hover,.lite .chain a:hover,.lite .contacts a:hover{transform:none}
-.lite .hero h1 span,.lite .crumbs,.lite .hero .top p,.lite .hero .bot{transform:none!important;animation:fd .5s ease forwards}@keyframes fd{to{opacity:1}}
+.lite .svc a:hover,.lite .wk a:hover,.lite .wg>div:hover,.lite .chain a:hover,.lite .contacts a:hover{transform:none}
+/* animazioni di entrata allo scorrimento (anche in modalità leggera: solo opacità e spostamento, una volta) */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
+.js .rv.rvi{transform:translateY(14px) scale(.975)}.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
 .si{width:44px;height:44px;border-radius:12px;background:var(--acc);display:grid;place-items:center;margin-bottom:4px}.si svg{width:24px;height:24px;stroke:var(--onacc);fill:none;stroke-width:1.7}
 .get{background:var(--paper);border-radius:20px;padding:clamp(22px,3vw,36px)}.get h2{font-size:clamp(1.6rem,1.2rem + 1.2vw,2.2rem);margin:16px 0 4px}
 .hero.noph .f{min-height:0}.noph .b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:30px 50px;align-items:end;padding-top:112px;padding-bottom:clamp(22px,3vw,38px)}.noph .top{grid-template-columns:1fr}
@@ -256,10 +259,28 @@ var s3=document.querySelector(".stage3d[data-src]");function load3d(){if(!s3||s3
 if(s3){var b3=s3.querySelector(".b3d");if(b3)b3.addEventListener("click",function(){window.FORCE3D=1;b3.hidden=true;load3d()});
  if(!LITE()&&"IntersectionObserver" in window){var lo=new IntersectionObserver(function(es){if(!es[0].isIntersecting||LITE())return;lo.disconnect();load3d()},{rootMargin:"900px 0px"});lo.observe(s3)}}
 // primi fotogrammi lenti (computer vecchio): passa alla modalità leggera
-if(!LITE()&&!H.classList.contains("full"))addEventListener("load",function(){var k=0,t0=0;function fr(t){if(!t0)t0=t;if(++k<11)return requestAnimationFrame(fr);if((t-t0)/10>50)H.classList.add("lite")}requestAnimationFrame(fr)});
+if(!LITE()&&!H.classList.contains("full"))addEventListener("load",function(){var k=0,t0=0;function fr(t){if(!t0)t0=t;if(++k<11)return requestAnimationFrame(fr);if((t-t0)/10>50){H.classList.add("lite");if(window.LENIS){window.LENIS.destroy();window.LENIS=null}}}requestAnimationFrame(fr)});
 // numeri veri che contano fino al valore (il testo finale è già nell'HTML)
 if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to=+b.dataset.n,suf=b.dataset.suf||"";new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;
  function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)},{threshold:.6}).observe(b)});
+// entrata di titoli, testi, card, immagini e voci di elenco: classe "rv", ritardo a scalare nei gruppi, una sola volta
+(function(){var SEL="main h2,main h3,main .lead,main .prose>p,main .tag,.svc>a,.wk>a,.wg>div,.ba>div,.facts>div,.places li,.ticks li,.tl li,.kv>div,.contacts>*,.chain li,.split>.ph,.why .ph,.teaser .ph,.get,.cmp,.faq details,.pn a,.ftr .g>div,.map,.band,.cfg,.steps .pstep,.revhead,.head>div";
+ var lite=LITE(),els=[].slice.call(document.querySelectorAll(SEL)).filter(function(e){return !e.closest(".hero,.hdr,.q,.reveal")&&(lite||!e.closest(".proc .st"))});
+ els=els.filter(function(e){return !els.some(function(o){return o!==e&&o.contains(e)})});   // niente doppie entrate annidate
+ var all=els.concat([].slice.call(document.querySelectorAll(".reveal")));
+ if(RM||!("IntersectionObserver" in window)){all.forEach(function(e){e.classList.add("in")});return}
+ els.forEach(function(e){e.classList.add("rv");if(/^(IMG|PICTURE)$/.test(e.tagName)||e.classList.contains("ph")||e.classList.contains("cmp")||e.classList.contains("map"))e.classList.add("rvi")});
+ all.forEach(function(e){var p=e.parentNode,sib=[].filter.call(p.children,function(c){return c.classList.contains("rv")||c.classList.contains("reveal")}),i=sib.indexOf(e);if(i>0)e.style.transitionDelay=Math.min(i,6)*75+"ms"});
+ function done(e){setTimeout(function(){e.style.transitionDelay="";e.classList.remove("rv","rvi")},1300)}
+ var ob=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");ob.unobserve(x.target);done(x.target)}})},{threshold:.12,rootMargin:"0px 0px -5% 0px"});
+ all.forEach(function(e){ob.observe(e)});
+ // rete di sicurezza: se si salta oltre (ancore, scorrimento velocissimo) ciò che è già sopra o sullo schermo compare comunque
+ var tm=0;function chk(){tm=0;var h=innerHeight,left=0;all.forEach(function(e){if(e.classList.contains("in"))return;left++;if(e.getBoundingClientRect().top<h){e.classList.add("in");ob.unobserve(e);done(e)}});if(!left)removeEventListener("scroll",sc)}
+ function sc(){if(!tm)tm=setTimeout(chk,250)}addEventListener("scroll",sc,{passive:true})})();
+// scorrimento a inerzia leggero (Lenis) solo con mouse, mai su touch, in modalità leggera o con "riduci animazioni"
+if(!LITE()&&!RM&&!matchMedia("(pointer: coarse)").matches){var ls=document.createElement("script");ls.src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js";ls.async=true;
+ ls.onload=function(){if(LITE()||!window.Lenis)return;var L=window.LENIS=new Lenis({lerp:.1,smoothWheel:true,syncTouch:false});(function r(t){if(window.LENIS){L.raf(t);requestAnimationFrame(r)}})(performance.now());
+  document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||!window.LENIS)return;var id=a.getAttribute("href"),el=id.length>1&&document.getElementById(id.slice(1));if(!el)return;e.preventDefault();L.scrollTo(el,{offset:-96})})};document.head.appendChild(ls)}
 // preventivo: il tipo di lavoro può arrivare dalla pagina del servizio (?lavoro=Bagno)
 var lv=new URLSearchParams(location.search).get("lavoro");if(lv){var tb=document.querySelector('.q[data-k=lavoro] button[data-v="'+lv.replace(/"/g,"")+'"]');if(tb)tb.click()}
 """.replace('pr.style.width=((i+1)/qs.length*100)+"%"', 'pr.style.transform="scaleX("+((i+1)/qs.length)+")"').replace('pr.style.width="100%"', 'pr.style.transform="scaleX(1)"')

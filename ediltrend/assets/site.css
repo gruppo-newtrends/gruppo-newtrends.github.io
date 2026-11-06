@@ -11,7 +11,7 @@
 .wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;background:#1F7A4D;color:#fff;border-radius:999px;padding:.8rem 1.1rem;font:700 .95rem "Instrument Sans",Arial,sans-serif;text-decoration:none;box-shadow:0 10px 30px #0004}
 .hp{position:absolute;left:-9999px}
 
-html{scroll-behavior:smooth}html,body{overflow-x:clip}body{background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--fb);-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}html,body{overflow-x:clip}body{background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--fb);-webkit-font-smoothing:antialiased}
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}main{animation:pe .55s cubic-bezier(.2,.7,.2,1) both}@keyframes pe{from{opacity:0}}}
 .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,60px)}
 h1,h2,h3{font-family:var(--fh);font-weight:600;letter-spacing:-.03em;line-height:1.06;margin:0;text-wrap:balance}
@@ -185,8 +185,11 @@ html:not(.js) .cfg .q,html:not(.js) .cfg .prog,html:not(.js) .hdr .menu,html:not
 .lite .pstep{opacity:1}.lite .pstep span{background:var(--acc);color:var(--onacc)}.lite .steps .fill{display:none}
 @media (max-width:860px){.lite .pstep h3,.lite .pstep p{display:block;position:static;width:auto}.lite .steps{grid-template-columns:1fr 1fr;gap:16px;padding-bottom:0}.lite .pstep h3{margin-top:10px}}
 .lite *,.lite *::before,.lite *::after{box-shadow:none!important}.lite img{transition:none!important}.lite a:hover img,.lite .hero .f>img{transform:none!important;animation:none!important}
-.lite .reveal{transform:none!important;transition:opacity .4s ease}.lite .svc a:hover,.lite .wk a:hover,.lite .wg>div:hover,.lite .chain a:hover,.lite .contacts a:hover{transform:none}
-.lite .hero h1 span,.lite .crumbs,.lite .hero .top p,.lite .hero .bot{transform:none!important;animation:fd .5s ease forwards}@keyframes fd{to{opacity:1}}
+.lite .svc a:hover,.lite .wk a:hover,.lite .wg>div:hover,.lite .chain a:hover,.lite .contacts a:hover{transform:none}
+/* animazioni di entrata allo scorrimento (anche in modalità leggera: solo opacità e spostamento, una volta) */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
+.js .rv.rvi{transform:translateY(14px) scale(.975)}.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
 .si{width:44px;height:44px;border-radius:12px;background:var(--acc);display:grid;place-items:center;margin-bottom:4px}.si svg{width:24px;height:24px;stroke:var(--onacc);fill:none;stroke-width:1.7}
 .get{background:var(--paper);border-radius:20px;padding:clamp(22px,3vw,36px)}.get h2{font-size:clamp(1.6rem,1.2rem + 1.2vw,2.2rem);margin:16px 0 4px}
 .hero.noph .f{min-height:0}.noph .b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:30px 50px;align-items:end;padding-top:112px;padding-bottom:clamp(22px,3vw,38px)}.noph .top{grid-template-columns:1fr}

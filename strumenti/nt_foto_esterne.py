@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """New Trends: copie WebP locali delle foto esterne (onoffice e team su new-trends.ch), stesse immagini ma 5-20 volte più leggere.
-Uso: python3 -I strumenti/nt_foto_esterne.py <cartella-download>  (nella cartella: file chiamati con sha1(url)[:12]).
+Uso: python3 -I strumenti/nt_foto_esterne.py /opt/newtrends-sito/cache-foto-esterne  (file chiamati sha1(url)[:12]; quelli mancanti li scarica).
 Le pagine puntano poi a assets/img/ext/<hash>-<w>.webp con srcset; l'URL originale resta in data-fallback."""
 import glob, hashlib, os, re, sys
 from PIL import Image
@@ -11,7 +11,10 @@ def conv(url):
     h = hashlib.sha1(url.encode()).hexdigest()[:12]
     if h in done: return done[h]
     src = os.path.join(DL, h); ws = []
-    if not os.path.exists(src): done[h] = None; return None
+    if not os.path.exists(src):          # foto nuova: la scarica una volta nella cache (fuori dall'archivio pubblico)
+        try:
+            import urllib.request; urllib.request.urlretrieve(url, src + ".part"); os.replace(src + ".part", src)
+        except Exception: done[h] = None; return None
     im = Image.open(src); im = im.convert("RGB"); r = im.height / im.width
     for w in (480, 960, 1600):
         if w > im.width and ws: break

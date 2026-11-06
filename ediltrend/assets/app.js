@@ -44,10 +44,28 @@ var s3=document.querySelector(".stage3d[data-src]");function load3d(){if(!s3||s3
 if(s3){var b3=s3.querySelector(".b3d");if(b3)b3.addEventListener("click",function(){window.FORCE3D=1;b3.hidden=true;load3d()});
  if(!LITE()&&"IntersectionObserver" in window){var lo=new IntersectionObserver(function(es){if(!es[0].isIntersecting||LITE())return;lo.disconnect();load3d()},{rootMargin:"900px 0px"});lo.observe(s3)}}
 // primi fotogrammi lenti (computer vecchio): passa alla modalità leggera
-if(!LITE()&&!H.classList.contains("full"))addEventListener("load",function(){var k=0,t0=0;function fr(t){if(!t0)t0=t;if(++k<11)return requestAnimationFrame(fr);if((t-t0)/10>50)H.classList.add("lite")}requestAnimationFrame(fr)});
+if(!LITE()&&!H.classList.contains("full"))addEventListener("load",function(){var k=0,t0=0;function fr(t){if(!t0)t0=t;if(++k<11)return requestAnimationFrame(fr);if((t-t0)/10>50){H.classList.add("lite");if(window.LENIS){window.LENIS.destroy();window.LENIS=null}}}requestAnimationFrame(fr)});
 // numeri veri che contano fino al valore (il testo finale è già nell'HTML)
 if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to=+b.dataset.n,suf=b.dataset.suf||"";new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;
  function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)},{threshold:.6}).observe(b)});
+// entrata di titoli, testi, card, immagini e voci di elenco: classe "rv", ritardo a scalare nei gruppi, una sola volta
+(function(){var SEL="main h2,main h3,main .lead,main .prose>p,main .tag,.svc>a,.wk>a,.wg>div,.ba>div,.facts>div,.places li,.ticks li,.tl li,.kv>div,.contacts>*,.chain li,.split>.ph,.why .ph,.teaser .ph,.get,.cmp,.faq details,.pn a,.ftr .g>div,.map,.band,.cfg,.steps .pstep,.revhead,.head>div";
+ var lite=LITE(),els=[].slice.call(document.querySelectorAll(SEL)).filter(function(e){return !e.closest(".hero,.hdr,.q,.reveal")&&(lite||!e.closest(".proc .st"))});
+ els=els.filter(function(e){return !els.some(function(o){return o!==e&&o.contains(e)})});   // niente doppie entrate annidate
+ var all=els.concat([].slice.call(document.querySelectorAll(".reveal")));
+ if(RM||!("IntersectionObserver" in window)){all.forEach(function(e){e.classList.add("in")});return}
+ els.forEach(function(e){e.classList.add("rv");if(/^(IMG|PICTURE)$/.test(e.tagName)||e.classList.contains("ph")||e.classList.contains("cmp")||e.classList.contains("map"))e.classList.add("rvi")});
+ all.forEach(function(e){var p=e.parentNode,sib=[].filter.call(p.children,function(c){return c.classList.contains("rv")||c.classList.contains("reveal")}),i=sib.indexOf(e);if(i>0)e.style.transitionDelay=Math.min(i,6)*75+"ms"});
+ function done(e){setTimeout(function(){e.style.transitionDelay="";e.classList.remove("rv","rvi")},1300)}
+ var ob=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");ob.unobserve(x.target);done(x.target)}})},{threshold:.12,rootMargin:"0px 0px -5% 0px"});
+ all.forEach(function(e){ob.observe(e)});
+ // rete di sicurezza: se si salta oltre (ancore, scorrimento velocissimo) ciò che è già sopra o sullo schermo compare comunque
+ var tm=0;function chk(){tm=0;var h=innerHeight,left=0;all.forEach(function(e){if(e.classList.contains("in"))return;left++;if(e.getBoundingClientRect().top<h){e.classList.add("in");ob.unobserve(e);done(e)}});if(!left)removeEventListener("scroll",sc)}
+ function sc(){if(!tm)tm=setTimeout(chk,250)}addEventListener("scroll",sc,{passive:true})})();
+// scorrimento a inerzia leggero (Lenis) solo con mouse, mai su touch, in modalità leggera o con "riduci animazioni"
+if(!LITE()&&!RM&&!matchMedia("(pointer: coarse)").matches){var ls=document.createElement("script");ls.src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js";ls.async=true;
+ ls.onload=function(){if(LITE()||!window.Lenis)return;var L=window.LENIS=new Lenis({lerp:.1,smoothWheel:true,syncTouch:false});(function r(t){if(window.LENIS){L.raf(t);requestAnimationFrame(r)}})(performance.now());
+  document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||!window.LENIS)return;var id=a.getAttribute("href"),el=id.length>1&&document.getElementById(id.slice(1));if(!el)return;e.preventDefault();L.scrollTo(el,{offset:-96})})};document.head.appendChild(ls)}
 // preventivo: il tipo di lavoro può arrivare dalla pagina del servizio (?lavoro=Bagno)
 var lv=new URLSearchParams(location.search).get("lavoro");if(lv){var tb=document.querySelector('.q[data-k=lavoro] button[data-v="'+lv.replace(/"/g,"")+'"]');if(tb)tb.click()}
 })();

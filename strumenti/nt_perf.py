@@ -3,7 +3,6 @@
 - crea versioni WebP delle foto locali (assets/img/<nome>-<w>.webp)
 - miniature del menu Zone (96x64) -> WebP 192 px invece del JPEG da 1400 px
 - foto grandi -> srcset WebP + sizes (i JPEG restano nella cartella)
-- toglie backdrop-filter (sfocatura costosa durante lo scorrimento) con sfondo un po' più pieno
 Uso: python3 strumenti/nt_perf.py"""
 import glob, os, re
 from PIL import Image
@@ -30,29 +29,9 @@ ch = 0
 for f in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True):
     s = open(f, encoding="utf-8").read(); t = TAG.sub(fix, s)
     if t != s: open(f, "w", encoding="utf-8").write(t); ch += 1
-css = os.path.join(ROOT, "assets", "site.css"); s = open(css).read()
-t = (s.replace("background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px)", "background:color-mix(in srgb,var(--paper) 97%,transparent)")
-      .replace("background:color-mix(in srgb,var(--paper) 94%,transparent);color:var(--ink);border-color:var(--line);backdrop-filter:blur(10px)", "background:color-mix(in srgb,var(--paper) 98%,transparent);color:var(--ink);border-color:var(--line)")
-      .replace("background:color-mix(in srgb,var(--paper) 96%,transparent);color:var(--ink);border-color:var(--line);backdrop-filter:blur(10px)", "background:var(--paper);color:var(--ink);border-color:var(--line)")
-      .replace("background:#0000001f;backdrop-filter:blur(4px)", "background:#00000040"))
-if t != s: open(css, "w").write(t)
-print("pagine cambiate", ch, "css", t != s)
-# modalità leggera automatica (PC e telefoni vecchi): classe "lite" su <html>, niente parallasse, comparse, zoom e ombre
-LITE = ('<script>(function(d){var n=navigator,c=n.connection||{},q=location.search,f=q.indexOf("lite=0")>-1,l=q.indexOf("lite=1")>-1||(!f&&((n.hardwareConcurrency&&n.hardwareConcurrency<=4)'
-        '||(n.deviceMemory&&n.deviceMemory<=4)||c.saveData||matchMedia("(prefers-reduced-motion: reduce)").matches));if(l)d.className+=" lite"})(document.documentElement)</script>')
-n2 = 0
-for f in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True):
-    s = open(f, encoding="utf-8").read()
-    if 'd.className+=" lite"' in s or '<meta name="viewport"' not in s: continue
-    s = re.sub(r'(<meta name="viewport"[^>]*>)', lambda m: m.group(1) + "\n" + LITE, s, count=1); open(f, "w", encoding="utf-8").write(s); n2 += 1
-js = os.path.join(ROOT, "assets", "app.js"); s = open(js).read()
-a = 'var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;'
-if a in s: open(js, "w").write(s.replace(a, 'var rm=matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.classList.contains("lite");'))
-s = open(css).read()
-LCSS = ("\n/* modalità leggera */.lite .hero-bg img{animation:none;transform:none}.lite .hero-in>*{transform:none;animation-duration:.5s}"
-        ".lite *,.lite *::before,.lite *::after{box-shadow:none!important}.lite img{transition:none!important}.lite a:hover img{transform:none!important}\n")
-if "modalità leggera" not in s: open(css, "w").write(s + LCSS)
-print("pagine con modalità leggera", n2)
+css = os.path.join(ROOT, "assets", "site.css"); js = os.path.join(ROOT, "assets", "app.js")
+print("pagine cambiate", ch)
+# (modalità leggera, Lenis, niente backdrop-filter: ora sono nel generatore /opt/newtrends-sito/work, assets_src.py e build.py)
 # versione dei file (così i browser prendono subito CSS e JS nuovi)
 import hashlib
 V = hashlib.sha256(open(css, "rb").read() + open(js, "rb").read()).hexdigest()[:10]; n3 = 0
