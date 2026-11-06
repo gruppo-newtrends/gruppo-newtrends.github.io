@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>New Trends · Link</title>
+<meta name="description" content="New Trends SA, fiduciaria immobiliare a Lugano dal 1991: immobili in vendita e in affitto, vendere casa, Metodo Gold, contatti.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0C1D44">
+<link rel="icon" href="../newtrends/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&family=Instrument+Sans:wght@400;600&display=swap">
+<link rel="preload" as="image" href="img/hero-480.webp">
+<style>
+/* Stessi colori e caratteri del sito New Trends (newtrends/assets/site.css) */
+:root{--band:#0C1D44;--band2:#12285A;--fg:#EEF2FA;--muted:#AAB7D4;--sky:#9DBEF2;--brass:#395591;--line:#ffffff1f;--card:#ffffff0d;--card2:#ffffff17;--r:14px;
+ --serif:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;--sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100svh;background:var(--band);color:var(--fg);font:400 1rem/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+.wrap{max-width:520px;margin:0 auto;padding:0 18px calc(28px + env(safe-area-inset-bottom,0px))}
+/* testata: foto del lago con il logo */
+.top{position:relative;margin:0 -18px;height:260px;overflow:hidden;isolation:isolate}
+.top img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.top::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0C1D4455 0%,#0C1D4400 35%,#0C1D44 100%)}
+.top .in{position:absolute;left:18px;right:18px;bottom:6px}
+.logo{width:180px;height:auto}
+.where{display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--fg);font-size:.86rem;font-weight:600;letter-spacing:.02em}
+.where::before{content:"";width:18px;height:1px;background:var(--fg)}
+h1{font:400 clamp(2rem,1.4rem + 3vw,2.6rem)/1.05 var(--serif);font-style:italic;letter-spacing:-.01em;margin:22px 0 8px}
+.lead{color:var(--muted);margin:0 0 20px}
+/* due scelte principali con foto */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.tile{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:1/1.05;isolation:isolate;border:1px solid var(--line)}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s ease}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0C1D4410 30%,#0C1D44e6 100%)}
+.tile .t{position:absolute;left:12px;right:12px;bottom:12px}.tile b{display:block;font-size:1.08rem;font-weight:600}.tile small{color:#D5DDEE}
+.tile:hover img{transform:scale(1.04)}
+/* elenco dei link */
+.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.lk{display:grid;grid-template-columns:42px 1fr 18px;align-items:center;gap:12px;padding:14px 14px 14px 12px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);transition:background .2s,border-color .2s,transform .2s}
+.lk:hover,.lk:focus-visible{background:var(--card2);border-color:#ffffff40}.lk:active{transform:scale(.985)}
+.lk .ic{width:42px;height:42px;border-radius:10px;background:#ffffff12;display:grid;place-items:center}
+.lk svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.lk b{display:block;font-weight:600;font-size:1.02rem;line-height:1.25}.lk small{color:var(--muted);font-size:.88rem}
+.lk .ar{width:16px;height:16px;opacity:.7}
+.lk.gold{background:linear-gradient(135deg,#253C6E,#12285A);border-color:#9DBEF255}.lk.gold .ic{background:#9DBEF233;color:#fff}
+.lk.wa .ic{background:#1F7A4D}
+h2{font:600 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 2px 10px}
+/* zone */
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.zone{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1/1.15;isolation:isolate;border:1px solid var(--line)}
+.zone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}.zone::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 35%,#0C1D44dd)}
+.zone span{position:absolute;left:7px;right:7px;bottom:6px;font-size:.78rem;font-weight:600;line-height:1.15}
+/* gruppo */
+.group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.group a{padding:14px;border-radius:var(--r);border:1px solid var(--line);background:var(--card)}.group a:hover{background:var(--card2)}
+.group b{display:block;font-weight:600}.group small{color:var(--muted);font-size:.86rem}
+/* piede */
+.foot{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;display:grid;gap:4px}
+.foot a{color:var(--fg);font-weight:600}.foot .sm{font-size:.78rem;margin-top:8px}
+/* comparsa leggera, solo dove non disturba */
+@media (prefers-reduced-motion:no-preference){.rise{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*45ms)}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+@media (min-width:700px){.top{margin:0;border-radius:0 0 var(--r) var(--r);height:300px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top">
+<img class="bg" src="img/hero-480.webp" srcset="img/hero-480.webp 480w, img/hero-960.webp 960w" sizes="(min-width:520px) 520px, 100vw" alt="" width="960" height="540" fetchpriority="high">
+<div class="in"><img class="logo" src="img/logo.webp" alt="New Trends" width="600" height="82"><div class="where">Fiduciaria immobiliare · Lugano · dal 1991</div></div>
+</header>
+
+<h1 class="rise">Da dove partiamo?</h1>
+<p class="lead rise" style="--i:1">Cerchi casa o vuoi vendere? Scegli quello che ti serve: ti rispondiamo noi, da Via Pretorio 11.</p>
+
+<div class="duo">
+<a class="tile rise" style="--i:2" data-l="vendita" href="https://gruppo-newtrends.github.io/newtrends/it/immobili.html?c=sale"><img src="img/lugano-480.webp" alt="" width="480" height="270" loading="lazy"><span class="t"><b>Compra</b><small>Immobili in vendita</small></span></a>
+<a class="tile rise" style="--i:3" data-l="affitto" href="https://gruppo-newtrends.github.io/newtrends/it/immobili.html?c=rent"><img src="img/collina-480.webp" alt="" width="480" height="270" loading="lazy"><span class="t"><b>Affitta</b><small>Immobili in affitto</small></span></a>
+</div>
+
+<ul class="list">
+<li class="rise" style="--i:4"><a class="lk gold" data-l="gold" href="https://gruppo-newtrends.github.io/newtrends/it/metodo-gold.html"><span class="ic"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6 .6-4.5 4 1.3 6L12 16.3 6.6 19.2l1.3-6-4.5-4 6-.6z"/></svg></span><span><b>Metodo Qualifica Gold</b><small>Immobili in anteprima per chi cerca, clienti qualificati per chi vende</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+<li class="rise" style="--i:5"><a class="lk" data-l="vendere" href="https://gruppo-newtrends.github.io/newtrends/it/vendere-casa.html"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7M6 10v10h12V10M10 20v-5h4v5"/></svg></span><span><b>Vendi il tuo immobile</b><small>Valutazione gratuita a Lugano e in Ticino</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+<li class="rise" style="--i:6"><a class="lk" data-l="affittare" href="https://gruppo-newtrends.github.io/newtrends/it/affittare-immobile.html"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M14 9l2 2"/></svg></span><span><b>Metti in affitto</b><small>Canone giusto, inquilini verificati, contratto e consegna</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+<li class="rise" style="--i:7"><a class="lk" data-l="ferrari" href="https://residenzaferrari.ch/" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 21V4h14v17M9 8h2M13 8h2M9 12h2M13 12h2M10 21v-4h4v4"/></svg></span><span><b>Residenza Ferrari</b><small>8 appartamenti a Tesserete, in costruzione</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+<li class="rise" style="--i:8"><a class="lk" data-l="appuntamento" href="https://gruppo-newtrends.github.io/newtrends/it/contatti.html"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><span><b>Fissa un incontro</b><small>Gratuito, in sede a Lugano</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+<li class="rise" style="--i:9"><a class="lk wa" data-l="whatsapp" href="https://wa.me/41768232203?text=Buongiorno%2C%20vi%20scrivo%20da%20Instagram." target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1c-1-.5-2-1.5-2.5-2.5l1-1-1-2z"/></svg></span><span><b>Scrivici su WhatsApp</b><small>Il messaggio è già pronto, lo invii tu</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+<li class="rise" style="--i:10"><a class="lk" data-l="telefono" href="tel:+41919210031"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><span><b>Chiamaci</b><small>+41 91 921 00 31</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li>
+</ul>
+
+<h2>Cerca per zona</h2>
+<div class="zones">
+<a class="zone" data-l="zona-lugano" href="https://gruppo-newtrends.github.io/newtrends/it/immobili-lugano.html"><img src="img/lugano-480.webp" alt="" loading="lazy" width="480" height="270"><span>Lugano</span></a>
+<a class="zone" data-l="zona-collina" href="https://gruppo-newtrends.github.io/newtrends/it/immobili-collina-doro.html"><img src="img/collina-480.webp" alt="" loading="lazy" width="480" height="270"><span>Collina d'Oro</span></a>
+<a class="zone" data-l="zona-malcantone" href="https://gruppo-newtrends.github.io/newtrends/it/immobili-malcantone.html"><img src="img/malcantone-480.webp" alt="" loading="lazy" width="480" height="270"><span>Malcantone</span></a>
+<a class="zone" data-l="zona-mendrisiotto" href="https://gruppo-newtrends.github.io/newtrends/it/immobili-mendrisiotto.html"><img src="img/mendrisiotto-480.webp" alt="" loading="lazy" width="480" height="270"><span>Mendri­siotto</span></a>
+</div>
+
+<h2>Il gruppo</h2>
+<div class="group">
+<a data-l="architrend" href="https://gruppo-newtrends.github.io/architrend/"><b>Archi Trend</b><small>Progettazione e licenze</small></a>
+<a data-l="ediltrend" href="https://gruppo-newtrends.github.io/ediltrend/"><b>Edil Trend</b><small>Costruzioni e ristrutturazioni</small></a>
+</div>
+
+<ul class="list" style="margin-top:10px"><li><a class="lk" data-l="sito" href="https://gruppo-newtrends.github.io/newtrends/it/"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span><b>Il sito New Trends</b><small>Tutti gli immobili e chi siamo · IT · DE · EN · FR</small></span><svg class="ar" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a></li></ul>
+
+<footer class="foot">
+<span><a href="tel:+41919210031">+41 91 921 00 31</a> · <a href="mailto:info@new-trends.ch">info@new-trends.ch</a></span>
+<span>New Trends SA · Via Pretorio 11 · 6900 Lugano</span>
+<span class="sm">Parte del Gruppo New Trends · <a href="https://gruppo-newtrends.github.io/newtrends/it/privacy.html" style="font-weight:400">Privacy</a></span>
+</footer>
+</main>
+<script>
+// Aggiunge a ogni link l'origine "instagram", così nei report si vede che la visita arriva dal link in bio.
+(function(){var q="utm_source=instagram&utm_medium=social&utm_campaign=link_in_bio";
+document.querySelectorAll("a[data-l]").forEach(function(a){var h=a.getAttribute("href");if(!/^https?:/.test(h))return;
+ if(/wa\.me|residenzaferrari/.test(h))return;a.setAttribute("href",h+(h.indexOf("?")<0?"?":"&")+q+"&utm_content="+a.dataset.l)})})();
+</script>
+</body>
+</html>
