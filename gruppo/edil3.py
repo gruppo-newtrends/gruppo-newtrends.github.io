@@ -178,8 +178,7 @@ def crop(src, dst, box, w):
     im.save(dst, quality=82, optimize=True)
 
 def logo(cls=""):
-    return (f'<a class="logo {cls}" href="index.html" aria-label="Edil Trend SA, home"><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M3 27V11L15 4l12 7v16" fill="none" stroke="currentColor" stroke-width="2.4"/>'
-            '<path d="M10 27v-9h10v9" fill="#C3922E"/></svg>Edil Trend</a>')
+    return (f'<a class="logo {cls}" href="index.html" aria-label="Edil Trend SA, home"><img src="assets/ediltrend-marchio.png" alt="" width="34" height="34" style="border-radius:8px">Edil Trend</a>')
 
 def header(cur):
     L = [("index.html", "Home", "home"), ("index.html#servizi", "Servizi", "svc"), ("index.html#lavori", "Lavori", "works"), ("index.html#come", "Come lavoriamo", "how"), ("index.html#zone", "Zone", "zone")]
@@ -190,7 +189,7 @@ def header(cur):
 def page(title, desc, body, v):
     return f"""<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#1C1C18">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">{FONTS}<link rel="stylesheet" href="assets/site.css?v={v}">{IMPORTMAP}</head>
+<link rel="icon" href="favicon.png" type="image/png">{FONTS}<link rel="stylesheet" href="assets/site.css?v={v}">{IMPORTMAP}</head>
 <body><a class="skip" href="#main">Vai al contenuto</a>{body}<a class="wa" href="https://wa.me/{WA}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">WhatsApp</a>
 <script src="assets/app.js?v={v}" defer></script></body></html>"""
 
@@ -217,6 +216,8 @@ def build():
     put("why.jpg", pr("optima"), 1100); put("w1.jpg", pr("maraini"), 800); put("w2.jpg", pr("fortuna"), 800); put("w3.jpg", pr("ferrari"), 800)
     put("band.jpg", pr("aurea"), 1600); put("proc.jpg", pr("greenhorse"), 1400)
     shutil.copy(os.path.join(HERE, "src", "villa3d.js"), os.path.join(A, "villa3d.js"))
+    shutil.copy(os.path.join(HERE, "src", "logo", "ediltrend-marchio.png"), os.path.join(A, "ediltrend-marchio.png"))
+    shutil.copy(os.path.join(HERE, "src", "logo", "ediltrend-marchio.png"), os.path.join(OUT, "favicon.png"))
     open(os.path.join(OUT, "favicon.svg"), "w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><rect width="30" height="30" rx="7" fill="#1C1C18"/><path d="M6 25V12l9-5 9 5v13" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M11 25v-7h8v7" fill="#C3922E"/></svg>')
 
     services = [("Nuove costruzioni", "Case, ville e palazzine residenziali, dalle fondazioni alle finiture.", "Costruzione", "s-nuove.jpg"),

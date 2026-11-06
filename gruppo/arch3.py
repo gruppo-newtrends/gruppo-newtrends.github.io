@@ -143,9 +143,10 @@ def crop(src, dst, w):
     if im.width > w: im = im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
     im.save(dst, quality=82, optimize=True)
 
-def logo():
-    return ('<a class="logo" href="index.html" aria-label="Archi Trend SA, home"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="#fff" stroke-width="2.2"/>'
-            '<path d="M8.5 21 15 8l6.5 13M11 16.5h8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></svg>Archi Trend</a>')
+def logo(full=False):
+    f = "architrend-logo-bianco.png" if full else "architrend-logo-bianco-corto.png"
+    h = 64 if full else 30
+    return f'<a class="logo" href="index.html" aria-label="Archi Trend SA, home"><img src="assets/{f}" alt="Archi Trend SA" height="{h}" style="height:{h}px;width:auto"></a>'
 
 def header():
     L = [("index.html#progetti", "Progetti"), ("index.html#studio", "Studio"), ("index.html#processo", "Processo"), ("index.html#domande", "Domande")]
@@ -155,13 +156,13 @@ def header():
 def page(title, desc, body, v):
     return f"""<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#0A0A0A">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">{b2.FONTS}<link rel="stylesheet" href="{FONT}"><link rel="stylesheet" href="assets/site.css?v={v}"></head>
+<link rel="icon" href="favicon.png" type="image/png">{b2.FONTS}<link rel="stylesheet" href="{FONT}"><link rel="stylesheet" href="assets/site.css?v={v}"></head>
 <body><a class="skip" href="#main">Vai al contenuto</a>{body}<a class="wa" href="https://wa.me/{WA}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">WhatsApp</a>
 <div class="mbar"><a href="tel:{TEL}">Chiama</a><a href="index.html#contatti">Prenota una consulenza</a></div>
 <script src="assets/app.js?v={v}" defer></script></body></html>"""
 
 def footer():
-    return f"""<footer class="ftr"><div class="wrap"><div class="g"><div>{logo()}<p>Studio di architettura del Gruppo New Trends a Lugano: progettazione, licenze edilizie, direzione lavori, perizie e interni.</p></div>
+    return f"""<footer class="ftr"><div class="wrap"><div class="g"><div>{logo(True)}<p>Studio di architettura del Gruppo New Trends a Lugano: progettazione, licenze edilizie, direzione lavori, perizie e interni.</p></div>
 <div class="info"><div><small>Telefono</small><a href="tel:{TEL}">{PHONE}</a></div><div><small>Email</small><a href="mailto:{MAIL}">{MAIL}</a></div><div><small>Studio</small>{ADDR}</div></div>
 <div><small>Il gruppo</small><ul><li><a href="{SITES['newtrends']}">New Trends · Immobiliare</a></li><li><a href="{SITES['architrend']}">Archi Trend · Architettura</a></li><li><a href="{SITES['ediltrend']}">Edil Trend · Costruzioni</a></li><li><a href="privacy.html">Privacy</a></li></ul></div></div>
 <div class="bt"><span>© Archi Trend SA · Parte del Gruppo New Trends</span><span>Lugano, Svizzera</span></div></div></footer>"""
@@ -182,6 +183,8 @@ def build():
     for k in ("ferrari", "maraini", "synthesis"): put(f"b-{k}-bp.jpg", bpf(k, "bp"), 900); put(f"b-{k}-ph.jpg", bpf(k, "ph"), 900)
     for i, k in enumerate(("aurea", "optima", "greenhorse", "ferrari")): put(f"p{i}.jpg", bpf(k, "bp" if i < 3 else "ph"), 1100)
     put("q.jpg", pr("duelaghi"), 900); put("band.jpg", pr("aurea"), 1800)
+    for f in ("architrend-logo-bianco.png", "architrend-logo-bianco-corto.png", "architrend-icona.png"): shutil.copy(os.path.join(HERE, "src", "logo", f), os.path.join(A, f))
+    shutil.copy(os.path.join(HERE, "src", "logo", "architrend-icona.png"), os.path.join(OUT, "favicon.png"))
     open(os.path.join(OUT, "favicon.svg"), "w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><rect width="30" height="30" fill="#0A0A0A"/><circle cx="15" cy="15" r="11" fill="none" stroke="#fff" stroke-width="2"/><path d="M9.8 20 15 9.5 20.2 20M11.8 16.4h6.4" fill="none" stroke="#fff" stroke-width="2"/></svg>')
 
     exp = [("01", "Progettazione residenziale", "Case, ville e palazzine pensate su misura per il terreno, per chi ci abiterà e per il valore dell'immobile nel tempo.", "e1.jpg", "Residenza Optima, Montagnola"),
