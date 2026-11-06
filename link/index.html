@@ -29,6 +29,8 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
 .where::before{content:"";width:18px;height:1px;background:var(--fg)}
 h1{font:400 clamp(2rem,1.4rem + 3vw,2.6rem)/1.05 var(--serif);font-style:italic;letter-spacing:-.01em;margin:22px 0 8px}
 .lead{color:var(--muted);margin:0 0 20px}
+.rate{display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:10px 12px;border-radius:999px;background:#ffffff0d;border:1px solid var(--line);font-size:.92rem;width:max-content;max-width:100%}
+.rate .st{color:#F3C14B;letter-spacing:1px}.rate b{font-weight:600}.rate .go{margin-left:4px;color:var(--sky);font-weight:600}.rate:hover{background:var(--card2)}
 /* due scelte principali con foto */
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .tile{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:1/1.05;isolation:isolate;border:1px solid var(--line)}
@@ -74,6 +76,7 @@ h2{font:600 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;col
 <h1 class="rise">Da dove partiamo?</h1>
 <p class="lead rise" style="--i:1">Cerchi casa o vuoi vendere? Scegli quello che ti serve: ti rispondiamo noi, da Via Pretorio 11.</p>
 
+<a class="rate rise" style="--i:2" data-l="recensioni" href="https://g.page/r/CS0DEhgR64jXEAE" target="_blank" rel="noopener"><span class="st" aria-hidden="true">★★★★★</span><span><b>4,9/5</b> su Google · 83 recensioni</span><span class="go">Leggi</span></a>
 <div class="duo">
 <a class="tile rise" style="--i:2" data-l="vendita" href="https://gruppo-newtrends.github.io/newtrends/it/immobili.html?c=sale"><img src="img/lugano-480.webp" alt="" width="480" height="270" loading="lazy"><span class="t"><b>Compra</b><small>Immobili in vendita</small></span></a>
 <a class="tile rise" style="--i:3" data-l="affitto" href="https://gruppo-newtrends.github.io/newtrends/it/immobili.html?c=rent"><img src="img/collina-480.webp" alt="" width="480" height="270" loading="lazy"><span class="t"><b>Affitta</b><small>Immobili in affitto</small></span></a>
@@ -115,7 +118,7 @@ h2{font:600 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;col
 // Aggiunge a ogni link l'origine "instagram", così nei report si vede che la visita arriva dal link in bio.
 (function(){var q="utm_source=instagram&utm_medium=social&utm_campaign=link_in_bio";
 document.querySelectorAll("a[data-l]").forEach(function(a){var h=a.getAttribute("href");if(!/^https?:/.test(h))return;
- if(/wa\.me|residenzaferrari/.test(h))return;a.setAttribute("href",h+(h.indexOf("?")<0?"?":"&")+q+"&utm_content="+a.dataset.l)})})();
+ if(/wa\.me|residenzaferrari|g\.page/.test(h))return;a.setAttribute("href",h+(h.indexOf("?")<0?"?":"&")+q+"&utm_content="+a.dataset.l)})})();
 </script>
 </body>
 </html>
