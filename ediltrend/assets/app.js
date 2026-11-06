@@ -26,7 +26,7 @@ var cfg=document.querySelector(".cfg");if(cfg){var qs=cfg.querySelectorAll(".q")
 // lavori filtrabili
 document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});var f=b.dataset.f;document.querySelectorAll(".work").forEach(function(w){w.hidden=!!f&&w.dataset.f!==f})})});
 
-var RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches,H=document.documentElement,LITE=function(){return H.classList.contains("lite")};
 // header pieno quando si scorre
 var hd=document.querySelector(".hdr");function hs(){hd.classList.toggle("s",scrollY>40)}addEventListener("scroll",hs,{passive:true});hs();
 // prima/dopo: cursore trascinabile (anche da tastiera)
@@ -35,14 +35,18 @@ document.querySelectorAll(".cmp").forEach(function(c){var r=c.querySelector("inp
  c.addEventListener("pointerdown",function(e){down=true;mv(e)});addEventListener("pointerup",function(){down=false});c.addEventListener("pointermove",function(e){if(down)mv(e)})});
 // come lavoriamo: i passi si accendono con lo scorrimento della sezione fissata (solo trasformazioni, niente layout)
 var prc=document.querySelector(".proc");if(prc){var ss=prc.querySelectorAll(".pstep"),sl=prc.querySelector(".steps"),li=-1,tk=0;
- function ps(){tk=0;var b=prc.getBoundingClientRect();if(b.bottom<0||b.top>innerHeight)return;var p=Math.max(0,Math.min(1,-b.top/Math.max(1,b.height-innerHeight)));var i=Math.min(3,Math.floor(p*4));
+ function ps(){tk=0;if(LITE())return;var b=prc.getBoundingClientRect();if(b.bottom<0||b.top>innerHeight)return;var p=Math.max(0,Math.min(1,-b.top/Math.max(1,b.height-innerHeight)));var i=Math.min(3,Math.floor(p*4));
   if(i!==li){li=i;ss.forEach(function(s,j){s.classList.toggle("on",j<=i);s.classList.toggle("cur",j===i)})}sl.style.setProperty("--p",Math.min(1,p*1.33).toFixed(3))}
  addEventListener("scroll",function(){if(!tk)tk=requestAnimationFrame(ps)},{passive:true});ps()}
 // three.js: si carica solo quando la sezione è vicina (e mai con "riduci animazioni")
-var s3=document.querySelector(".stage3d[data-src]");if(s3&&!RM&&"IntersectionObserver" in window){var lo=new IntersectionObserver(function(es){if(!es[0].isIntersecting)return;lo.disconnect();
- var s=document.createElement("script");s.type="module";s.src=s3.dataset.src;document.body.appendChild(s)},{rootMargin:"900px 0px"});lo.observe(s3)}
+// in modalità leggera niente three.js: foto vera e un pulsante "Guarda in 3D" per caricarlo solo se lo chiedi
+var s3=document.querySelector(".stage3d[data-src]");function load3d(){if(!s3||s3.dataset.on)return;s3.dataset.on=1;var s=document.createElement("script");s.type="module";s.src=s3.dataset.src;document.body.appendChild(s)}
+if(s3){var b3=s3.querySelector(".b3d");if(b3)b3.addEventListener("click",function(){window.FORCE3D=1;b3.hidden=true;load3d()});
+ if(!LITE()&&"IntersectionObserver" in window){var lo=new IntersectionObserver(function(es){if(!es[0].isIntersecting||LITE())return;lo.disconnect();load3d()},{rootMargin:"900px 0px"});lo.observe(s3)}}
+// primi fotogrammi lenti (computer vecchio): passa alla modalità leggera
+if(!LITE()&&!H.classList.contains("full"))addEventListener("load",function(){var k=0,t0=0;function fr(t){if(!t0)t0=t;if(++k<11)return requestAnimationFrame(fr);if((t-t0)/10>50)H.classList.add("lite")}requestAnimationFrame(fr)});
 // numeri veri che contano fino al valore (il testo finale è già nell'HTML)
-if(!RM)document.querySelectorAll("[data-n]").forEach(function(b){var to=+b.dataset.n,suf=b.dataset.suf||"";new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;
+if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to=+b.dataset.n,suf=b.dataset.suf||"";new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;
  function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)},{threshold:.6}).observe(b)});
 // preventivo: il tipo di lavoro può arrivare dalla pagina del servizio (?lavoro=Bagno)
 var lv=new URLSearchParams(location.search).get("lavoro");if(lv){var tb=document.querySelector('.q[data-k=lavoro] button[data-v="'+lv.replace(/"/g,"")+'"]');if(tb)tb.click()}

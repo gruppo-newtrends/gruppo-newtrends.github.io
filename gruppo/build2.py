@@ -80,7 +80,7 @@ COMMON_CSS = """*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{
 .gbar a,.gbar span{text-decoration:none;padding:.3rem .65rem;border-radius:999px;color:#AAB7D4}.gbar a:hover{color:#fff;background:#ffffff14}
 .gbar a[aria-current]{color:#fff;background:#ffffff26}.gbar span{opacity:.55}
 @media (max-width:620px){.gbar b,.gbar span{display:none}.gbar nav{width:100%;justify-content:center}}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 .wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;background:#1F7A4D;color:#fff;border-radius:999px;padding:.8rem 1.1rem;font:700 .95rem "Instrument Sans",Arial,sans-serif;text-decoration:none;box-shadow:0 10px 30px #0004}
 .hp{position:absolute;left:-9999px}

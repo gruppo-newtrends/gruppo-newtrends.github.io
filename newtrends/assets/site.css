@@ -465,3 +465,5 @@ h1,h2,h3,.lead,.crumbs{overflow-wrap:break-word;hyphens:auto}
  .mobbar.show{transform:none}.mobbar a{color:#fff;text-decoration:none;text-align:center;padding:.85rem .4rem;border-radius:12px;font-weight:600;font-size:.95rem;background:#ffffff14}.mobbar a.pri{background:var(--sky);color:#0C1D44}
  .ftr{padding-bottom:90px}}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important}.hero-in>*{opacity:1;animation:none;transform:none}}
+
+/* modalità leggera */.lite .hero-bg img{animation:none;transform:none}.lite .hero-in>*{transform:none;animation-duration:.5s}.lite *,.lite *::before,.lite *::after{box-shadow:none!important}.lite img{transition:none!important}.lite a:hover img{transform:none!important}

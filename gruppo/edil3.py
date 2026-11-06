@@ -10,14 +10,14 @@ from PIL import Image
 import build2 as b2
 from build2 import E, P, ADDR, PHONE, TEL, MAIL, WA, SITES, ICONS, find_src
 
-THEME = os.environ.get("EDIL_THEME", "a")
+THEME = os.environ.get("EDIL_THEME", "d")   # "d" = scelta della titolare (6 nov 2026)
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "out", "ediltrend-v6")
 BASE = SITES["ediltrend"]          # indirizzo del sito: unico punto da cambiare con il dominio vero
 YEARS = 2026 - 1999
 LOGO_W, LOGO_H = 1600, 264         # proporzioni del logo vero (src/logo/ediltrend-logo-*.png)
 
-# ---------- tre identità sullo stesso logo (grafite #333132 + verde #01A187, mai ricolorato) ----------
+# ---------- identità sullo stesso logo (grafite #333132 + verde #01A187, mai ricolorato) ----------
 GF = "https://fonts.googleapis.com/css2?family={}&display=swap"
 THEMES = {
     "a": dict(name="A · Grafite e verde, neutri caldi", font=GF.format("Outfit:wght@500;600&family=Inter:wght@400..700"), fh="Outfit", fb="Inter",
@@ -29,6 +29,14 @@ THEMES = {
     "c": dict(name="C · Scuro grafite, verde pieno", font=GF.format("Space+Grotesk:wght@500;600&family=Inter:wght@400..700"), fh="Space Grotesk", fb="Inter",
               v=dict(bg="#262526", paper="#333132", ink="#F2EFEA", onink="#262526", dark="#1B1A1B", ondark="#F2EFEA", dkmuted="#B3ADA5", soft="#01A187",
                      acc="#01A187", onacc="#FFFFFF", accdk="#3CC9AD", muted="#B8B2AA", line="#444142", card2="#3C3A3B", photo="saturate(1.06) contrast(1.03)"), hdr="#1B1A1B"),
+    # D = via di mezzo tra B e C scelta dalla titolare: pietra calda + grafite, un po' più del verde del logo (fasce verdi, icone, numeri, hover)
+    "d": dict(name="D · Pietra calda e grafite, più verde del logo", font=GF.format("Space+Grotesk:wght@500;600&family=Manrope:wght@400..700"), fh="Space Grotesk", fb="Manrope",
+              v=dict(bg="#E6E0D7", paper="#F8F5F0", ink="#2A2829", onink="#FFFFFF", dark="#333132", ondark="#F3F0EB", dkmuted="#D0CAC1", soft="#CDE9E0",
+                     acc="#01A187", onacc="#0B2420", accdk="#006B55", muted="#55514C", line="#D2CBC0", card2="#DAD3C9", photo="none", band="#0B6E5E"), hdr="#333132",
+              css=""".cta{background:var(--band);color:#fff}.cta .tag,.cta p{color:#E2F4EE}.cta .tag::before{background:#fff}.cta .btn{background:#fff;color:#1f1e1f}
+.gb{background:var(--band)}.gb .tag,.gb .lead{color:#D8F0E8}.gb .tag::before{background:#A7EBDA}.gb .tl li{border-color:#ffffff33}.gb .tl li::before{color:#A7EBDA}.gb .btn:not(.w):not(.g){background:#fff;color:#1f1e1f}
+.svc a:hover,.wk a:hover{box-shadow:0 0 0 2px var(--acc),0 30px 50px -34px #0006}.pill a.on{background:#01A18766}.wg>div:hover{box-shadow:0 0 0 2px var(--acc)}
+.ftr{box-shadow:inset 0 4px 0 var(--acc)}.facts{background:var(--paper)}.kv div{border-top:3px solid var(--acc)}.chain .me a{color:#0B2420}"""),
 }
 TH = THEMES[THEME]
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -44,7 +52,7 @@ def root_vars():
     return (":root{" + "".join(f"--{k}:{x};" for k, x in v.items()) + f'--fh:"{TH["fh"]}",Arial,sans-serif;--fb:"{TH["fb"]}",Arial,sans-serif;--r:24px;'
             "--dk70:color-mix(in srgb,var(--dark) 72%,transparent);--dk85:color-mix(in srgb,var(--dark) 86%,transparent)}")
 
-CSS = b2.COMMON_CSS + """
+CSS = (b2.COMMON_CSS + """
 html{scroll-behavior:smooth}html,body{overflow-x:clip}body{background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--fb);-webkit-font-smoothing:antialiased}
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}main{animation:pe .55s cubic-bezier(.2,.7,.2,1) both}@keyframes pe{from{opacity:0}}}
 .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,60px)}
@@ -210,11 +218,27 @@ a:hover .more i{transform:rotate(-45deg);background:var(--acc);color:var(--onacc
 .ftr .bt{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid #ffffff26;margin-top:50px;padding-top:24px;color:var(--dkmuted)}
 .plain{max-width:820px;margin:0 auto;padding:40px 20px 80px}.plain h1{font-size:2.8rem;margin-bottom:20px}.small{font-size:.86rem;color:var(--muted)}
 .wa{background:#1F7A4D}
+/* senza JavaScript: niente configuratore (restano telefono, email e WhatsApp), menu nel piede */
+html:not(.js) .cfg .q,html:not(.js) .cfg .prog,html:not(.js) .hdr .menu,html:not(.js) .b3d{display:none}html:not(.js) .nojs{display:block!important}.nojs{display:none}
+.b3d,.scrub{display:none}.lite .b3d{display:inline-flex;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}.lite .b3d[hidden]{display:none}
+.lite .proc.has3d .scrub{display:block;position:absolute;left:20px;right:20px;bottom:64px;width:calc(100% - 40px);accent-color:var(--acc);z-index:2}
+/* modalità leggera: niente sezione fissata né animazioni legate allo scorrimento, niente ombre e zoom, solo dissolvenze */
+.lite .proc{height:auto}.lite .proc .st{position:static;height:auto;padding:clamp(50px,6vw,90px) 0}.lite .stage3d{flex:none;aspect-ratio:16/9;min-height:260px}
+.lite .pstep{opacity:1}.lite .pstep span{background:var(--acc);color:var(--onacc)}.lite .steps .fill{display:none}
+@media (max-width:860px){.lite .pstep h3,.lite .pstep p{display:block;position:static;width:auto}.lite .steps{grid-template-columns:1fr 1fr;gap:16px;padding-bottom:0}.lite .pstep h3{margin-top:10px}}
+.lite *,.lite *::before,.lite *::after{box-shadow:none!important}.lite img{transition:none!important}.lite a:hover img,.lite .hero .f>img{transform:none!important;animation:none!important}
+.lite .reveal{transform:none!important;transition:opacity .4s ease}.lite .svc a:hover,.lite .wk a:hover,.lite .wg>div:hover,.lite .chain a:hover,.lite .contacts a:hover{transform:none}
+.lite .hero h1 span,.lite .crumbs,.lite .hero .top p,.lite .hero .bot{transform:none!important;animation:fd .5s ease forwards}@keyframes fd{to{opacity:1}}
+.si{width:44px;height:44px;border-radius:12px;background:var(--acc);display:grid;place-items:center;margin-bottom:4px}.si svg{width:24px;height:24px;stroke:var(--onacc);fill:none;stroke-width:1.7}
+.get{background:var(--paper);border-radius:20px;padding:clamp(22px,3vw,36px)}.get h2{font-size:clamp(1.6rem,1.2rem + 1.2vw,2.2rem);margin:16px 0 4px}
+.hero.noph .f{min-height:0}.noph .b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:30px 50px;align-items:end;padding-top:112px;padding-bottom:clamp(22px,3vw,38px)}.noph .top{grid-template-columns:1fr}
+.hph{border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:var(--card2)}.hph img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.noph .b{grid-template-columns:1fr;padding-top:100px}}
 @media (prefers-reduced-motion:reduce){.hero h1 span,.hero .top p,.hero .bot,.crumbs{opacity:1;transform:none}.hero .f>img{transform:none}}
-""".replace("HDR", TH["hdr"])
+""" + TH.get("css", "")).replace("HDR", TH["hdr"])
 
 JS = b2.E_JS + r"""
-var RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches,H=document.documentElement,LITE=function(){return H.classList.contains("lite")};
 // header pieno quando si scorre
 var hd=document.querySelector(".hdr");function hs(){hd.classList.toggle("s",scrollY>40)}addEventListener("scroll",hs,{passive:true});hs();
 // prima/dopo: cursore trascinabile (anche da tastiera)
@@ -223,14 +247,18 @@ document.querySelectorAll(".cmp").forEach(function(c){var r=c.querySelector("inp
  c.addEventListener("pointerdown",function(e){down=true;mv(e)});addEventListener("pointerup",function(){down=false});c.addEventListener("pointermove",function(e){if(down)mv(e)})});
 // come lavoriamo: i passi si accendono con lo scorrimento della sezione fissata (solo trasformazioni, niente layout)
 var prc=document.querySelector(".proc");if(prc){var ss=prc.querySelectorAll(".pstep"),sl=prc.querySelector(".steps"),li=-1,tk=0;
- function ps(){tk=0;var b=prc.getBoundingClientRect();if(b.bottom<0||b.top>innerHeight)return;var p=Math.max(0,Math.min(1,-b.top/Math.max(1,b.height-innerHeight)));var i=Math.min(3,Math.floor(p*4));
+ function ps(){tk=0;if(LITE())return;var b=prc.getBoundingClientRect();if(b.bottom<0||b.top>innerHeight)return;var p=Math.max(0,Math.min(1,-b.top/Math.max(1,b.height-innerHeight)));var i=Math.min(3,Math.floor(p*4));
   if(i!==li){li=i;ss.forEach(function(s,j){s.classList.toggle("on",j<=i);s.classList.toggle("cur",j===i)})}sl.style.setProperty("--p",Math.min(1,p*1.33).toFixed(3))}
  addEventListener("scroll",function(){if(!tk)tk=requestAnimationFrame(ps)},{passive:true});ps()}
 // three.js: si carica solo quando la sezione è vicina (e mai con "riduci animazioni")
-var s3=document.querySelector(".stage3d[data-src]");if(s3&&!RM&&"IntersectionObserver" in window){var lo=new IntersectionObserver(function(es){if(!es[0].isIntersecting)return;lo.disconnect();
- var s=document.createElement("script");s.type="module";s.src=s3.dataset.src;document.body.appendChild(s)},{rootMargin:"900px 0px"});lo.observe(s3)}
+// in modalità leggera niente three.js: foto vera e un pulsante "Guarda in 3D" per caricarlo solo se lo chiedi
+var s3=document.querySelector(".stage3d[data-src]");function load3d(){if(!s3||s3.dataset.on)return;s3.dataset.on=1;var s=document.createElement("script");s.type="module";s.src=s3.dataset.src;document.body.appendChild(s)}
+if(s3){var b3=s3.querySelector(".b3d");if(b3)b3.addEventListener("click",function(){window.FORCE3D=1;b3.hidden=true;load3d()});
+ if(!LITE()&&"IntersectionObserver" in window){var lo=new IntersectionObserver(function(es){if(!es[0].isIntersecting||LITE())return;lo.disconnect();load3d()},{rootMargin:"900px 0px"});lo.observe(s3)}}
+// primi fotogrammi lenti (computer vecchio): passa alla modalità leggera
+if(!LITE()&&!H.classList.contains("full"))addEventListener("load",function(){var k=0,t0=0;function fr(t){if(!t0)t0=t;if(++k<11)return requestAnimationFrame(fr);if((t-t0)/10>50)H.classList.add("lite")}requestAnimationFrame(fr)});
 // numeri veri che contano fino al valore (il testo finale è già nell'HTML)
-if(!RM)document.querySelectorAll("[data-n]").forEach(function(b){var to=+b.dataset.n,suf=b.dataset.suf||"";new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;
+if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to=+b.dataset.n,suf=b.dataset.suf||"";new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;
  function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)},{threshold:.6}).observe(b)});
 // preventivo: il tipo di lavoro può arrivare dalla pagina del servizio (?lavoro=Bagno)
 var lv=new URLSearchParams(location.search).get("lavoro");if(lv){var tb=document.querySelector('.q[data-k=lavoro] button[data-v="'+lv.replace(/"/g,"")+'"]');if(tb)tb.click()}
@@ -246,7 +274,7 @@ SERVICES = [  # slug, titolo, breve, categoria, foto (chiave P, ritaglio), testo
      "Come impresa generale ci occupiamo dell'intera opera con un solo contratto. Scegliamo e coordiniamo gli artigiani, teniamo il programma dei lavori e siamo il tuo unico interlocutore dal primo giorno alla consegna.",
      ["Un solo contratto e un solo referente", "Programma dei lavori condiviso", "Coordinamento di imprese e artigiani", "Capitolato, prezzo e tempi scritti prima di iniziare"],
      ["maraini", "synthesis", "aurea", "miracolli"], "Nuova costruzione"),
-    ("opere-di-capomastro", "Opere di capomastro", "Platee, murature, tramezze, aperture e intonaci, eseguiti con cura.", "Costruzione", ("synthesis", None),
+    ("opere-di-capomastro", "Opere di capomastro", "Platee, murature, tramezze, aperture e intonaci, eseguiti con cura.", "Costruzione", ("montagnola", (0, 0, .5, .5)),
      "Le opere di capomastro sono il cuore del mestiere: getti, murature, tramezze, nuove aperture e intonaci. Le eseguiamo sia dentro un cantiere completo sia come lavoro a sé.",
      ["Platee, solette e getti in calcestruzzo", "Murature portanti e tramezze", "Nuove aperture e demolizioni", "Intonaci interni ed esterni"],
      ["synthesis", "duelaghi", "miracolli"], "Opere di muratura"),
@@ -264,6 +292,9 @@ SERVICES = [  # slug, titolo, breve, categoria, foto (chiave P, ritaglio), testo
      ["magliaso", "corteglia"], "Facciata o tetto"),
 ]
 CAT = {"new": "Nuova costruzione", "ren": "Ristrutturazione"}
+SICON = {"nuove-costruzioni": "nuova", "impresa-generale": "uno", "opere-di-capomastro": "muratura", "ristrutturazioni": "appartamento", "bagni-e-cucine": "bagno", "facciate-e-tetti": "facciata"}
+SBA = {"facciate-e-tetti": ("magliaso", 0), "ristrutturazioni": ("montagnola", 0), "opere-di-capomastro": ("montagnola", 1)}   # prima/dopo veri per servizio
+GET = ["Sopralluogo e preventivo senza impegno", "Preventivo con voci e quantità scritte", "Prezzo, tempi e capitolato firmati prima di iniziare", "Un capocantiere di riferimento che ti aggiorna", "Collaudo e consegna insieme, poi restiamo il tuo riferimento"]
 ORDER = ["ferrari", "greenhorse", "optima", "maraini", "synthesis", "miracolli", "aurea", "duelaghi", "fortuna", "magliaso", "montagnola", "motta", "pregassona", "corteglia"]
 SLUG = {k: "lavoro-" + k + ".html" for k in ORDER}
 # prima/dopo veri: le foto originali sono composizioni "situazione precedente / attuale"
@@ -322,11 +353,15 @@ def header(cur):
             + "".join(f'<a href="{h}"{" class=on aria-current=page" if k == cur else ""}>{t}</a>' for h, t, k in NAV)
             + f'</nav><a class="btn w" href="preventivo.html">Preventivo {AR}</a><button class="menu" data-menu aria-expanded="false">Menu</button></div></header>')
 
+# modalità leggera automatica (PC e telefoni vecchi, risparmio dati, riduci animazioni): classe "lite" su <html> prima che la pagina si disegni.
+# ?lite=1 la forza, ?lite=0 la spegne (prove). Senza JavaScript manca la classe "js" e tutto resta visibile.
+LITE_HEAD = '(function(d){var n=navigator,c=n.connection||{},q=location.search,f=q.indexOf("lite=0")>-1,l=q.indexOf("lite=1")>-1||(!f&&((n.hardwareConcurrency&&n.hardwareConcurrency<=4)||(n.deviceMemory&&n.deviceMemory<=4)||c.saveData||matchMedia("(prefers-reduced-motion: reduce)").matches));d.className+=" js"+(l?" lite":"")+(f?" full":"")})(document.documentElement)'
+
 def page(title, desc, body, v, name, three=False):
     canon = BASE + ("" if name == "index.html" else name)
     return f"""<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="{TH['hdr']}"><link rel="canonical" href="{canon}">
-<link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">{FONTS}<link rel="stylesheet" href="assets/site.css?v={v}">{IMPORTMAP if three else ""}</head>
+<script>{LITE_HEAD}</script><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">{FONTS}<link rel="stylesheet" href="assets/site.css?v={v}">{IMPORTMAP if three else ""}</head>
 <body><a class="skip" href="#main">Vai al contenuto</a>{body}<a class="wa" href="https://wa.me/{WA}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">WhatsApp</a>
 <script src="assets/app.js?v={v}" defer></script></body></html>"""
 
@@ -377,10 +412,11 @@ def build():
     def hero_sm(crumbs, h1, lead, im, alt):
         cr = '<ol class="crumbs">' + "".join(f'<li><a href="{h}">{E(t)}</a></li>' if h else f'<li aria-current="page">{E(t)}</li>' for h, t in crumbs) + "</ol>"
         ph = T(im, alt, SH, False) if im and big(im) else ""
-        return (f'<section class="hero sm{"" if ph else " noph"}"><div class="f">{ph}<div class="b"><nav aria-label="Percorso">{cr}</nav><div class="top"><h1><span>{E(h1)}</span></h1>'
-                f'<p>{E(lead)}</p></div></div></div></section>')
+        side = f'<div class="hph">{T(im, alt, "(max-width:900px) 92vw, 560px", False)}</div>' if im and not ph else ""   # foto piccola: in cornice, mai sgranata
+        return (f'<section class="hero sm{"" if ph else " noph"}"><div class="f">{ph}<div class="b"><div><nav aria-label="Percorso">{cr}</nav><div class="top"><h1><span>{E(h1)}</span></h1>'
+                f'<p>{E(lead)}</p></div></div>{side}</div></div></section>')
     def svc_cards(items):
-        return '<div class="svc">' + "".join(f'<a class="reveal" href="servizio-{s[0]}.html"><div class="ph">{T("s-" + s[0], "", S3)}<span class="chip">{E(s[3])}</span></div><div class="t"><h3>{E(s[1])}</h3><p>{E(s[2])}</p><span class="more">Scopri di più {AR}</span></div></a>' for s in items) + "</div>"
+        return '<div class="svc">' + "".join(f'<a class="reveal" href="servizio-{s[0]}.html"><div class="ph">{T("s-" + s[0], "", S3)}<span class="chip">{E(s[3])}</span></div><div class="t"><span class="si">{G(ICONS[SICON[s[0]]])}</span><h3>{E(s[1])}</h3><p>{E(s[2])}</p><span class="more">Scopri di più {AR}</span></div></a>' for s in items) + "</div>"
     def work_cards(keys):
         return '<div class="wk">' + "".join(f'<a class="reveal work" data-f="{P[k][5]}" href="{SLUG[k]}"><div class="ph">{T("p-" + k, P[k][0] + ", " + P[k][1], S3)}</div><span class="k">{E(CAT[P[k][5]])} · {E(P[k][1])}</span><h3>{E(dtitle(k))}</h3><p>{E(P[k][2])}</p><span class="more">Vedi il lavoro {AR}</span></a>' for k in keys) + "</div>"
     def ba_block(k, i, link=False):
@@ -409,7 +445,7 @@ def build():
             f'<p>New Trends trova il terreno o l\'immobile, Archi Trend progetta e ottiene la licenza, Edil Trend costruisce, New Trends vende o affitta. Un unico interlocutore per tutto il percorso.</p><a class="btn w" href="{SITES["newtrends"]}">Scopri il gruppo {AR}</a></div>'
             f'<div class="glass"><b>3 aziende</b>un solo percorso</div></div></div></section>')
     tiles = lambda items: '<div class="tiles">' + "".join(f'<button type="button" data-v="{E(v)}" aria-pressed="false">{G(ICONS[ic]) if ic else ""}<span>{E(v)}</span></button>' for v, ic in items) + "</div>"
-    cfg = f"""<div class="cfg reveal" id="preventivo"><span class="tag">Preventivo</span><h2>Raccontaci il lavoro.</h2><p class="lead" style="margin-top:12px">Quattro domande, un minuto. Poi ti chiamiamo per il sopralluogo, senza impegno.</p><div class="prog" aria-hidden="true"><i></i></div>
+    cfg = f"""<div class="cfg reveal" id="preventivo"><span class="tag">Preventivo</span><h2>Raccontaci il lavoro.</h2><p class="lead" style="margin-top:12px">Quattro domande, un minuto. Poi ti chiamiamo per il sopralluogo, senza impegno.</p><p class="nojs lead" style="margin-top:16px">Il configuratore funziona con JavaScript attivo. Puoi anche chiamarci al <a href="tel:{TEL}">{PHONE}</a> o scrivere a <a href="mailto:{MAIL}">{MAIL}</a>.</p><div class="prog" aria-hidden="true"><i></i></div>
 <div class="q" data-k="lavoro"><span class="step">STEP 01 / 04</span><h3>Di che lavoro si tratta?</h3>{tiles([("Bagno", "bagno"), ("Cucina", "cucina"), ("Appartamento intero", "appartamento"), ("Casa", "casa"), ("Facciata o tetto", "facciata"), ("Opere di muratura", "muratura"), ("Nuova costruzione", "nuova"), ("Altro", "altro")])}</div>
 <div class="q" data-k="misura"><span class="step">STEP 02 / 04</span><h3>Quanto è grande la superficie?</h3>{tiles([("Meno di 30 m²", None), ("30–80 m²", None), ("80–150 m²", None), ("Più di 150 m²", None), ("Non lo so ancora", None)])}<div class="nav2"><button class="back" type="button">← Indietro</button></div></div>
 <div class="q" data-k="quando"><span class="step">STEP 03 / 04</span><h3>Quando vorresti iniziare?</h3>{tiles([("Il prima possibile", None), ("Entro 3 mesi", None), ("Tra 3 e 6 mesi", None), ("Sto valutando", None)])}<div class="nav2"><button class="back" type="button">← Indietro</button></div></div>
@@ -436,7 +472,7 @@ def build():
 <div class="r"><p class="lead">Trascina il cursore: sono foto vere di lavori di ristrutturazione del gruppo.</p><a class="btn" href="lavori.html">Tutti i lavori {AR}</a></div></div><div class="ba">{ba_block("magliaso", 0, True)}{ba_block("montagnola", 0, True)}{ba_block("montagnola", 1, True)}</div></div></section>
 <section class="sec"><div class="wrap why"><div class="reveal"><span class="tag">Perché noi</span><h2>Perché le famiglie ci affidano la loro casa.</h2><p class="lead" style="margin-top:18px">Niente scorciatoie, niente sorprese: un cantiere fatto di chiarezza e di mestiere.</p>
 <div class="ph">{T("why", "Residenza Optima, Montagnola", S2)}<div><b>Dal 1999</b><br>a Lugano, con il Gruppo New Trends</div></div><p style="margin-top:24px"><a class="btn" href="chi-siamo.html">Chi siamo {AR}</a></p></div><div class="wg">{wy}</div></div></section>
-<section class="dk"><div class="wrap teaser"><div class="reveal"><span class="tag">Come lavoriamo</span><h2>Semplice, dall'inizio alla fine.</h2><ol class="tl">{"".join(f"<li>{E(a)}</li>" for a, _ in STEPS)}</ol>
+<section class="dk gb"><div class="wrap teaser"><div class="reveal"><span class="tag">Come lavoriamo</span><h2>Semplice, dall'inizio alla fine.</h2><ol class="tl">{"".join(f"<li>{E(a)}</li>" for a, _ in STEPS)}</ol>
 <a class="btn" href="come-lavoriamo.html">Guarda la casa che si costruisce {AR}</a></div><a class="ph reveal" href="come-lavoriamo.html" aria-label="Come lavoriamo: modello 3D">{T("proc", "Residenza Green Horse, Muzzano", S2)}<span>Modello 3D: scorri e la casa si costruisce</span></a></div></section>
 <section class="sec"><div class="wrap"><div class="revhead"><div><span class="tag">Lavori del gruppo</span><h2>Costruito con cura, consegnato con precisione.</h2></div><div style="display:grid;gap:18px;justify-items:start"><p class="lead">Alcuni dei progetti seguiti dalle aziende del Gruppo New Trends.</p><a class="btn" href="lavori.html">Tutti i lavori {AR}</a></div></div>{work_cards(["maraini", "fortuna", "ferrari"])}
 {facts}</div></section>
@@ -470,9 +506,11 @@ def build():
         slug, t, short, cat, _, text, incl, rel, kind = s
         others = [x for x in SERVICES if x[0] != slug and x[3] == cat] + [x for x in SERVICES if x[3] != cat]
         body = f"""{header("svc")}{hero_sm([("index.html", "Home"), ("servizi.html", "Servizi"), (None, t)], t, short, "s-" + slug, "")}
-<main id="main"><section class="sec"><div class="wrap split"><div class="prose reveal"><span class="tag">{E(cat)}</span><h2 style="margin-bottom:24px">{E(t)}</h2><p class="big">{E(text)}</p>
-<h3 style="font-size:1.2rem;margin-top:30px">Cosa comprende</h3><ul class="ticks">{"".join(f"<li>{CHECK}<span>{E(x)}</span></li>" for x in incl)}</ul>
-<p><a class="btn g" href="preventivo.html?lavoro={E(kind)}">Chiedi un preventivo {AR}</a></p></div><div class="ph reveal">{T("s-" + slug, "", S2)}</div></div></section>
+<main id="main"><section class="sec"><div class="wrap split"><div class="prose reveal"><span class="tag">{E(cat)}</span><h2 style="margin-bottom:24px">Cosa facciamo</h2><p class="big">{E(text)}</p>
+<ul class="ticks">{"".join(f"<li>{CHECK}<span>{E(x)}</span></li>" for x in incl)}</ul>
+<p><a class="btn g" href="preventivo.html?lavoro={E(kind)}">Chiedi un preventivo {AR}</a></p></div><div class="get reveal"><span class="si">{G(ICONS[SICON[slug]])}</span><h2>Cosa ricevi</h2><ul class="ticks">{"".join(f"<li>{CHECK}<span>{E(x)}</span></li>" for x in GET)}</ul>
+<p class="small">Sono le regole con cui lavoriamo su ogni cantiere, piccolo o grande.</p></div></div>
+{f'<div class="wrap" style="margin-top:70px"><span class="tag">Prima e dopo</span><h2 style="margin-bottom:30px">Un lavoro vero di questo tipo.</h2><div class="ba two">{ba_block(*SBA[slug], True)}</div></div>' if slug in SBA else ""}</section>
 <section class="sec dk"><div class="wrap"><div class="head"><div><span class="tag">Come lo seguiamo</span><h2>Quattro passi, sempre gli stessi.</h2></div><div class="r"><p class="lead">Dal sopralluogo alla consegna, con prezzo e tempi scritti prima di iniziare.</p><a class="btn" href="come-lavoriamo.html">Come lavoriamo {AR}</a></div></div>
 <div class="wg" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">{stepcards}</div></div></section>
 <section class="sec"><div class="wrap"><div class="revhead"><div><span class="tag">Lavori del gruppo</span><h2>Lavori di questo tipo.</h2></div><p class="lead">Progetti del Gruppo New Trends collegati a questo servizio.</p></div>{work_cards(rel[:3])}</div></section>
@@ -500,7 +538,7 @@ def build():
 <div class="split"><div class="prose reveal"><span class="tag">Il lavoro</span><h2 style="margin-bottom:24px">{E(title)}</h2><p class="big">{E(role)}</p>
 <p>Un progetto del Gruppo New Trends a {E(place)}. Il ruolo del gruppo è quello descritto su new-trends.ch. Per saperne di più o per un progetto simile, chiamaci al <a href="tel:{TEL}">{PHONE}</a>.</p>
 {('<h3 style="font-size:1.2rem;margin-top:26px">Servizi collegati</h3><ul class="ticks">' + "".join(f'<li>{CHECK}<a href="servizio-{s[0]}.html">{E(s[1])}</a></li>' for s in svc_rel) + "</ul>") if svc_rel else ""}
-<p style="margin-top:26px"><a class="btn g" href="preventivo.html">Hai un progetto simile? {AR}</a></p></div><div class="ph reveal">{T("p-" + k, f"{n}, {place}", S2)}</div></div>
+<p style="margin-top:26px"><a class="btn g" href="preventivo.html">Hai un progetto simile? {AR}</a></p></div>{f'<div class="ph reveal">{T("p-" + k, f"{n}, {place}", S2)}</div>' if big("p-" + k) else f'<div class="get reveal"><span class="si">{G(ICONS["casa"])}</span><h2>In breve</h2><ul class="ticks"><li>{CHECK}<span>{E(size)}</span></li><li>{CHECK}<span>{E(place)}</span></li><li>{CHECK}<span>{E(role)}</span></li></ul></div>'}</div>
 {f'<div style="margin-top:70px"><span class="tag">Prima e dopo</span><h2 style="margin-bottom:30px">Trascina il cursore.</h2><div class="ba two">{bas}</div></div>' if bas else ""}
 <nav class="pn" aria-label="Altri lavori"><a href="{SLUG[prv]}"><small>← Lavoro precedente</small><b>{E(dtitle(prv))}</b></a><a href="{SLUG[nxt]}"><small>Lavoro successivo →</small><b>{E(dtitle(nxt))}</b></a></nav></div></section>
 <section class="sec" style="padding-top:0"><div class="wrap"><div class="revhead"><div><span class="tag">Altri lavori</span><h2>Guarda anche.</h2></div><a class="btn" href="lavori.html">Tutti i lavori {AR}</a></div>{work_cards(rel)}</div></section>
@@ -511,7 +549,7 @@ def build():
     how = f"""{header("how")}{hero_sm([("index.html", "Home"), (None, "Come lavoriamo")], "Come lavoriamo", "Niente stress e niente sorprese: un percorso chiaro in quattro passi, dalla prima idea alla consegna delle chiavi.", "proc", "Residenza Green Horse, Muzzano")}
 <main id="main"><section class="dk proc" id="come"><div class="st"><div class="wrap" style="display:flex;flex-direction:column;flex:1;min-height:0;width:100%"><div class="head"><div><span class="tag">Scorri</span><h2>Guarda la casa che si costruisce.</h2></div><p class="lead">Un modello 3D di esempio: mentre scorri, la villa passa dal tracciamento alle luci della sera, come i quattro passi del nostro lavoro.</p></div>
 <div class="steps"><i class="fill"></i>{st}</div>
-<div class="stage3d" data-src="assets/villa3d.js?v=V3D" aria-label="Modello 3D di esempio: una villa che si costruisce mentre scorri le quattro fasi">{T("proc", "Residenza Green Horse, Muzzano", "100vw")}<div class="bar"><i></i></div><span class="cap3d">Sopralluogo e tracciamento · 0%</span></div></div></div></section>
+<div class="stage3d" data-src="assets/villa3d.js?v=V3D" aria-label="Modello 3D di esempio: una villa che si costruisce mentre scorri le quattro fasi">{T("proc", "Residenza Green Horse, Muzzano", "100vw")}<div class="bar"><i></i></div><span class="cap3d">Sopralluogo e tracciamento · 0%</span><button class="b3d btn g" type="button">Guarda in 3D {AR}</button><input class="scrub" type="range" min="0" max="100" value="0" aria-label="Costruisci la casa: trascina"></div></div></div></section>
 <section class="sec"><div class="wrap"><div class="head"><div><span class="tag">Passo per passo</span><h2>Cosa succede, e quando.</h2></div><p class="lead">Gli stessi quattro passi per un bagno e per una palazzina.</p></div>
 <div class="wg" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">{stepcards}</div></div></section>
 <section class="sec" style="padding-top:0"><div class="wrap why"><div class="reveal"><span class="tag">Perché noi</span><h2>Un cantiere fatto di chiarezza e di mestiere.</h2><p class="lead" style="margin-top:18px">Prezzo, tempi e capitolato li firmiamo prima di aprire il cantiere.</p></div><div class="wg">{wy}</div></div></section>

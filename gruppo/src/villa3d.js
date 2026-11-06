@@ -5,8 +5,11 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const sec = document.querySelector(".proc"), box = document.querySelector(".stage3d");
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (sec && box && !reduce) start();
+// Si carica solo da app.js: vicino alla sezione sui dispositivi capaci, oppure col pulsante "Guarda in 3D" in modalità leggera.
+// In modalità leggera (o con "riduci animazioni") la casa si costruisce con il cursore, non con lo scorrimento.
+const H = document.documentElement, manual = H.classList.contains("lite") || matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scrub = box && box.querySelector(".scrub");
+if (sec && box) start();
 
 function start() {
   let R;
@@ -15,7 +18,7 @@ function start() {
   try { R = new THREE.WebGLRenderer({ antialias: !small, powerPreference: "high-performance" }); } catch (e) { return; }
   if (!R.getContext()) return;
   sec.classList.add("has3d");
-  R.setPixelRatio(Math.min(small ? 1.25 : 1.5, devicePixelRatio || 1));
+  R.setPixelRatio(Math.min(small ? 1 : 1.5, devicePixelRatio || 1));
   R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap; R.shadowMap.autoUpdate = true;
   R.toneMapping = THREE.ACESFilmicToneMapping; R.outputColorSpace = THREE.SRGBColorSpace;
   box.prepend(R.domElement);
@@ -183,7 +186,7 @@ function start() {
   const NAMES = ["Sopralluogo e tracciamento", "Scavo, platea e struttura", "Pietra, vetrate e tetto", "Piscina, giardino e luci"];
   let target = 0, cur = -1, visible = false, raf = 0, w = 0, h = 0;
   const clamp = (v) => Math.max(0, Math.min(1, v)), ease = (k) => 1 - Math.pow(1 - k, 3), lerp = (a, b, k) => a + (b - a) * k;
-  const readScroll = () => { const r = sec.getBoundingClientRect(); target = clamp(-r.top / Math.max(1, r.height - innerHeight)); };
+  const readScroll = () => { if (manual) { target = scrub ? scrub.value / 100 : 1; return; } const r = sec.getBoundingClientRect(); target = clamp(-r.top / Math.max(1, r.height - innerHeight)); };
 
   function apply(p) {
     for (const it of items) {
@@ -210,17 +213,21 @@ function start() {
     // camera: giro lento attorno al cantiere e avvicinamento
     const a = lerp(.95, .28, ease(p)), rad = lerp(small ? 48 : 40, small ? 42 : 33, ease(p)), el = lerp(15, 7.5, ease(p));
     cam.position.set(Math.sin(a) * rad, el, Math.cos(a) * rad); cam.lookAt(0, lerp(1.5, 3.2, p), 1);
-    const i = Math.min(3, Math.floor(p * 4)); if (capEl) capEl.textContent = `${NAMES[i]} · ${Math.round(p * 100)}%`; if (barEl) barEl.style.width = (p * 100) + "%";
+    const i = Math.min(3, Math.floor(p * 4)); if (capEl) capEl.textContent = `${NAMES[i]} · ${Math.round(p * 100)}%`; if (barEl) barEl.style.transform = `scaleX(${p.toFixed(3)})`;
   }
   function size() { const r = box.getBoundingClientRect(); if (r.width === w && r.height === h) return; w = r.width; h = r.height; R.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); cur = -1; }
   function frame() {
-    raf = 0; if (!visible) return; size();
-    const nx = cur < 0 ? target : cur + (target - cur) * .12;
+    raf = 0; if (!visible) return;
+    if (!manual && H.classList.contains("lite")) { stop(); return; }   // il computer si è rivelato lento: torna alla foto
+    size();
+    const nx = cur < 0 || manual ? target : cur + (target - cur) * .12;   // col cursore risponde subito
     if (Math.abs(nx - cur) > .0004 || cur < 0) { cur = Math.abs(nx - target) < .0004 ? target : nx; apply(cur); R.render(scene, cam); }
     if (cur !== target) raf = requestAnimationFrame(frame);
   }
   const kick = () => { readScroll(); if (!raf) raf = requestAnimationFrame(frame); };
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible) kick(); }, { rootMargin: "200px" }).observe(box);
-  addEventListener("scroll", kick, { passive: true }); addEventListener("resize", () => { w = 0; kick(); });
+  function stop() { visible = false; removeEventListener("scroll", kick); R.domElement.remove(); R.dispose(); sec.classList.remove("has3d"); }
+  if (manual) { if (scrub) { scrub.value = 100; scrub.addEventListener("input", kick); } } else addEventListener("scroll", kick, { passive: true });
+  addEventListener("resize", () => { w = 0; kick(); });
   readScroll(); size(); apply(target); R.render(scene, cam);
 }

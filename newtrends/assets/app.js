@@ -95,7 +95,7 @@ var cf=$("#calc");if(cf){var pr=parseFloat(cf.dataset.price);var sl=$("#own");fu
 })();
 
 // 5 nov: entrate allo scroll, contatori, parallasse leggera, barra di avanzamento, barre di conversione, bottoni "magnetici"
-(function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+(function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.classList.contains("lite");
  var sel=".sec-head,.card,.path,.stat,.zone,.sit,.quote,.oitem,.step,.gpoint,.team-photo,.score,.alert,.val,.olist,.calc,.contact>div,.two>div,.gold-grid>div";
  var els=[].slice.call(document.querySelectorAll(sel)).filter(function(e){return !e.closest(".hdr,.mega,.drawer,.hero")});
  if(!rm&&"IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
