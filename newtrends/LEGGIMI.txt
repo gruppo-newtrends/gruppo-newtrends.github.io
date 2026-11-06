@@ -1,0 +1,11 @@
+SITO NEW TRENDS SA - come metterlo online
+
+1. Caricate tutto il contenuto di questa cartella sul server di www.new-trends.ch (nella radice).
+   Le home sono /it/, /de/, /en/, /fr/. La pagina / porta ogni visitatore nella sua lingua.
+2. Moduli: in ogni pagina c'e' window.NT.endpoint (vuoto). Inserite l'indirizzo del CRM o di un
+   servizio form, che riceve i dati in JSON (POST). Senza endpoint il modulo prepara il messaggio
+   WhatsApp con un codice di riferimento.
+3. Foto degli immobili: arrivano da image.onoffice.de. Se una foto non carica, appare la foto della zona.
+4. SEO: sitemap.xml e robots.txt sono pronti. Inviate la sitemap in Google Search Console.
+5. Da verificare: link Instagram, ruoli del team, foto delle zone (Unsplash, uso libero).
+6. Per aggiornare testi e immobili: modificate i file in _sorgente e lanciate python3 build.py.

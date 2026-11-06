@@ -1,0 +1,7 @@
+_site/
+__pycache__/
+__pycache__/
+*.db
+*.json
+*.csv
+*.eml
