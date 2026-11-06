@@ -14,3 +14,6 @@ Le cartelle `ediltrend/` e `architrend/` sono generate: non modificarle a mano. 
 I moduli dei siti mandano le richieste al CRM sul server: `https://crm-newtrends.2-29-109-125.sslip.io/api/pubblico/richiesta`.
 
 Provare in locale: `pip install pillow` poi `python3 gruppo/edil3.py /tmp/edil` e `python3 gruppo/arch3.py /tmp/archi`.
+
+**Novembre 2026.** Edil Trend ha più pagine (una per voce del menu, per servizio e per lavoro) e il logo vero. L'aspetto si sceglie con `THEME` in `gruppo/edil3.py` (o `EDIL_THEME=a|b|c`), oggi è "a". Archi Trend ha la stessa costante `THEME` / `ARCHI_THEME` in `gruppo/arch3.py`.
+Le foto vengono salvate come WebP in più misure (`build2.rimg`, cache in `gruppo/.imgcache`, non pubblicata). Per il sito New Trends: `python3 strumenti/nt_perf.py` (foto locali in WebP) e `strumenti/nt_foto_esterne.py` (copie WebP delle foto onoffice). Lanciali di nuovo se aggiungi pagine.

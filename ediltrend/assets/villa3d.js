@@ -10,12 +10,13 @@ if (sec && box && !reduce) start();
 
 function start() {
   let R;
-  try { R = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" }); } catch (e) { return; }
+  const small = innerWidth < 760;
+  // telefoni: niente antialias (lo schermo è già denso), pixel ratio basso, ombre e trame più piccole
+  try { R = new THREE.WebGLRenderer({ antialias: !small, powerPreference: "high-performance" }); } catch (e) { return; }
   if (!R.getContext()) return;
   sec.classList.add("has3d");
-  const small = innerWidth < 760;
-  R.setPixelRatio(Math.min(small ? 2 : 1.75, devicePixelRatio || 1));
-  R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
+  R.setPixelRatio(Math.min(small ? 1.25 : 1.5, devicePixelRatio || 1));
+  R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap; R.shadowMap.autoUpdate = true;
   R.toneMapping = THREE.ACESFilmicToneMapping; R.outputColorSpace = THREE.SRGBColorSpace;
   box.prepend(R.domElement);
 
@@ -26,7 +27,7 @@ function start() {
 
   // ---------- cielo: gradiente che passa dal giorno alla sera ----------
   const skyU = { top: { value: new THREE.Color() }, mid: { value: new THREE.Color() }, bot: { value: new THREE.Color() } };
-  const sky = new THREE.Mesh(new THREE.SphereGeometry(180, 32, 16), new THREE.ShaderMaterial({
+  const sky = new THREE.Mesh(new THREE.SphereGeometry(180, 24, 12), new THREE.ShaderMaterial({
     side: THREE.BackSide, depthWrite: false, uniforms: skyU,
     vertexShader: "varying vec3 v;void main(){v=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}",
     fragmentShader: "uniform vec3 top,mid,bot;varying vec3 v;void main(){float h=v.y;vec3 c=h>0.?mix(mid,top,smoothstep(0.,.55,h)):mix(mid,bot,smoothstep(0.,.25,-h));gl_FragColor=vec4(c,1.);}"
@@ -38,15 +39,16 @@ function start() {
 
   const hemi = new THREE.HemisphereLight("#dfe8f0", "#6d5f4d", 0.7); scene.add(hemi);
   const sun = new THREE.DirectionalLight("#fff4e3", 2.6); sun.castShadow = true;
-  sun.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
+  sun.shadow.mapSize.set(small ? 512 : 1024, small ? 512 : 1024);
   Object.assign(sun.shadow.camera, { left: -26, right: 26, top: 26, bottom: -26, near: 1, far: 120 });
   sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.03; scene.add(sun, sun.target);
 
   // ---------- materiali con trame disegnate in codice ----------
-  const tex = (draw, rep = 1, size = 512) => {
+  const TS = small ? 256 : 512;
+  const tex = (draw, rep = 1, size = TS) => {
     const c = document.createElement("canvas"); c.width = c.height = size; const g = c.getContext("2d"); draw(g, size);
     const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep, rep);
-    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = small ? 2 : 4; return t;
   };
   const rnd = (() => { let s = 7; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
   const noise = (g, n, base, amp, a = 1) => { g.fillStyle = base; g.fillRect(0, 0, n, n); for (let i = 0; i < n * 22; i++) { const v = (rnd() - .5) * amp; g.fillStyle = `rgba(${v > 0 ? 255 : 0},${v > 0 ? 255 : 0},${v > 0 ? 255 : 0},${Math.abs(v) * a})`; g.fillRect(rnd() * n, rnd() * n, 1 + rnd() * 2, 1 + rnd() * 2); } };
@@ -57,13 +59,13 @@ function start() {
     let y = 0; while (y < n) { const h = 22 + rnd() * 30; let x = -rnd() * 40; while (x < n) { const w = 40 + rnd() * 90, l = 120 + rnd() * 70;
       g.fillStyle = `rgb(${l | 0},${(l * .95) | 0},${(l * .87) | 0})`; g.fillRect(x + 2, y + 2, w - 4, h - 4);
       g.fillStyle = "rgba(255,255,255,.07)"; g.fillRect(x + 2, y + 2, w - 4, 3); x += w; } y += h; }
-    for (let i = 0; i < 4000; i++) { g.fillStyle = `rgba(0,0,0,${rnd() * .1})`; g.fillRect(rnd() * n, rnd() * n, 2, 2); }
+    for (let i = 0; i < n * 8; i++) { g.fillStyle = `rgba(0,0,0,${rnd() * .1})`; g.fillRect(rnd() * n, rnd() * n, 2, 2); }
   }, 1);
   const tWood = tex((g, n) => {
     g.fillStyle = "#8A5A3A"; g.fillRect(0, 0, n, n);
     for (let i = 0; i < 260; i++) { const y = rnd() * n; g.strokeStyle = `rgba(${rnd() > .5 ? "60,30,15" : "190,140,95"},${.15 + rnd() * .25})`; g.lineWidth = .5 + rnd() * 2; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(n * .3, y + rnd() * 8 - 4, n * .7, y + rnd() * 8 - 4, n, y); g.stroke(); }
   }, 1);
-  const tGrass = tex((g, n) => { noise(g, n, "#56663F", .5, .5); for (let i = 0; i < 6000; i++) { g.fillStyle = `rgba(${rnd() > .5 ? "120,140,80" : "40,55,30"},.35)`; g.fillRect(rnd() * n, rnd() * n, 1, 3); } }, 14);
+  const tGrass = tex((g, n) => { noise(g, n, "#56663F", .5, .5); for (let i = 0; i < n * 12; i++) { g.fillStyle = `rgba(${rnd() > .5 ? "120,140,80" : "40,55,30"},.35)`; g.fillRect(rnd() * n, rnd() * n, 1, 3); } }, 14);
   const tEarth = tex((g, n) => noise(g, n, "#6B5640", .45, .6), 6);
   const tPaving = tex((g, n) => { noise(g, n, "#CFC6B8", .08); g.strokeStyle = "rgba(0,0,0,.18)"; g.lineWidth = 2; for (let i = 0; i <= n; i += n / 4) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i, n); g.moveTo(0, i); g.lineTo(n, i); g.stroke(); } }, 6);
   const tTile = tex((g, n) => { g.fillStyle = "#2E6E7C"; g.fillRect(0, 0, n, n); g.strokeStyle = "rgba(255,255,255,.25)"; for (let i = 0; i <= n; i += n / 8) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i, n); g.moveTo(0, i); g.lineTo(n, i); g.stroke(); } }, 3);

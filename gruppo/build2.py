@@ -40,6 +40,37 @@ def find_src(stem):
         if os.path.splitext(f)[0] == stem: return os.path.join(IMG, f)
     raise FileNotFoundError(stem)
 
+# ---------- immagini responsive (WebP in 2-3 larghezze, con cache) ----------
+CACHE = os.path.join(HERE, ".imgcache")
+def rimg(src, out_dir, name, widths=(480, 960, 1600), box=None, q=76):
+    """Salva <name>-<w>.webp in out_dir per ogni larghezza (mai più grande dell'originale).
+    box = ritaglio (x0,y0,x1,y1) in frazioni. Ritorna un dict usato da imgtag()."""
+    os.makedirs(CACHE, exist_ok=True)
+    im = None; key0 = hashlib.sha1(f"{os.path.abspath(src)}|{os.path.getmtime(src)}|{box}|{q}".encode()).hexdigest()[:16]
+    sz = os.path.join(CACHE, key0 + ".size")
+    if os.path.exists(sz): W, H = map(int, open(sz).read().split())
+    else:
+        im = Image.open(src).convert("RGB")
+        if box: im = im.crop((int(box[0] * im.width), int(box[1] * im.height), int(box[2] * im.width), int(box[3] * im.height)))
+        W, H = im.size; open(sz, "w").write(f"{W} {H}")
+    ws = sorted(set(min(w, W) for w in widths)); out = []
+    for w in ws:
+        fn = f"{name}-{w}.webp"; c = os.path.join(CACHE, f"{key0}-{w}.webp")
+        if not os.path.exists(c):
+            if im is None:
+                im = Image.open(src).convert("RGB")
+                if box: im = im.crop((int(box[0] * im.width), int(box[1] * im.height), int(box[2] * im.width), int(box[3] * im.height)))
+            (im if w >= W else im.resize((w, round(H * w / W)), Image.LANCZOS)).save(c, "WEBP", quality=q, method=5)
+        shutil.copy(c, os.path.join(out_dir, fn)); out.append((fn, w))
+    return {"files": out, "w": W, "h": H}
+
+def imgtag(info, alt="", sizes="100vw", lazy=True, cls="", attrs="", base="assets/img/"):
+    f = info["files"]; mid = f[min(1, len(f) - 1)]
+    ss = ", ".join(f"{base}{fn} {w}w" for fn, w in f)
+    la = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high" decoding="async"'
+    c = f' class="{cls}"' if cls else ""
+    return f'<img{c} src="{base}{mid[0]}" srcset="{ss}" sizes="{sizes}" width="{info["w"]}" height="{info["h"]}" alt="{E(alt)}"{la}{attrs}>'
+
 # ---------- parti comuni ----------
 COMMON_CSS = """*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%;display:block}a{color:inherit}
 .skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:#fff;color:#000;padding:8px 12px;z-index:999}
