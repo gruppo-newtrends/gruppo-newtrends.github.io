@@ -22,6 +22,18 @@ if(!lite&&!rm&&!nolenis&&!matchMedia("(pointer:coarse)").matches){addEventListen
  document.addEventListener("archi-lite",function(){lenis.destroy();lenis=null})};document.head.appendChild(s)})}
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||a.getAttribute("href").length<2)return;var t=document.getElementById(a.getAttribute("href").slice(1));if(!t)return;e.preventDefault();goTo(t);if(a.classList.contains("skip"))t.setAttribute("tabindex","-1"),t.focus({preventScroll:true})});
 if(location.hash.length>1)addEventListener("load",function(){var t=document.getElementById(location.hash.slice(1));if(t)setTimeout(function(){window.scrollTo(0,t.getBoundingClientRect().top+scrollY-HDR)},50)});
+
+// ---- reazioni al mouse: evidenziatore del menu, pulsanti "magnetici" e luce sulle schede (non in modalità leggera) ----
+var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+var nv=document.querySelector(".hdr .nav");if(nv&&fine){var hl=document.createElement("i");hl.className="hl";hl.setAttribute("aria-hidden","true");nv.appendChild(hl);
+ function mv(a){hl.style.transform="translateX("+a.offsetLeft+"px) scaleX("+(a.offsetWidth/100)+")"}
+ nv.querySelectorAll("a").forEach(function(a){a.addEventListener("mouseenter",function(){if(innerWidth<=1080)return;mv(a);nv.classList.add("hlon")});a.addEventListener("focus",function(){if(innerWidth>1080){mv(a);nv.classList.add("hlon")}})});
+ nv.addEventListener("mouseleave",function(){nv.classList.remove("hlon")});nv.addEventListener("focusout",function(){nv.classList.remove("hlon")})}
+if(fine&&!rm&&!lite){document.querySelectorAll(".hero .btn:not(.ghost),.band .btn:not(.ghost),.dcta .btn:not(.ghost),.phero .btn:not(.ghost)").forEach(function(b){var r=0;
+  b.addEventListener("mousemove",function(e){if(r)return;r=requestAnimationFrame(function(){r=0;var q=b.getBoundingClientRect(),x=(e.clientX-q.left-q.width/2)/q.width,y=(e.clientY-q.top-q.height/2)/q.height;b.style.setProperty("--mx",(x*8).toFixed(1)+"px");b.style.setProperty("--my",(y*6).toFixed(1)+"px")})});
+  b.addEventListener("mouseleave",function(){b.style.setProperty("--mx","0px");b.style.setProperty("--my","0px")})});
+ document.querySelectorAll(".card").forEach(function(c){var sp=document.createElement("i");sp.className="spot";sp.setAttribute("aria-hidden","true");c.prepend(sp);var r=0;
+  c.addEventListener("mousemove",function(e){if(r)return;r=requestAnimationFrame(function(){r=0;var q=c.getBoundingClientRect();sp.style.setProperty("--sx",(e.clientX-q.left)+"px");sp.style.setProperty("--sy",(e.clientY-q.top)+"px")})})})}
 var hd=document.querySelector(".hdr");function hs(){hd.classList.toggle("s",scrollY>30)}addEventListener("scroll",hs,{passive:true});hs();
 // cursore disegno/realtà e prima/dopo
 document.querySelectorAll(".cmp").forEach(function(c){var r=c.querySelector("input");function set(v){c.style.setProperty("--x",v+"%")}r.addEventListener("input",function(){set(r.value)});
@@ -31,12 +43,13 @@ document.querySelectorAll(".cmp").forEach(function(c){var r=c.querySelector("inp
 document.querySelectorAll("[data-count]").forEach(function(b){if(rm||lite)return;var to=+b.dataset.count,from=+(b.dataset.from||0),suf=b.dataset.suf||"";b.textContent=from+suf;
  new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(from+(to-from)*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)},{threshold:.6}).observe(b)});
 // progetti: filtro
-document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});var f=b.dataset.f;document.querySelectorAll(".pc[data-f]").forEach(function(w){w.hidden=!!f&&w.dataset.f!==f})})});
+document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});var f=b.dataset.f,n=0;document.querySelectorAll(".pgrid .pc[data-f]").forEach(function(w){w.hidden=!!f&&w.dataset.f!==f;if(!w.hidden)n++});var pn=document.querySelector(".pnone");if(pn)pn.hidden=n>0})});
+var frs=document.querySelector("[data-freset]");if(frs)frs.addEventListener("click",function(){document.querySelector('.tabs button[data-f=""]').click()});
 // processo: fase attiva
 var ph=document.querySelectorAll(".ph4 article");if(ph.length){var po=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)ph.forEach(function(a){a.classList.toggle("on",a===e.target)})})},{rootMargin:"-40% 0px -50% 0px"});ph.forEach(function(a){po.observe(a)})}
 // modelli 3D: three.js si carica solo quando un modello è vicino allo schermo
 // in modalità leggera niente three.js: resta la foto con il pulsante "Guarda in 3D"
-var t3=document.querySelectorAll("[data-3d]"),l3=false;function load3d(){if(l3)return;l3=true;var s=document.createElement("script");s.type="module";s.src="assets/archi3d.js?v=adbde2998d";document.body.appendChild(s)}
+var t3=document.querySelectorAll("[data-3d]"),l3=false;function load3d(){if(l3)return;l3=true;var s=document.createElement("script");s.type="module";s.src="assets/archi3d.js?v=a25b92ef82";document.body.appendChild(s)}
 if(t3.length&&!lite){var lo=new IntersectionObserver(function(es){if(!es.some(function(e){return e.isIntersecting}))return;lo.disconnect();if(!H.classList.contains("lite"))load3d()},{rootMargin:"500px"});t3.forEach(function(x){lo.observe(x)})}
 document.querySelectorAll("[data-g3d]").forEach(function(b){b.addEventListener("click",function(e){e.stopPropagation();var st=b.closest("[data-3d]");st.classList.add("want3d");b.textContent="Caricamento…";window.A3D_DEMAND=true;if(window.A3D)window.A3D(st);else load3d()})});
 // primi fotogrammi lenti (computer vecchio): passa alla modalità leggera e ferma il 3D

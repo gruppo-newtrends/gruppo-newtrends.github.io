@@ -221,6 +221,57 @@ dialog.cbd .form{position:relative}dialog.cbd[open]{animation:dlg .35s cubic-bez
 .dcta{--fg:#fff;--bg:#0A0A0A;--dim:#ffffff66;--line:#ffffff2e;position:fixed;left:50%;bottom:18px;z-index:55;display:flex;align-items:center;gap:12px;background:#0A0A0Af2;color:#fff;border:1px solid #ffffff2e;padding:8px 8px 8px 18px;transform:translate(-50%,180%);transition:transform .45s cubic-bezier(.2,.7,.2,1);box-shadow:0 12px 30px #0006}
 .dcta.show{transform:translate(-50%,0)}.dcta .btn{padding:9px 14px;font-size:.95rem}.dcta .x{position:static;width:34px;height:34px;border-color:transparent}.dcta span{white-space:nowrap}
 @media (max-width:700px){.dcta{display:none}}
+/* ---- testate interne: foto grande a tutta larghezza, foto piccola incorniciata (mai stirata) ---- */
+.phero.framed,.phero.plainh{min-height:0;align-items:stretch;background:#101010}.phero.framed::after,.phero.plainh::after{display:none}
+.phero.framed .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);gap:24px clamp(28px,4vw,64px);align-items:end;padding-top:118px}
+.pfig{margin:0;width:min(var(--mw),42vw)}.pfig img{width:100%;height:auto;display:block;outline:1px solid #ffffff1f;outline-offset:-1px}.pfig figcaption{font-size:.82rem;color:#A3A3A3;margin-top:10px}
+.phero.framed.wide .wrap{grid-template-columns:1fr}.phero.framed.wide .pfig{width:min(var(--mw),100%)}
+.phero.plainh .wrap{padding-top:120px}.ptxt{max-width:760px}.phero p{text-wrap:pretty}
+@media (max-width:900px){.phero.framed .wrap{grid-template-columns:1fr;padding-top:96px}.pfig{width:min(var(--mw),100%)}}
+p,li,dd,summary{text-wrap:pretty}.big{max-width:34ch}.plain p,.p3 ul,.lead{max-width:68ch}.plain{padding-top:56px}
+/* ---- righe di collegamento (progetti) ---- */
+.lrows{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}.lrow{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--fg);transition:background .25s,padding .25s}
+.lrow small{display:block;color:var(--acc);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600}.lrow b{display:block;font-weight:500;font-size:1.15rem}.lrow em{display:block;font-style:normal;color:var(--mid);font-size:.95rem}
+.pnone{margin-top:20px;color:var(--mid)}
+/* ---- reazioni al passaggio del mouse (solo mouse) e uguali con la tastiera ---- */
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.btn{transition:background .25s,color .25s,border-color .25s,transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .25s;transform:translate(var(--mx,0px),var(--my,0px))}
+.btn:focus-visible{transform:translate(var(--mx,0px),calc(var(--my,0px) - 2px));box-shadow:0 10px 24px -12px #0009}.btn:focus-visible .ar{transform:translate(3px,-3px)}
+.link,.crumbs a,.ftr a,.plain a,.faq .mid a,.nojs a,.form .check a,.trust2 a{text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .3s cubic-bezier(.2,.7,.2,1),color .2s,border-color .2s}
+.link:focus-visible,.crumbs a:focus-visible,.ftr a:focus-visible{background-size:100% 1px}
+.card:focus-visible{transform:translateY(-4px);border-color:var(--acc)}.card:focus-visible .go .ar{transform:translate(4px,-4px)}
+.pc::before,.work::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--acc);opacity:0;transition:opacity .3s;mix-blend-mode:multiply}.pc .t,.work .t{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.pc:focus-visible .t{transform:translateY(-6px)}.pc:focus-visible::before{opacity:.14}
+details.q summary{padding-left:12px;padding-right:12px;margin:0 -12px;transition:background .25s,color .25s}details.q summary:focus-visible{background:var(--bg2)}
+details.q summary::after{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.lrow .ar,.direct a .ar,.card .go .ar,.work .go .ar{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.form input,.form select,.form textarea,.qin input,.fsearch input{transition:border-color .2s,box-shadow .2s,background .2s}
+.form input:focus,.form select:focus,.form textarea:focus,.qin input:focus,.fsearch input:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 28%,transparent)}
+.wa::after{content:"";position:absolute;inset:0;border-radius:999px;border:2px solid #1F7A4D;opacity:0;pointer-events:none}
+.nav{position:relative}.nav .hl{position:absolute;left:0;bottom:-2px;height:1px;width:100px;background:currentColor;transform-origin:0 0;opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .25s}
+.nav.hlon a::after{opacity:0}.nav.hlon .hl{opacity:1}
+.card{position:relative;overflow:hidden}.card .spot{position:absolute;left:-170px;top:-170px;width:340px;height:340px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 22%,transparent),transparent);opacity:0;transform:translate(var(--sx,0px),var(--sy,0px));transition:opacity .3s;pointer-events:none;z-index:0}.card .t,.card .ph{position:relative;z-index:1}
+@keyframes ib{0%,100%{transform:none}40%{transform:translateY(-4px)}}@keyframes wap{from{opacity:.7;transform:scale(1)}to{opacity:0;transform:scale(1.35)}}
+@media (hover:hover) and (pointer:fine){
+ .btn:hover{transform:translate(var(--mx,0px),calc(var(--my,0px) - 2px));box-shadow:0 12px 26px -12px #000a}.btn:hover .ar{transform:translate(3px,-3px)}.btn:active{transform:translate(var(--mx,0px),var(--my,0px)) scale(.98)}
+ .link:hover,.crumbs a:hover,.ftr a:hover,.plain a:hover,.faq .mid a:hover,.nojs a:hover,.form .check a:hover,.trust2 a:hover{background-size:100% 1px;text-decoration:none}
+ .card:hover{border-color:var(--acc)}.card:hover .go .ar{transform:translate(4px,-4px)}.card:hover .spot{opacity:1}
+ .pc:hover .t,.work:hover .t{transform:translateY(-6px)}.pc:hover::before,.work:hover::before{opacity:.14}.work:hover .go .ar{transform:translate(3px,-3px)}
+ details.q summary:hover{background:var(--bg2);color:var(--fg)}details.q:not([open]) summary:hover::after{transform:rotate(90deg)}
+ .lrow:hover{background:var(--bg2);padding-left:14px;padding-right:14px}.lrow:hover .ar,.direct a:hover .ar{transform:translate(4px,-4px)}
+ .form input:hover,.form select:hover,.form textarea:hover,.qin input:hover,.fsearch input:hover{border-color:var(--dim)}
+ .chips button:hover,.tabs button:hover,.ctl button:hover,.opts button:hover{transform:translateY(-1px);border-color:var(--fg)}.chips button,.tabs button,.ctl button,.opts button,.ck{transition:transform .2s,border-color .2s,background .2s,color .2s}.ck:hover{background:var(--line)}
+ .why div:hover svg,.steps4 li:hover small,.bul li:hover b{animation:ib .45s cubic-bezier(.2,.7,.2,1)}.bul li{transition:padding .25s}.bul li:hover{padding-left:6px}
+ .pfig:hover img{transform:scale(1.02)}.pfig{overflow:hidden}.pfig img{transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+ .chain a:hover b{color:var(--acc)}.chain .me a:hover b{color:inherit}.stats div:hover b{color:var(--acc)}.stats b{transition:color .25s}
+ .wa:hover::after{animation:wap 1.1s ease-out infinite}.wa{transition:transform .2s}.wa:hover{transform:translateY(-2px)}
+ .stage.has3d:hover .hint{opacity:1;transform:translateY(-3px)}.stage .hint{opacity:.75;transition:opacity .25s,transform .25s}
+ .g3d:hover{transform:translate(-50%,-52%)}.g3d{transition:background .2s,transform .2s}
+ .ftr .logo img{transition:opacity .25s}.ftr .logo:hover img{opacity:.8}
+ .cmp:hover .hd{transform:translate(-50%,-50%) scale(1.1)}
+}
+.lite .btn:hover,.lite .btn:focus-visible{box-shadow:none}.lite .card .spot{display:none}
+@media (prefers-reduced-motion:reduce){.btn,.card,.pc .t,.work .t,.lrow,.bul li{transform:none!important}}
 /* ---- senza JavaScript: tutto leggibile, moduli sostituiti da telefono/email/WhatsApp ---- */
 .nojs{display:none;margin-top:14px;padding:12px 14px;border:1px solid var(--line);color:var(--mid)}.nojs a{color:var(--fg)}
 html:not(.js) .nojs{display:block}html:not(.js) .reveal{opacity:1;transform:none}
@@ -258,6 +309,18 @@ if(!lite&&!rm&&!nolenis&&!matchMedia("(pointer:coarse)").matches){addEventListen
  document.addEventListener("archi-lite",function(){lenis.destroy();lenis=null})};document.head.appendChild(s)})}
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||a.getAttribute("href").length<2)return;var t=document.getElementById(a.getAttribute("href").slice(1));if(!t)return;e.preventDefault();goTo(t);if(a.classList.contains("skip"))t.setAttribute("tabindex","-1"),t.focus({preventScroll:true})});
 if(location.hash.length>1)addEventListener("load",function(){var t=document.getElementById(location.hash.slice(1));if(t)setTimeout(function(){window.scrollTo(0,t.getBoundingClientRect().top+scrollY-HDR)},50)});
+
+// ---- reazioni al mouse: evidenziatore del menu, pulsanti "magnetici" e luce sulle schede (non in modalità leggera) ----
+var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+var nv=document.querySelector(".hdr .nav");if(nv&&fine){var hl=document.createElement("i");hl.className="hl";hl.setAttribute("aria-hidden","true");nv.appendChild(hl);
+ function mv(a){hl.style.transform="translateX("+a.offsetLeft+"px) scaleX("+(a.offsetWidth/100)+")"}
+ nv.querySelectorAll("a").forEach(function(a){a.addEventListener("mouseenter",function(){if(innerWidth<=1080)return;mv(a);nv.classList.add("hlon")});a.addEventListener("focus",function(){if(innerWidth>1080){mv(a);nv.classList.add("hlon")}})});
+ nv.addEventListener("mouseleave",function(){nv.classList.remove("hlon")});nv.addEventListener("focusout",function(){nv.classList.remove("hlon")})}
+if(fine&&!rm&&!lite){document.querySelectorAll(".hero .btn:not(.ghost),.band .btn:not(.ghost),.dcta .btn:not(.ghost),.phero .btn:not(.ghost)").forEach(function(b){var r=0;
+  b.addEventListener("mousemove",function(e){if(r)return;r=requestAnimationFrame(function(){r=0;var q=b.getBoundingClientRect(),x=(e.clientX-q.left-q.width/2)/q.width,y=(e.clientY-q.top-q.height/2)/q.height;b.style.setProperty("--mx",(x*8).toFixed(1)+"px");b.style.setProperty("--my",(y*6).toFixed(1)+"px")})});
+  b.addEventListener("mouseleave",function(){b.style.setProperty("--mx","0px");b.style.setProperty("--my","0px")})});
+ document.querySelectorAll(".card").forEach(function(c){var sp=document.createElement("i");sp.className="spot";sp.setAttribute("aria-hidden","true");c.prepend(sp);var r=0;
+  c.addEventListener("mousemove",function(e){if(r)return;r=requestAnimationFrame(function(){r=0;var q=c.getBoundingClientRect();sp.style.setProperty("--sx",(e.clientX-q.left)+"px");sp.style.setProperty("--sy",(e.clientY-q.top)+"px")})})})}
 var hd=document.querySelector(".hdr");function hs(){hd.classList.toggle("s",scrollY>30)}addEventListener("scroll",hs,{passive:true});hs();
 // cursore disegno/realtà e prima/dopo
 document.querySelectorAll(".cmp").forEach(function(c){var r=c.querySelector("input");function set(v){c.style.setProperty("--x",v+"%")}r.addEventListener("input",function(){set(r.value)});
@@ -267,7 +330,8 @@ document.querySelectorAll(".cmp").forEach(function(c){var r=c.querySelector("inp
 document.querySelectorAll("[data-count]").forEach(function(b){if(rm||lite)return;var to=+b.dataset.count,from=+(b.dataset.from||0),suf=b.dataset.suf||"";b.textContent=from+suf;
  new IntersectionObserver(function(es,o){if(!es[0].isIntersecting)return;o.disconnect();var t0=0;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(from+(to-from)*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)},{threshold:.6}).observe(b)});
 // progetti: filtro
-document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});var f=b.dataset.f;document.querySelectorAll(".pc[data-f]").forEach(function(w){w.hidden=!!f&&w.dataset.f!==f})})});
+document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});var f=b.dataset.f,n=0;document.querySelectorAll(".pgrid .pc[data-f]").forEach(function(w){w.hidden=!!f&&w.dataset.f!==f;if(!w.hidden)n++});var pn=document.querySelector(".pnone");if(pn)pn.hidden=n>0})});
+var frs=document.querySelector("[data-freset]");if(frs)frs.addEventListener("click",function(){document.querySelector('.tabs button[data-f=""]').click()});
 // processo: fase attiva
 var ph=document.querySelectorAll(".ph4 article");if(ph.length){var po=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)ph.forEach(function(a){a.classList.toggle("on",a===e.target)})})},{rootMargin:"-40% 0px -50% 0px"});ph.forEach(function(a){po.observe(a)})}
 // modelli 3D: three.js si carica solo quando un modello è vicino allo schermo
@@ -351,9 +415,19 @@ def crumbs(items):
     li = "".join(f'<li><a href="{h}">{E(t)}</a></li>' if h else f'<li aria-current="page">{E(t)}</li>' for h, t in [("index.html", "Home")] + items)
     return f'<nav aria-label="Percorso"><ol class="crumbs">{li}</ol></nav>'
 
-def phero(img, crumb, title, lead="", acts="", short=False):
-    return (f'<section class="phero{" short" if short else ""}">{img}<div class="wrap">{crumbs(crumb)}<h1 class="up">{title}</h1>'
-            + (f'<p class="up d1">{lead}</p>' if lead else "") + (f'<div class="acts up d2">{acts}</div>' if acts else "") + "</div></section>")
+def htag(info, alt="", *a, **k): return (info, alt)
+
+def phero(img, crumb, title, lead="", acts="", short=False, cap=True):
+    txt = (f'{crumbs(crumb)}<h1 class="up">{title}</h1>' + (f'<p class="up d1">{lead}</p>' if lead else "") + (f'<div class="acts up d2">{acts}</div>' if acts else ""))
+    if img is None: return f'<section class="phero plainh"><div class="wrap"><div class="ptxt">{txt}</div></div></section>'
+    info, alt = img
+    if info["w"] >= 1400:  # originale abbastanza grande: foto a tutta larghezza
+        return f'<section class="phero{" short" if short else ""}">{b2.imgtag(info, alt, "100vw", lazy=False)}<div class="wrap">{txt}</div></section>'
+    wide = info["w"] / info["h"] > 2
+    fig = b2.imgtag(info, alt, f"(max-width:900px) calc(100vw - 36px), {min(info['w'], 1160 if wide else 640)}px", lazy=False)
+    fc = f"<figcaption>{E(alt)}</figcaption>" if alt and cap else ""
+    return (f'<section class="phero framed{" wide" if wide else ""}"><div class="wrap"><div class="ptxt">{txt}</div>'
+            f'<figure class="pfig up d2" style="--mw:{info["w"]}px">{fig}{fc}</figure></div></section>')
 
 def footer():
     links = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t, _ in NAV)
@@ -369,8 +443,8 @@ LITE_HEAD = ('<script>(function(h){if(!("IntersectionObserver" in window))return
              'var a=(n.hardwareConcurrency&&n.hardwareConcurrency<=4)||(n.deviceMemory&&n.deviceMemory<=4)||(n.connection&&n.connection.saveData)||matchMedia("(prefers-reduced-motion: reduce)").matches;'
              'if(f==="1"||(f!=="0"&&a))h.classList.add("lite")}catch(e){}})(document.documentElement)</script>')
 
-def page(title, desc, body, v, cur):
-    return f"""<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+def page(title, desc, body, v, cur, base=""):
+    return f"""<!doctype html><html lang="it"><head><meta charset="utf-8">{f'<base href="{base}">' if base else ""}<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="{T['root']['bg']}">
 {LITE_HEAD}<link rel="icon" href="favicon.png" type="image/png">{b2.FONTS}<link rel="preload" as="style" href="{FONT}" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="{FONT}"></noscript><link rel="stylesheet" href="assets/site.css?v={v}">{IMPORTMAP}</head>
 <body><a class="skip" href="#main">Vai al contenuto</a>{header(cur)}{body}{footer()}<a class="wa" href="https://wa.me/{WA}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">WhatsApp</a>
@@ -470,6 +544,8 @@ QUIZ = [("Tipo di progetto", "Che progetto hai in mente?", ["Nuova casa o villa"
         ("Budget indicativo", "Che budget hai in mente, tutto compreso?", ["Fino a CHF 500'000", "CHF 500'000 – 1 milione", "CHF 1 – 2 milioni", "Oltre CHF 2 milioni", "Non lo so ancora"]),
         ("Tempi", "Quando vorresti iniziare?", ["Il prima possibile", "Entro 6 mesi", "Entro un anno", "Sto solo valutando"])]
 KINDS = ["Nuova casa o villa", "Palazzina o residenza", "Ristrutturazione", "Interni", "Perizia", "Licenza o domanda di costruzione", "Altro"]
+SALT = {"progettazione": "Residenza Optima, Montagnola", "licenze": "Disegno della Residenza Green Horse, Muzzano", "direzione-lavori": "Residenza Ferrari, Tesserete, in costruzione",
+        "perizie": "Palazzina a Magliaso: situazione precedente e attuale", "ristrutturazioni": "Appartamento a Montagnola: prima e dopo la ristrutturazione", "interni": "Cucina dell'appartamento a Pregassona"}
 SFAQ = {"progettazione": (("terreno", 0), ("terreno", 1), ("costi", 0)), "licenze": (("licenza", 1), ("licenza", 2), ("licenza", 3), ("tempi", 0)),
         "direzione-lavori": (("gruppo", 2), ("gruppo", 1), ("tempi", 2)), "perizie": (("ristrutturazione", 3), ("costi", 3), ("terreno", 4)),
         "ristrutturazioni": (("ristrutturazione", 0), ("ristrutturazione", 1), ("ristrutturazione", 2)), "interni": (("inizio", 3), ("costi", 3), ("ristrutturazione", 1))}
@@ -560,6 +636,16 @@ def dcta():
     return ('<div class="dcta" role="complementary" aria-label="Prenota una consulenza"><span>Primo incontro <b>senza impegno</b></span><a class="btn" href="contatti.html">Prenota una consulenza</a>'
             '<button type="button" class="btn ghost" data-cb>Ti richiamiamo noi</button><button type="button" class="x" data-dx aria-label="Nascondi">×</button></div>')
 
+def links_for(role):
+    r = role.lower(); out = []
+    def add(c, h, t, d): out.append(f'<li><a class="lrow" href="{h}"><span><small>{c}</small><b>{E(t)}</b><em>{E(d)}</em></span>{AR}</a></li>')
+    if any(w in r for w in ("progett", "licenza", "business plan")): add("Archi Trend", "servizio-progettazione.html", "Progettazione e licenza", "Dal terreno al progetto, fino alla domanda di costruzione.")
+    if "direzione lavori" in r or "regia" in r: add("Archi Trend", "servizio-direzione-lavori.html", "Direzione lavori", "Il cantiere seguito fino alla consegna.")
+    if "ristruttur" in r: add("Archi Trend", "servizio-ristrutturazioni.html", "Ristrutturazioni", "Ridare qualità e valore a ciò che esiste.")
+    if any(w in r for w in ("realizzazione", "costruzione", "consegna", "regia")): add("Edil Trend", SITES["ediltrend"], "Costruzione", "L'impresa generale del gruppo.")
+    if any(w in r for w in ("vendita", "marketing", "amministrazione", "reddito", "compravendita", "acquisizione", "valorizz", "riposizion")): add("New Trends", SITES["newtrends"], "Vendita, affitto e consulenza", "La fiduciaria immobiliare del gruppo.")
+    return '<span class="chip">Il gruppo in questo progetto</span><ul class="lrows">' + "".join(out) + "</ul>"
+
 def build():
     if os.path.exists(OUT): shutil.rmtree(OUT)
     A = os.path.join(OUT, "assets"); I = os.path.join(A, "img"); os.makedirs(I)
@@ -644,7 +730,7 @@ def build():
     pages["index.html"] = ("Archi Trend SA · Studio di architettura a Lugano", "Studio di architettura del Gruppo New Trends a Lugano: progettazione, licenze, direzione lavori, perizie e interni.", home, "home")
 
     # ---- studio ----
-    st = f"""{phero(tag(im("st-hero", pr("synthesis"), (640, 768)), "Residenza Synthesis, Vezia", SZ_FULL, lazy=False), [(None, "Studio")], "Lo studio di architettura del Gruppo New Trends",
+    st = f"""{phero(htag(im("st-hero", pr("synthesis"), (640, 768)), "Residenza Synthesis, Vezia", SZ_FULL, lazy=False), [(None, "Studio")], "Lo studio di architettura del Gruppo New Trends",
         "Dal 2009 a Lugano progettiamo case, ville e palazzine insieme a chi poi le costruisce e le vende.")}
 <main id="main"><section class="sec ta"><div class="wrap"><div class="two"><div class="reveal"><span class="chip">Chi siamo</span><p class="big">Archi Trend SA è lo studio di architettura del Gruppo New Trends. Ci occupiamo di progettazione, licenze edilizie, direzione lavori, perizie e interni, per privati e investitori.</p></div>
 <div class="reveal"><p class="mid">Lavorare in un gruppo che sviluppa, costruisce e vende immobili a Lugano dal 1991 ci dà uno sguardo particolare: un progetto deve essere bello e funzionare, ma anche reggere nel tempo i costi e il valore. Per questo progettiamo pensando al terreno, a chi abiterà la casa e al mercato.</p>
@@ -656,15 +742,15 @@ def build():
     pages["studio.html"] = ("Studio · Archi Trend SA", "Archi Trend SA, studio di architettura del Gruppo New Trends a Lugano dal 2009: chi siamo e come lavoriamo.", st, "studio")
 
     # ---- servizi ----
-    sv = f"""{phero(tag(im("sv-hero", pr("optima"), (640, 820, 1000)), "Residenza Optima, Montagnola", SZ_FULL, lazy=False), [(None, "Servizi")], "Servizi di architettura", "Progettazione, licenze, direzione lavori, perizie, ristrutturazioni e interni. Tutto il percorso, oppure solo la parte che ti serve.")}
+    sv = f"""{phero(htag(im("sv-hero", pr("optima"), (640, 820, 1000)), "Residenza Optima, Montagnola", SZ_FULL, lazy=False), [(None, "Servizi")], "Servizi di architettura", "Progettazione, licenze, direzione lavori, perizie, ristrutturazioni e interni. Tutto il percorso, oppure solo la parte che ti serve.")}
 <main id="main"><section class="sec ta"><div class="wrap"><div class="cards">{svc_cards}</div></div></section>
 <section class="sec tb"><div class="wrap"><span class="chip">Come lavoriamo</span><h2>Quattro fasi, decisioni chiare</h2><ol class="steps4">{steps4}</ol><p style="margin-top:40px"><a class="link" href="processo.html">Il processo nel dettaglio {AR}</a></p></div></section>{cta()}</main>"""
     pages["servizi.html"] = ("Servizi · Archi Trend SA", "Servizi di Archi Trend a Lugano: progettazione residenziale, licenze, direzione lavori, perizie, ristrutturazioni e interni.", sv, "servizi")
     for i, (s, t, d, p, preset, text, incl, rel, kd) in enumerate(SERV):
-        hi = svc_img(p)
+        hi = svc_img(p); hh = im("sh-" + s, pr(p[0]), (640, 1000, 1440)) if isinstance(p[1], tuple) else hi
         extra = (fattib_html("tb") if s == "progettazione" else (domanda_html("tb") + fattib_html("ta") if s == "licenze" else ""))
         other = "".join(f'<li><a class="link" href="servizio-{s2}.html">{E(t2)} {AR}</a></li>' for s2, t2, *_ in SERV if s2 != s)
-        body = f"""{phero(tag(hi, "", SZ_FULL, lazy=False), [("servizi.html", "Servizi"), (None, t)], E(t), E(d), f'<a class="btn" href="contatti.html?tipo={kd.replace(" ", "+")}">Chiedi una consulenza {AR}</a>')}
+        body = f"""{phero(htag(hh, SALT[s]), [("servizi.html", "Servizi"), (None, t)], E(t), E(d), f'<a class="btn" href="contatti.html?tipo={kd.replace(" ", "+")}">Chiedi una consulenza {AR}</a>')}
 <main id="main"><section class="sec ta"><div class="wrap m3"><div class="reveal"><span class="chip">Servizio {i + 1:02d}</span><p class="big" style="font-size:clamp(1.15rem,1.05rem + .45vw,1.45rem);line-height:1.5">{E(text)}</p>
 <ul class="bul">{"".join(f"<li><b>{j + 1:02d}</b>{E(x)}</li>" for j, x in enumerate(incl))}</ul></div>
 <div class="reveal">{stage(preset, hi, t, "Modello 3D: " + LABEL3D[preset] + ". Trascina o usa le frecce per ruotarlo")}<p class="note">Modello di esempio per spiegare il servizio, non un progetto reale.</p></div></div></section>
@@ -675,9 +761,9 @@ def build():
         pages[f"servizio-{s}.html"] = (f"{t} · Archi Trend SA", f"{t} a Lugano e in Ticino con Archi Trend SA. {d}", body, "servizi")
 
     # ---- progetti ----
-    pj = f"""{phero(tag(im("w-greenhorse", pr("greenhorse"), (640, 900, 1440, 2000)), "Residenza Green Horse, Muzzano", SZ_FULL, lazy=False), [(None, "Progetti")], "Progetti del gruppo", "Residenze, villette e ristrutturazioni seguite dalle aziende del Gruppo New Trends nel Luganese.")}
+    pj = f"""{phero(htag(im("w-greenhorse", pr("greenhorse"), (640, 900, 1440, 2000)), "Residenza Green Horse, Muzzano", SZ_FULL, lazy=False), [(None, "Progetti")], "Progetti del gruppo", "Residenze, villette e ristrutturazioni seguite dalle aziende del Gruppo New Trends nel Luganese.")}
 <main id="main"><section class="sec ta"><div class="wrap"><div class="tabs" role="group" aria-label="Filtra i progetti"><button type="button" aria-pressed="true" data-f="">Tutti</button><button type="button" aria-pressed="false" data-f="new">Nuove costruzioni</button><button type="button" aria-pressed="false" data-f="ren">Ristrutturazioni</button></div>
-<div class="pgrid">{"".join(pcard(k) for k in ORDER)}</div><p class="note">Ruoli come descritti nel portfolio del Gruppo New Trends.</p></div></section>
+<div class="pgrid">{"".join(pcard(k) for k in ORDER)}</div><p class="pnone" hidden>Nessun progetto in questa categoria. <button type="button" class="link" data-freset>Mostra tutti i progetti</button></p><p class="note">Ruoli come descritti nel portfolio del Gruppo New Trends.</p></div></section>
 <section class="sec tb"><div class="wrap"><span class="chip">Disegno e realtà</span><h2>Quello che disegniamo, lo vedi costruito.</h2><p class="lead" style="margin-bottom:40px">Trascina il cursore per confrontare il disegno con l'edificio finito.</p><div class="ba">{"".join(f'<div class="reveal">{slider(k, "bp")}<h3>{E(P[k][0])}</h3><p>{E(P[k][1])} · {E(size(k))}</p></div>' for k in ("ferrari", "maraini", "synthesis"))}</div></div></section>{cta()}</main>"""
     pages["progetti.html"] = ("Progetti · Archi Trend SA", "Progetti del Gruppo New Trends nel Luganese: residenze, villette e ristrutturazioni.", pj, "progetti")
     for n, k in enumerate(ORDER):
@@ -688,17 +774,17 @@ def build():
             c1, c2 = ("Prima e dopo", "Trascina il cursore per vedere com'era e com'è oggi.") if mode == "ba" else ("Disegno e realtà", "Trascina il cursore per confrontare il disegno con l'edificio.")
             cmpb = f'<section class="sec tb"><div class="wrap"><span class="chip">{c1}</span><h2>{E(nm(k))}</h2><p class="lead" style="margin-bottom:34px">{c2}</p><div class="ba one reveal">{slider(k, mode)}</div></div></section>'
         rel = [ORDER[(n + j) % len(ORDER)] for j in (1, 2, 3)]
-        body = f"""{phero(tag(im("w-" + k, pr(k), (640, 900, 1440, 2000)), nm(k), SZ_FULL, lazy=False), [("progetti.html", "Progetti"), (None, nm(k))], E(nm(k)), E(place + " · " + sz.replace(" · ", ", ")))}
+        body = f"""{phero(htag(im("w-" + k, pr(k), (640, 900, 1440, 2000)), nm(k), SZ_FULL, lazy=False), [("progetti.html", "Progetti"), (None, nm(k))], E(nm(k)), E(place + " · " + sz.replace(" · ", ", ")))}
 <main id="main"><section class="sec ta"><div class="wrap"><div class="facts reveal"><div><small>Comune</small><b>{E(place)}</b></div><div><small>Progetto</small><b>{E(size(k))}</b></div><div><small>Tipo</small><b>{kind(k)}</b></div><div><small>Stato</small><b>{status(k)}</b></div></div>
 <div class="two" style="margin-top:50px"><div class="reveal"><span class="chip">Il ruolo del gruppo</span><p class="big">{E(role)}</p><p class="note">Progetto del Gruppo New Trends. Il ruolo è quello descritto nel portfolio del gruppo.</p>
 <div class="acts" style="margin-top:28px"><a class="btn" href="contatti.html">Parliamo del tuo progetto {AR}</a><a class="btn ghost" href="progetti.html">Tutti i progetti</a></div></div>
-<div class="reveal">{tag(im("p-" + k, pr(k)), nm(k), SZ_HALF, cls="photo")}</div></div></div></section>{cmpb}
+<div class="reveal">{links_for(role)}</div></div></div></section>{cmpb}
 <section class="sec {"ta" if cmpb else "tb"}"><div class="wrap"><span class="chip">Altri progetti</span><h2 style="margin-bottom:34px">Continua a guardare</h2><div class="pgrid">{"".join(pcard(r) for r in rel)}</div></div></section>{cta()}</main>"""
         pages[f"progetto-{k}.html"] = (f"{nm(k)}, {place} · Archi Trend SA", f"{nm(k)}, {place}: {sz}. {role}", body, "progetti")
 
     # ---- processo ----
     ph4 = "".join(f'<article{" class=on" if i == 0 else ""}><small>FASE {i + 1:02d}</small><h3>{E(t)}</h3><p>{E(d)}</p><div class="p3"><div><b>Cosa succede</b>{ul(PHASES[i][0])}</div><div><b>Cosa ricevi</b>{ul(PHASES[i][1])}</div><div><b>Cosa ti chiediamo</b>{ul(PHASES[i][2])}</div></div></article>' for i, (t, d, l) in enumerate(STEPS))
-    pc = f"""{phero(tag(im("pc-hero", bpf("optima", "bp"), (640, 820, 1000)), "Disegno della Residenza Optima, Montagnola", SZ_FULL, lazy=False), [(None, "Processo")], "Dall'idea al cantiere", "Un percorso chiaro in quattro fasi, con decisioni e costi sempre sotto controllo. Scorri e guarda il disegno diventare edificio.")}
+    pc = f"""{phero(htag(im("pc-hero", bpf("optima", "bp"), (640, 820, 1000)), "Disegno della Residenza Optima, Montagnola", SZ_FULL, lazy=False), [(None, "Processo")], "Dall'idea al cantiere", "Un percorso chiaro in quattro fasi, con decisioni e costi sempre sotto controllo. Scorri e guarda il disegno diventare edificio.")}
 <main id="main"><section class="sec ta" data-morph><div class="wrap morph"><div class="stick">{stage("morph", im("bp-greenhorse", bpf("greenhorse", "bp"), (480, 960)), "Disegno della Residenza Green Horse, Muzzano", "Modello 3D: la pianta disegnata a terra diventa un edificio mentre scorri le quattro fasi", hint="")}</div>
 <div class="ph4">{ph4}<a class="btn" href="contatti.html" style="margin-top:20px">Inizia dalla fase 01 {AR}</a></div></div></section>
 <section class="sec tb"><div class="wrap two"><div class="reveal"><span class="chip">Prima del primo incontro</span><h2>Cosa portare</h2><p class="lead">Spunta quello che hai già e mandacelo con la richiesta: ci aiuta a preparare il primo incontro. Se non hai nulla, va bene lo stesso.</p></div><div>{checklist_html()}{NOJS.replace("Il modulo ha", "La lista ha")}</div></div></section>
@@ -713,7 +799,7 @@ def build():
            f'<p class="fcount" aria-live="polite">{sum(len(x) for _, _, x in FAQ)} domande</p>'
            + "".join(f'<div class="fgroup" data-t="{i}"><h3>{E(g)}</h3>{faqblock(items).replace(" open>", ">")}</div>' for i, g, items in FAQ)
            + f'<p class="fnone" hidden>Nessuna domanda trovata. <a class="link" href="contatti.html">Chiedicelo direttamente {AR}</a></p>')
-    dq = f"""{phero(tag(im("dq-hero", pr("aurea"), (640, 820, 980)), "Residenza Aurea, Collina d'Oro", SZ_FULL, lazy=False), [(None, "Domande")], "Domande frequenti", "Progetto, licenza, cantiere e costi: le risposte alle domande che ci fanno più spesso.", short=True)}
+    dq = f"""{phero(None, [(None, "Domande")], "Domande frequenti", "Progetto, licenza, cantiere e costi: le risposte alle domande che ci fanno più spesso.", short=True)}
 <main id="main"><section class="sec ta"><div class="wrap faq"><div><span class="chip">Domande</span><h2>Chiedici pure</h2><p class="mid">Non trovi la tua domanda? Chiamaci al <a class="link" href="tel:{TEL}">{PHONE}</a> o scrivici: il primo incontro è senza impegno.</p><div class="acts" style="margin-top:26px"><a class="btn" href="contatti.html">Scrivici {AR}</a><button type="button" class="btn ghost" data-cb>Ti richiamiamo noi</button></div></div><div class="fwrap">{fqa}</div></div></section>{dopo_html("tb")}{cta()}</main>"""
     pages["domande.html"] = ("Domande frequenti · Archi Trend SA", "Domande frequenti su progetto, licenza edilizia, direzione lavori e costi con Archi Trend a Lugano.", dq, "domande")
 
@@ -726,7 +812,7 @@ def build():
 {checklist_html(True)}{radios("Hai già lavorato con un architetto?", "had", ["Sì", "No"])}{consent()}
 <label class="check"><input type="checkbox" name="newsletter"><span>Desidero ricevere occasionalmente novità del Gruppo New Trends (facoltativo).</span></label>
 <p class="err" hidden role="alert"></p>{NOJS}<button class="btn" type="submit">Prenota la consulenza gratuita {AR}</button></form></div>"""
-    ct = f"""{phero(tag(im("ct-hero", pr("duelaghi"), (640, 820, 980)), "Residenza Due Laghi, Muzzano", SZ_FULL, lazy=False), [(None, "Contatti")], "Creiamo qualcosa di eccezionale", "Il primo incontro è senza impegno. Scegli tu come preferisci sentirci.", short=True)}
+    ct = f"""{phero(htag(im("ct-hero2", pr("miracolli"), (640, 1000)), "Residenza Miracolli, Savosa · Porza"), [(None, "Contatti")], "Creiamo qualcosa di eccezionale", "Il primo incontro è senza impegno. Scegli tu come preferisci sentirci.", short=True)}
 <main id="main"><section class="sec ta" id="contatti"><div class="wrap ct"><div class="reveal"><span class="chip">Contatti</span><h2>Parliamo del tuo progetto</h2><p class="mid" style="margin-top:16px;max-width:46ch">Raccontaci terreno, immobile o idea: ti richiamiamo per fissare il primo incontro in studio o sul posto.</p>
 <div class="direct"><a href="tel:{TEL}"><span><small>Telefono</small><b>{PHONE}</b></span>{AR}</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener"><span><small>WhatsApp</small><b>Scrivici un messaggio</b></span>{AR}</a><a href="mailto:{MAIL}"><span><small>Email</small><b>{MAIL}</b></span>{AR}</a></div>
 <button type="button" class="btn ghost" data-cb style="margin-top:14px;width:100%;justify-content:center">Preferisci che ti richiamiamo noi?</button>
@@ -734,13 +820,19 @@ def build():
 <section class="sec tb" id="questionario"><div class="wrap m3"><div class="reveal"><span class="chip">Un minuto</span><h2>Non sai da dove iniziare?</h2><p class="lead">Rispondi a cinque domande: le risposte si aggiungono al modulo qui sopra.</p></div>{quiz_html()}{NOJS.replace("Il modulo ha", "Il questionario ha")}</div></section>
 {fattib_html("ta")}{dopo_html("tb")}{cta("Ancora dubbi?", "Chiamaci al " + PHONE + " o lasciaci il numero: ti richiamiamo noi.")}</main>"""
     pages["contatti.html"] = ("Contatti · Archi Trend SA", "Contatta Archi Trend SA a Lugano: telefono, WhatsApp, email o modulo per prenotare la consulenza gratuita.", ct, "contatti")
-    pv = f'{phero(tag(im("ct-hero", pr("duelaghi"), (640, 820, 980)), "", SZ_FULL, lazy=False), [(None, "Privacy")], "Privacy", short=True)}<main id="main" class="ta">{b2.privacy("Archi Trend SA").replace("<h1>", "<h2>").replace("</h1>", "</h2>")}</main>'
+    pv = f'{phero(None, [(None, "Privacy")], "Informativa sulla privacy", "Come Archi Trend SA tratta i dati che ci invii.")}<main id="main" class="ta">{b2.privacy("Archi Trend SA").replace("<h1>Informativa sulla privacy</h1>", "")}</main>'
     pages["privacy.html"] = ("Privacy · Archi Trend SA", "Informativa privacy di Archi Trend SA.", pv, "")
 
+    # pagina 404: indirizzi assoluti (base = SITES), così funziona da qualunque percorso
+    nf = f"""{phero(None, [(None, "Pagina non trovata")], "Questa pagina non c'è più", "Forse l'indirizzo è cambiato con il nuovo sito. Ecco da dove ripartire.")}
+<main id="main"><section class="sec ta"><div class="wrap two"><div><span class="chip">Da dove ripartire</span><h2>Le pagine principali</h2><p class="lead">Se cercavi qualcosa di preciso, chiamaci al <a class="link" href="tel:{TEL}">{PHONE}</a>: ti rispondiamo noi.</p>
+<div class="acts" style="margin-top:28px"><a class="btn" href="index.html">Torna alla home {AR}</a><a class="btn ghost" href="contatti.html">Contatti</a></div></div>
+<ul class="lrows">{"".join(f'<li><a class="lrow" href="{h}"><span><small>Archi Trend</small><b>{t}</b></span>{AR}</a></li>' for h, t, _ in NAV)}</ul></div></section></main>"""
+    pages["404.html"] = ("Pagina non trovata · Archi Trend SA", "La pagina cercata non esiste. Torna alla home di Archi Trend SA, studio di architettura a Lugano.", nf, "")
     js3 = open(os.path.join(HERE, "src", "archi3d.js")).read()
     v = hashlib.sha256((CSS + JS + js3).encode()).hexdigest()[:10]
     open(os.path.join(A, "site.css"), "w").write(CSS); open(os.path.join(A, "app.js"), "w").write("(function(){" + JS.replace("V3D", v) + "})();")
-    for n, (t, d, body, cur) in pages.items(): open(os.path.join(OUT, n), "w").write(page(t, d, body, v, cur))
+    for n, (t, d, body, cur) in pages.items(): open(os.path.join(OUT, n), "w").write(page(t, d, body, v, cur, SITES["architrend"] if n == "404.html" else ""))
     open(os.path.join(OUT, "robots.txt"), "w").write("User-agent: *\nDisallow: /\n")
     print("ok", OUT, THEME, len(pages), "pagine")
 

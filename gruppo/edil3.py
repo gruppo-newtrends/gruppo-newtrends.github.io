@@ -94,7 +94,7 @@ img{filter:var(--photo)}.logo img{filter:none}
 .checks li{display:flex;align-items:center;gap:10px}.checks svg{width:22px;height:22px}.checks circle{fill:var(--acc)}.checks path{fill:none;stroke:#fff;stroke-width:2.2}
 .hero.sm .f{min-height:min(76svh,680px)}.hero.noph .f{min-height:min(60svh,520px);background:radial-gradient(90% 120% at 85% 0%,color-mix(in srgb,var(--acc) 30%,transparent),transparent 60%),repeating-linear-gradient(90deg,#ffffff0a 0 1px,transparent 1px 80px),var(--dark)}.hero.noph .f::after{display:none}.hero.sm h1{font-size:clamp(2.3rem,1.3rem + 3.4vw,4.2rem)}.hero.sm .top{border-bottom:0;padding-bottom:8px}
 .crumbs{display:flex;flex-wrap:wrap;gap:6px 10px;list-style:none;margin:0 0 18px;padding:0;font-size:.9rem;color:#ffffffc7;opacity:0;animation:up .8s ease forwards}
-.crumbs a{color:#fff;text-decoration:none;border-bottom:1px solid #ffffff59}.crumbs a:hover{border-color:#fff}.crumbs li+li::before{content:"/";margin-right:10px;opacity:.6}
+.crumbs a{color:#fff;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat}.crumbs li+li::before{content:"/";margin-right:10px;opacity:.6}
 @media (max-width:860px){.hero .top{grid-template-columns:1fr}.checks{gap:14px 20px;font-size:.92rem}}
 /* card servizi */
 .svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}@media (max-width:980px){.svc{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:620px){.svc{grid-template-columns:1fr}}
@@ -180,7 +180,7 @@ a:hover .more i{transform:rotate(-45deg);background:var(--acc);color:var(--onacc
 .faq{max-width:872px;margin:0 auto}.faq>h2{text-align:center;margin-bottom:40px}.faq>.tag{justify-content:center}.faq h3{font-size:1.4rem;margin:44px 0 16px}.faq h3:first-child{margin-top:0}
 .faq details{background:var(--paper);border-radius:12px;margin-bottom:14px;transition:box-shadow .3s}.faq details[open]{box-shadow:0 20px 40px -30px #0006}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 18px 18px 20px;font-weight:600;font-size:1.06rem}.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";flex:none;width:38px;height:38px;border-radius:8px;background:var(--ink);color:var(--onink);display:grid;place-items:center;font-size:1.5rem;font-weight:400;transition:transform .35s,background .3s}.faq details[open] summary::after{transform:rotate(45deg);background:var(--acc);color:var(--onacc)}
+.faq summary::after{content:"+";flex:none;width:38px;height:38px;border-radius:8px;background:var(--ink);color:var(--onink);display:grid;place-items:center;font-size:1.5rem;font-weight:400;transition:transform .35s,background .3s}.faq details[open] summary::after{content:"−";background:var(--acc);color:var(--onacc)}
 .faq details p{margin:0;padding:0 20px 20px;color:var(--muted);max-width:68ch}.faq details p a,.lead a{color:var(--accdk)}
 .faq .all{text-align:center;margin-top:30px}
 /* pagine di dettaglio */
@@ -213,11 +213,12 @@ a:hover .more i{transform:rotate(-45deg);background:var(--acc);color:var(--onacc
 @media (max-width:800px){.cta{grid-template-columns:1fr;margin-bottom:-120px}}.cta p{color:#3d3a3a;margin:0 0 22px}
 .cta ul{display:flex;gap:10px 22px;flex-wrap:wrap;list-style:none;padding:0;margin:22px 0 0;font-weight:500}.cta li+li::before{content:"•";margin-right:22px;margin-left:-12px}
 .ftr{background:var(--dark);color:var(--ondark);border-radius:var(--r) var(--r) 0 0;margin:0 8px;padding:250px 0 26px}@media (max-width:800px){.ftr{padding-top:170px}}
-.ftr .g{display:grid;grid-template-columns:1.5fr 1fr 1.1fr 1.1fr 1.2fr;gap:30px}@media (max-width:1000px){.ftr .g{grid-template-columns:1fr 1fr}}@media (max-width:520px){.ftr .g{grid-template-columns:1fr}}
+.ftr.nocta{padding-top:clamp(60px,7vw,90px)}.ftr .g{display:grid;grid-template-columns:1.5fr 1fr 1.1fr 1.1fr 1.2fr;gap:30px}@media (max-width:1000px){.ftr .g{grid-template-columns:1fr 1fr}}@media (max-width:520px){.ftr .g{grid-template-columns:1fr}}
 .ftr .logo img{height:30px}.ftr p{color:var(--dkmuted);max-width:32ch}.ftr b{display:block;color:var(--ondark);font-size:1.08rem;margin-bottom:14px}.ftr ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}.ftr a{color:var(--dkmuted);text-decoration:none}.ftr a:hover{color:var(--ondark)}
 .ftr .bt{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid #ffffff26;margin-top:50px;padding-top:24px;color:var(--dkmuted)}
-.plain{max-width:820px;margin:0 auto;padding:40px 20px 80px}.plain h1{font-size:2.8rem;margin-bottom:20px}.small{font-size:.86rem;color:var(--muted)}
+.plain{max-width:820px;margin:0 auto;padding:clamp(50px,6vw,80px) 20px 120px}.plain h1{font-size:2.8rem;margin-bottom:20px}.plain p{color:var(--muted);font-size:1.06rem;max-width:68ch;margin:0 0 16px}.plain p a{color:var(--accdk)}.small{font-size:.86rem;color:var(--muted)}
 .wa{background:#1F7A4D}
+@media (max-width:620px){.map .lab{font-size:.74rem;padding:3px 9px}.wg>div{min-height:0}.wg h3{margin-top:12px;padding-top:0}.wa{padding:.55rem .85rem;font-size:.82rem;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
 /* senza JavaScript: niente configuratore (restano telefono, email e WhatsApp), menu nel piede */
 html:not(.js) .cfg .q,html:not(.js) .cfg .prog,html:not(.js) .hdr .menu,html:not(.js) .b3d{display:none}html:not(.js) .nojs{display:block!important}.nojs{display:none}
 .b3d,.scrub{display:none}.lite .b3d{display:inline-flex;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}.lite .b3d[hidden]{display:none}
@@ -227,7 +228,6 @@ html:not(.js) .cfg .q,html:not(.js) .cfg .prog,html:not(.js) .hdr .menu,html:not
 .lite .pstep{opacity:1}.lite .pstep span{background:var(--acc);color:var(--onacc)}.lite .steps .fill{display:none}
 @media (max-width:860px){.lite .pstep h3,.lite .pstep p{display:block;position:static;width:auto}.lite .steps{grid-template-columns:1fr 1fr;gap:16px;padding-bottom:0}.lite .pstep h3{margin-top:10px}}
 .lite *,.lite *::before,.lite *::after{box-shadow:none!important}.lite img{transition:none!important}.lite a:hover img,.lite .hero .f>img{transform:none!important;animation:none!important}
-.lite .svc a:hover,.lite .wk a:hover,.lite .wg>div:hover,.lite .chain a:hover,.lite .contacts a:hover{transform:none}
 /* animazioni di entrata allo scorrimento (anche in modalità leggera: solo opacità e spostamento, una volta) */
 .js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
 .js .rv.rvi{transform:translateY(14px) scale(.975)}.js .rv.in{opacity:1;transform:none}
@@ -238,6 +238,52 @@ html:not(.js) .cfg .q,html:not(.js) .cfg .prog,html:not(.js) .hdr .menu,html:not
 .hph{border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:var(--card2)}.hph img{width:100%;height:100%;object-fit:cover}
 @media (max-width:900px){.noph .b{grid-template-columns:1fr;padding-top:100px}}
 @media (prefers-reduced-motion:reduce){.hero h1 span,.hero .top p,.hero .bot,.crumbs{opacity:1;transform:none}.hero .f>img{transform:none}}
+/* ---------- segnali al passaggio del mouse (solo mouse vero) e stessi stati da tastiera ---------- */
+p{text-wrap:pretty}.prose p,.faq details p,.lead{text-wrap:pretty}
+:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.btn{transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background-color .25s,color .25s}
+.btn i{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.ul,.ftr ul a,.prose p a,.faq details p a,.lead a,.note2 a,.ticks a,.pn b,.places a,.ba p a,.cfg .check a,.small a{text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .28s cubic-bezier(.2,.7,.2,1),color .2s}
+.prose p a,.faq details p a,.lead a,.note2 a,.cfg .check a{background-size:100% 1px}
+.svc a,.wk a,.contacts>a,.chain a,.places li{position:relative;outline:2px solid transparent;outline-offset:-2px;transition:transform .3s cubic-bezier(.2,.7,.2,1),outline-color .25s,box-shadow .3s}
+.more i,.si,.wg svg,.tiles button svg,.gl svg{transition:transform .3s cubic-bezier(.3,1.6,.5,1),background-color .25s,color .25s}
+.chip{transition:background-color .25s,transform .25s}
+.faq summary{border-radius:12px;transition:background-color .2s}.faq summary::after{transition:transform .3s cubic-bezier(.2,.7,.2,1),background-color .25s}
+.cmp .hd{transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.cfg input,.cfg textarea,.tiles button,.tabs button{transition:border-color .2s,background-color .2s,color .2s,transform .2s}
+.split .ph img,.hph img,.why .ph img,.band>img{transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.wa::after{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid #1F7A4D;opacity:0;pointer-events:none}.wa{transition:transform .2s}
+.pill{--hx:0px;--hw:0px}.pill .hl{position:absolute;left:0;top:5px;bottom:5px;width:var(--hw);transform:translateX(var(--hx));border-radius:999px;background:#ffffff26;opacity:0;transition:transform .3s cubic-bezier(.2,.7,.2,1),width .3s cubic-bezier(.2,.7,.2,1),opacity .2s;pointer-events:none}
+.pill.hov .hl{opacity:1}.pill a{position:relative;z-index:1}
+.scrub{cursor:grab}.scrub:active{cursor:grabbing}
+.empty{display:none;text-align:center;padding:40px 20px;background:var(--paper);border-radius:20px;margin-top:10px}.empty.on{display:block}
+.svc a>*,.wk a>*,.get>*{position:relative}.spot{position:absolute!important;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--acc) 16%,transparent),transparent 70%);z-index:0}
+@media (hover:hover) and (pointer:fine){
+ .btn:hover{transform:translateY(-2px);box-shadow:0 16px 30px -16px #0009}.btn:hover i{transform:translateX(3px) rotate(-45deg)}.btn.o:hover{background:#ffffff26}
+ .btn:not(.w):not(.g):not(.o):hover{background:color-mix(in srgb,var(--ink) 86%,var(--acc))}.btn.g:hover{background:color-mix(in srgb,var(--acc) 88%,#fff)}.btn.w:hover{background:#F1FBF8}
+ .ul:hover,.ftr ul a:hover,.ticks a:hover,.pn a:hover b,.places li:hover a,.ba p a:hover,.small a:hover{background-size:100% 1px}
+ .prose p a:hover,.faq details p a:hover,.lead a:hover,.note2 a:hover,.cfg .check a:hover{color:var(--acc)}
+ .crumbs a:hover{background-size:0 1px}
+ .svc a:hover,.wk a:hover{outline-color:var(--acc);transform:translateY(-6px)}.svc a:hover img,.wk a:hover img{transform:scale(1.04)}
+ .svc a:hover .chip{background:var(--acc);color:var(--onacc);transform:translateY(-2px)}a:hover .more i{transform:translateX(4px) rotate(-45deg)}
+ .svc a:hover .si,.wg>div:hover svg,.get:hover .si,.tiles button:hover svg,.gl div:hover svg{transform:translateY(-3px) rotate(-8deg)}
+ .wg>div:hover{transform:translateY(-4px)}.contacts>a:hover,.chain a:hover,.places li:hover{outline-color:var(--acc);transform:translateY(-3px)}
+ .split .ph:hover img,.hph:hover img,.why .ph:hover img,.band:hover>img{transform:scale(1.04)}
+ .faq summary:hover{background:color-mix(in srgb,var(--acc) 9%,transparent)}.faq details:not([open]) summary:hover::after{transform:rotate(90deg);background:var(--acc);color:var(--onacc)}
+ .cmp:hover .hd{transform:translate(-50%,-50%) scale(1.14)}
+ .cfg input:hover,.cfg textarea:hover{border-color:var(--acc)}.tiles button:hover{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 8%,var(--bg))}
+ .tabs button:hover:not([aria-pressed=true]){border-color:var(--acc);color:var(--accdk);transform:translateY(-1px)}
+ .wa:hover{transform:translateY(-2px)}.wa:hover::after{animation:ring 1.1s ease-out infinite}@keyframes ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+ .spot{display:block}a:hover>.spot,.get:hover>.spot{opacity:1}
+ .pn a:hover small{color:var(--accdk)}.logo:hover img{transform:translateY(-1px)}.logo img{transition:transform .2s}
+}
+.btn:focus-visible{transform:translateY(-2px)}.btn:focus-visible i{transform:translateX(3px) rotate(-45deg)}
+.svc a:focus-visible,.wk a:focus-visible,.contacts>a:focus-visible,.chain a:focus-visible{outline:3px solid var(--acc);outline-offset:2px;transform:translateY(-4px)}
+.ftr ul a:focus-visible,.ticks a:focus-visible,.places a:focus-visible{background-size:100% 1px}
+.faq summary:focus-visible{background:color-mix(in srgb,var(--acc) 9%,transparent);outline-offset:-3px}
+.cfg input:focus-visible,.cfg textarea:focus-visible{outline:2px solid var(--acc)}
+@media (prefers-reduced-motion:reduce){.wa:hover::after{animation:none}}
+.lite .spot{display:none}.lite .wa:hover::after{animation:none}
 """ + TH.get("css", "")).replace("HDR", TH["hdr"])
 
 JS = b2.E_JS + r"""
@@ -271,7 +317,7 @@ if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to
  if(RM||!("IntersectionObserver" in window)){all.forEach(function(e){e.classList.add("in")});return}
  els.forEach(function(e){e.classList.add("rv");if(/^(IMG|PICTURE)$/.test(e.tagName)||e.classList.contains("ph")||e.classList.contains("cmp")||e.classList.contains("map"))e.classList.add("rvi")});
  all.forEach(function(e){var p=e.parentNode,sib=[].filter.call(p.children,function(c){return c.classList.contains("rv")||c.classList.contains("reveal")}),i=sib.indexOf(e);if(i>0)e.style.transitionDelay=Math.min(i,6)*75+"ms"});
- function done(e){setTimeout(function(){e.style.transitionDelay="";e.classList.remove("rv","rvi")},1300)}
+ function done(e){setTimeout(function(){e.style.transitionDelay="";e.classList.remove("rv","rvi","reveal")},1300)}   // poi tornano libere le animazioni al passaggio del mouse
  var ob=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");ob.unobserve(x.target);done(x.target)}})},{threshold:.12,rootMargin:"0px 0px -5% 0px"});
  all.forEach(function(e){ob.observe(e)});
  // rete di sicurezza: se si salta oltre (ancore, scorrimento velocissimo) ciò che è già sopra o sullo schermo compare comunque
@@ -281,6 +327,18 @@ if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to
 if(!LITE()&&!RM&&!matchMedia("(pointer: coarse)").matches){var ls=document.createElement("script");ls.src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js";ls.async=true;
  ls.onload=function(){if(LITE()||!window.Lenis)return;var L=window.LENIS=new Lenis({lerp:.1,smoothWheel:true,syncTouch:false});(function r(t){if(window.LENIS){L.raf(t);requestAnimationFrame(r)}})(performance.now());
   document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||!window.LENIS)return;var id=a.getAttribute("href"),el=id.length>1&&document.getElementById(id.slice(1));if(!el)return;e.preventDefault();L.scrollTo(el,{offset:-96})})};document.head.appendChild(ls)}
+// segnali al passaggio del mouse: evidenziatore che scivola nel menu, luce che segue il cursore sulle card, pulsanti principali "magnetici"
+(function(){if(!matchMedia("(hover: hover) and (pointer: fine)").matches)return;var pill=document.querySelector(".pill");
+ if(pill){var hl=document.createElement("span");hl.className="hl";hl.setAttribute("aria-hidden","true");pill.insertBefore(hl,pill.firstChild);
+  [].forEach.call(pill.querySelectorAll("a"),function(a){a.addEventListener("mouseenter",function(){pill.style.setProperty("--hx",a.offsetLeft+"px");pill.style.setProperty("--hw",a.offsetWidth+"px");pill.classList.add("hov")})});
+  pill.addEventListener("mouseleave",function(){pill.classList.remove("hov")})}
+ if(RM||LITE())return;
+ [].forEach.call(document.querySelectorAll(".svc a,.wk a,.get"),function(c){var sp=document.createElement("span");sp.className="spot";sp.setAttribute("aria-hidden","true");c.insertBefore(sp,c.firstChild);var tk=0,ev;
+  c.addEventListener("pointermove",function(e){ev=e;if(tk)return;tk=requestAnimationFrame(function(){tk=0;var r=c.getBoundingClientRect();c.style.setProperty("--mx",(ev.clientX-r.left)+"px");c.style.setProperty("--my",(ev.clientY-r.top)+"px")})})});
+ [].forEach.call(document.querySelectorAll(".hero .btn.w,.cta .btn,.btn.g"),function(b){var tk=0,ev;b.addEventListener("pointermove",function(e){ev=e;if(tk)return;tk=requestAnimationFrame(function(){tk=0;if(LITE())return;var r=b.getBoundingClientRect();
+  b.style.transform="translate("+((ev.clientX-r.left-r.width/2)*.12).toFixed(1)+"px,"+((ev.clientY-r.top-r.height/2)*.22-2).toFixed(1)+"px)"})});b.addEventListener("pointerleave",function(){b.style.transform=""})})})();
+// lavori: messaggio se un filtro non trova niente
+var emp=document.querySelector(".empty");if(emp)document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){var n=[].filter.call(document.querySelectorAll(".wk .work"),function(w){return !w.hidden}).length;emp.classList.toggle("on",!n)})});
 // preventivo: il tipo di lavoro può arrivare dalla pagina del servizio (?lavoro=Bagno)
 var lv=new URLSearchParams(location.search).get("lavoro");if(lv){var tb=document.querySelector('.q[data-k=lavoro] button[data-v="'+lv.replace(/"/g,"")+'"]');if(tb)tb.click()}
 """.replace('pr.style.width=((i+1)/qs.length*100)+"%"', 'pr.style.transform="scaleX("+((i+1)/qs.length)+")"').replace('pr.style.width="100%"', 'pr.style.transform="scaleX(1)"')
@@ -386,9 +444,9 @@ def page(title, desc, body, v, name, three=False):
 <body><a class="skip" href="#main">Vai al contenuto</a>{body}<a class="wa" href="https://wa.me/{WA}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">WhatsApp</a>
 <script src="assets/app.js?v={v}" defer></script></body></html>"""
 
-def footer():
+def footer(nocta=False):
     col = lambda t, items: f'<div><b>{t}</b><ul>' + "".join(f'<li><a href="{h}">{E(n)}</a></li>' for h, n in items) + "</ul></div>"
-    return f"""<footer class="ftr"><div class="wrap"><div class="g"><div>{logo()}<p style="margin-top:18px">Impresa generale del Gruppo New Trends a Lugano: costruiamo e ristrutturiamo case fatte per durare, dal 1999.</p></div>
+    return f"""<footer class="ftr{" nocta" if nocta else ""}"><div class="wrap"><div class="g"><div>{logo()}<p style="margin-top:18px">Impresa generale del Gruppo New Trends a Lugano: costruiamo e ristrutturiamo case fatte per durare, dal 1999.</p></div>
 {col("Il sito", [(h, t) for h, t, _ in NAV] + [("preventivo.html", "Preventivo e contatti")])}
 {col("Servizi", [("servizio-" + s[0] + ".html", s[1]) for s in SERVICES])}
 {col("Il gruppo", [(SITES['newtrends'], "New Trends · Immobiliare"), (SITES['architrend'], "Archi Trend · Architettura"), (SITES['ediltrend'], "Edil Trend · Costruzioni")])}
@@ -541,8 +599,8 @@ def build():
 
     # ---------- LAVORI + una pagina per lavoro ----------
     tabs = '<div class="tabs" role="group" aria-label="Filtra i lavori"><button type="button" aria-pressed="true" data-f="">Tutti</button><button type="button" aria-pressed="false" data-f="new">Nuove costruzioni</button><button type="button" aria-pressed="false" data-f="ren">Ristrutturazioni</button></div>'
-    works = f"""{header("works")}{hero_sm([("index.html", "Home"), (None, "Lavori")], "Lavori", "Residenze, villette e ristrutturazioni seguite dalle aziende del Gruppo New Trends nel Luganese.", "p-ferrari", "Residenza Ferrari, Tesserete")}
-<main id="main"><section class="sec"><div class="wrap"><div class="revhead"><div><span class="tag">Tutti i lavori</span><h2>Costruito con cura, consegnato con precisione.</h2></div><p class="lead">Tocca un lavoro per vedere i dettagli. I ruoli sono quelli descritti dal gruppo su new-trends.ch.</p></div>{tabs}{work_cards(ORDER)}{facts}</div></section>
+    works = f"""{header("works")}{hero_sm([("index.html", "Home"), (None, "Lavori")], "Lavori", "Residenze, villette e ristrutturazioni seguite dalle aziende del Gruppo New Trends nel Luganese.", "p-optima", "Residenza Optima, Montagnola")}
+<main id="main"><section class="sec"><div class="wrap"><div class="revhead"><div><span class="tag">Tutti i lavori</span><h2>Costruito con cura, consegnato con precisione.</h2></div><p class="lead">Tocca un lavoro per vedere i dettagli. I ruoli sono quelli descritti dal gruppo su new-trends.ch.</p></div>{tabs}{work_cards(ORDER)}<p class="empty" role="status">Nessun lavoro in questa categoria. <button class="btn" type="button" onclick="document.querySelector('.tabs button').click()">Mostra tutti {AR}</button></p>{facts}</div></section>
 <section class="sec dk"><div class="wrap"><div class="head"><div><span class="tag">Prima e dopo</span><h2>Guarda la trasformazione.</h2></div><p class="lead">Trascina il cursore: foto vere prima e dopo i lavori.</p></div><div class="ba">{ba_block("magliaso", 0, True)}{ba_block("montagnola", 0, True)}{ba_block("montagnola", 1, True)}</div></div></section>
 {gap}{cta()}{end}"""
     pages["lavori.html"] = ("Lavori · Edil Trend SA", "Lavori del Gruppo New Trends nel Luganese: nuove residenze, villette e ristrutturazioni.", works, False)
@@ -559,7 +617,7 @@ def build():
 <div class="split"><div class="prose reveal"><span class="tag">Il lavoro</span><h2 style="margin-bottom:24px">{E(title)}</h2><p class="big">{E(role)}</p>
 <p>Un progetto del Gruppo New Trends a {E(place)}. Il ruolo del gruppo è quello descritto su new-trends.ch. Per saperne di più o per un progetto simile, chiamaci al <a href="tel:{TEL}">{PHONE}</a>.</p>
 {('<h3 style="font-size:1.2rem;margin-top:26px">Servizi collegati</h3><ul class="ticks">' + "".join(f'<li>{CHECK}<a href="servizio-{s[0]}.html">{E(s[1])}</a></li>' for s in svc_rel) + "</ul>") if svc_rel else ""}
-<p style="margin-top:26px"><a class="btn g" href="preventivo.html">Hai un progetto simile? {AR}</a></p></div>{f'<div class="ph reveal">{T("p-" + k, f"{n}, {place}", S2)}</div>' if big("p-" + k) else f'<div class="get reveal"><span class="si">{G(ICONS["casa"])}</span><h2>In breve</h2><ul class="ticks"><li>{CHECK}<span>{E(size)}</span></li><li>{CHECK}<span>{E(place)}</span></li><li>{CHECK}<span>{E(role)}</span></li></ul></div>'}</div>
+<p style="margin-top:26px"><a class="btn g" href="preventivo.html">Hai un progetto simile? {AR}</a></p></div>{f'<div class="ph reveal">{T("p-" + k, f"{n}, {place}", S2)}</div>' if big("p-" + k) else f'<div class="get reveal"><span class="si">{G(ICONS["casa"])}</span><h2>Un lavoro simile?</h2><p class="lead" style="margin:10px 0 18px">Raccontaci cosa vorresti fare: sopralluogo e preventivo sono senza impegno.</p><ul class="ticks"><li>{CHECK}<span>Prezzo, tempi e capitolato scritti prima di iniziare</span></li><li>{CHECK}<span>Un capocantiere di riferimento</span></li></ul><p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn g" href="preventivo.html">Chiedi un preventivo {AR}</a><a class="btn" href="tel:{TEL}">Chiama {AR}</a></p></div>'}</div>
 {f'<div style="margin-top:70px"><span class="tag">Prima e dopo</span><h2 style="margin-bottom:30px">Trascina il cursore.</h2><div class="ba two">{bas}</div></div>' if bas else ""}
 <nav class="pn" aria-label="Altri lavori"><a href="{SLUG[prv]}"><small>← Lavoro precedente</small><b>{E(dtitle(prv))}</b></a><a href="{SLUG[nxt]}"><small>Lavoro successivo →</small><b>{E(dtitle(nxt))}</b></a></nav></div></section>
 <section class="sec" style="padding-top:0"><div class="wrap"><div class="revhead"><div><span class="tag">Altri lavori</span><h2>Guarda anche.</h2></div><a class="btn" href="lavori.html">Tutti i lavori {AR}</a></div>{work_cards(rel)}</div></section>
@@ -579,8 +637,8 @@ def build():
 
     # ---------- ZONE ----------
     zl = "".join(f'<div class="reveal"><span class="no">{E(n)}</span><h3>{" · ".join(E(P[x][0]) for x in ks)}</h3><p>{"<br>".join(f"<a href=\"{SLUG[x]}\">{E(P[x][2])} →</a>" for x in ks)}</p></div>' for n, _, _, ks in Z)
-    zone = f"""{header("zone")}{hero_sm([("index.html", "Home"), (None, "Zone")], "Zone", "Di casa nel Luganese: lavoriamo soprattutto qui e nel resto del Ticino.", "p-optima", "Residenza Optima, Montagnola")}
-<main id="main"><section class="sec"><div class="wrap zones">{mapbox({n for n, _, _, _ in Z})}<div class="reveal"><span class="tag">Dove lavoriamo</span><h2>Vicini, conosciuti, a portata di mano.</h2><p class="lead" style="margin-top:16px">Questi sono alcuni dei comuni in cui il gruppo ha costruito o ristrutturato. Il tuo comune non c'è? Chiamaci: ti diciamo se possiamo seguirti.</p>
+    zone = f"""{header("zone")}{hero_sm([("index.html", "Home"), (None, "Zone")], "Zone", "Di casa nel Luganese: lavoriamo soprattutto qui e nel resto del Ticino.", "p-synthesis", "Residenza Synthesis, Vezia")}
+<main id="main"><section class="sec"><div class="wrap zones">{mapbox({"Tesserete", "Lugano", "Montagnola", "Magliaso", "Savosa", "Corteglia"})}<div class="reveal"><span class="tag">Dove lavoriamo</span><h2>Vicini, conosciuti, a portata di mano.</h2><p class="lead" style="margin-top:16px">Questi sono alcuni dei comuni in cui il gruppo ha costruito o ristrutturato. Il tuo comune non c'è? Chiamaci: ti diciamo se possiamo seguirti.</p>
 <ul class="places">{places}</ul><a class="btn" href="preventivo.html">Chiedi un sopralluogo {AR}</a></div></div></section>
 <section class="sec" style="padding-top:0"><div class="wrap"><span class="tag">Comune per comune</span><h2 style="margin-bottom:36px">I lavori del gruppo nella zona.</h2><div class="wg" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">{zl}</div></div></section>
 {cta()}{end}"""
@@ -594,15 +652,21 @@ def build():
     pages["domande.html"] = ("Domande frequenti · Edil Trend SA", "Preventivo, costi, cantiere, licenze e zone: le risposte di Edil Trend alle domande più frequenti.", faqp, False)
 
     # ---------- PREVENTIVO E CONTATTI ----------
-    prev = f"""{header("prev")}{hero_sm([("index.html", "Home"), (None, "Preventivo e contatti")], "Preventivo e contatti", "Quattro domande, un minuto. Poi ti chiamiamo per fissare il sopralluogo, senza impegno.", "p-optima", "Residenza Optima, Montagnola")}
+    prev = f"""{header("prev")}{hero_sm([("index.html", "Home"), (None, "Preventivo e contatti")], "Preventivo e contatti", "Quattro domande, un minuto. Poi ti chiamiamo per fissare il sopralluogo, senza impegno.", "p-maraini", "Residenza Maraini, Savosa")}
 <main id="main"><section class="sec"><div class="wrap">{cfg}
 <div class="contacts"><a class="reveal" href="tel:{TEL}"><small>Telefono</small><b>{PHONE}</b></a><a class="reveal" href="mailto:{MAIL}"><small>Email</small><b>{MAIL}</b></a><a class="reveal" href="https://wa.me/{WA}" target="_blank" rel="noopener"><small>WhatsApp</small><b>Scrivici un messaggio</b></a><div class="reveal"><small>Ufficio</small><b>{ADDR}</b></div></div>
 <p class="note2">Le richieste arrivano all'ufficio del Gruppo New Trends a Lugano. Trattiamo i dati come spiegato nell'<a href="privacy.html">informativa privacy</a>.</p></div></section>
-<section class="sec" style="padding-top:0"><div class="wrap"><div class="faq"><span class="tag">Prima di scriverci</span><h2>Domande sul preventivo.</h2>{fqd(FAQ[0][1])}</div></div></section>{gap}{end}"""
+<section class="sec" style="padding-top:0"><div class="wrap"><div class="faq"><span class="tag">Prima di scriverci</span><h2>Domande sul preventivo.</h2>{fqd(FAQ[0][1])}</div></div></section></main>{footer(True)}"""
     pages["preventivo.html"] = ("Preventivo e contatti · Edil Trend SA", "Richiedi un sopralluogo e un preventivo gratuito e senza impegno a Edil Trend SA, Lugano.", prev, False)
 
-    pages["privacy.html"] = ("Privacy · Edil Trend SA", "Informativa privacy di Edil Trend SA.",
-                             f'{header("")}<div style="height:104px;background:{TH["hdr"]};margin:8px 8px 0;border-radius:var(--r)"></div><main id="main">{b2.privacy("Edil Trend SA")}</main>{footer()}', False)
+    pv = b2.privacy("Edil Trend SA").replace('<h1>Informativa sulla privacy</h1>', '')
+    pages["privacy.html"] = ("Privacy · Edil Trend SA", "Informativa sulla privacy di Edil Trend SA: quali dati trattiamo, perché e come chiederne la cancellazione.",
+                             f'{header("")}{hero_sm([("index.html", "Home"), (None, "Privacy")], "Informativa sulla privacy", "Quali dati ci invii, perché li usiamo e come puoi vederli, correggerli o cancellarli.", None, "")}<main id="main">{pv}</main>{footer(True)}', False)
+    # pagina 404 (GitHub Pages usa solo quella nella radice: questa serve per i domini propri e per i link interni)
+    pages["404.html"] = ("Pagina non trovata · Edil Trend SA", "La pagina che cerchi non esiste più o è stata spostata.",
+                         f"""{header("")}{hero_sm([("index.html", "Home"), (None, "Pagina non trovata")], "Questa pagina non c'è.", "Forse è stata spostata. Da qui ritrovi tutto il sito.", None, "")}
+<main id="main"><section class="sec"><div class="wrap"><div class="head"><div><span class="tag">Errore 404</span><h2>Dove vuoi andare?</h2></div><p class="lead">Scegli una pagina o chiamaci al <a href="tel:{TEL}">{PHONE}</a>: risponde una persona.</p></div>
+<div class="contacts" style="margin-top:0">{"".join(f'<a href="{h}"><small>Pagina</small><b>{E(t)}</b></a>' for h, t, _ in NAV)}<a href="preventivo.html"><small>Pagina</small><b>Preventivo e contatti</b></a></div></div></section>{gap}{cta()}{end}""", False)
 
     v = hashlib.sha256((CSS + root_vars() + JS + open(os.path.join(HERE, "src", "villa3d.js")).read()).encode()).hexdigest()[:10]
     open(os.path.join(A, "site.css"), "w").write(root_vars() + CSS); open(os.path.join(A, "app.js"), "w").write("(function(){" + JS + "})();")

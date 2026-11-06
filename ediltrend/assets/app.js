@@ -56,7 +56,7 @@ if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to
  if(RM||!("IntersectionObserver" in window)){all.forEach(function(e){e.classList.add("in")});return}
  els.forEach(function(e){e.classList.add("rv");if(/^(IMG|PICTURE)$/.test(e.tagName)||e.classList.contains("ph")||e.classList.contains("cmp")||e.classList.contains("map"))e.classList.add("rvi")});
  all.forEach(function(e){var p=e.parentNode,sib=[].filter.call(p.children,function(c){return c.classList.contains("rv")||c.classList.contains("reveal")}),i=sib.indexOf(e);if(i>0)e.style.transitionDelay=Math.min(i,6)*75+"ms"});
- function done(e){setTimeout(function(){e.style.transitionDelay="";e.classList.remove("rv","rvi")},1300)}
+ function done(e){setTimeout(function(){e.style.transitionDelay="";e.classList.remove("rv","rvi","reveal")},1300)}   // poi tornano libere le animazioni al passaggio del mouse
  var ob=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");ob.unobserve(x.target);done(x.target)}})},{threshold:.12,rootMargin:"0px 0px -5% 0px"});
  all.forEach(function(e){ob.observe(e)});
  // rete di sicurezza: se si salta oltre (ancore, scorrimento velocissimo) ciò che è già sopra o sullo schermo compare comunque
@@ -66,6 +66,18 @@ if(!RM&&!LITE())document.querySelectorAll("[data-n]").forEach(function(b){var to
 if(!LITE()&&!RM&&!matchMedia("(pointer: coarse)").matches){var ls=document.createElement("script");ls.src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js";ls.async=true;
  ls.onload=function(){if(LITE()||!window.Lenis)return;var L=window.LENIS=new Lenis({lerp:.1,smoothWheel:true,syncTouch:false});(function r(t){if(window.LENIS){L.raf(t);requestAnimationFrame(r)}})(performance.now());
   document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||!window.LENIS)return;var id=a.getAttribute("href"),el=id.length>1&&document.getElementById(id.slice(1));if(!el)return;e.preventDefault();L.scrollTo(el,{offset:-96})})};document.head.appendChild(ls)}
+// segnali al passaggio del mouse: evidenziatore che scivola nel menu, luce che segue il cursore sulle card, pulsanti principali "magnetici"
+(function(){if(!matchMedia("(hover: hover) and (pointer: fine)").matches)return;var pill=document.querySelector(".pill");
+ if(pill){var hl=document.createElement("span");hl.className="hl";hl.setAttribute("aria-hidden","true");pill.insertBefore(hl,pill.firstChild);
+  [].forEach.call(pill.querySelectorAll("a"),function(a){a.addEventListener("mouseenter",function(){pill.style.setProperty("--hx",a.offsetLeft+"px");pill.style.setProperty("--hw",a.offsetWidth+"px");pill.classList.add("hov")})});
+  pill.addEventListener("mouseleave",function(){pill.classList.remove("hov")})}
+ if(RM||LITE())return;
+ [].forEach.call(document.querySelectorAll(".svc a,.wk a,.get"),function(c){var sp=document.createElement("span");sp.className="spot";sp.setAttribute("aria-hidden","true");c.insertBefore(sp,c.firstChild);var tk=0,ev;
+  c.addEventListener("pointermove",function(e){ev=e;if(tk)return;tk=requestAnimationFrame(function(){tk=0;var r=c.getBoundingClientRect();c.style.setProperty("--mx",(ev.clientX-r.left)+"px");c.style.setProperty("--my",(ev.clientY-r.top)+"px")})})});
+ [].forEach.call(document.querySelectorAll(".hero .btn.w,.cta .btn,.btn.g"),function(b){var tk=0,ev;b.addEventListener("pointermove",function(e){ev=e;if(tk)return;tk=requestAnimationFrame(function(){tk=0;if(LITE())return;var r=b.getBoundingClientRect();
+  b.style.transform="translate("+((ev.clientX-r.left-r.width/2)*.12).toFixed(1)+"px,"+((ev.clientY-r.top-r.height/2)*.22-2).toFixed(1)+"px)"})});b.addEventListener("pointerleave",function(){b.style.transform=""})})})();
+// lavori: messaggio se un filtro non trova niente
+var emp=document.querySelector(".empty");if(emp)document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){var n=[].filter.call(document.querySelectorAll(".wk .work"),function(w){return !w.hidden}).length;emp.classList.toggle("on",!n)})});
 // preventivo: il tipo di lavoro può arrivare dalla pagina del servizio (?lavoro=Bagno)
 var lv=new URLSearchParams(location.search).get("lavoro");if(lv){var tb=document.querySelector('.q[data-k=lavoro] button[data-v="'+lv.replace(/"/g,"")+'"]');if(tb)tb.click()}
 })();
