@@ -87,6 +87,11 @@ $$("[data-lightbox]").forEach(function(b){b.addEventListener("click",function(){
  var sx=null;d.addEventListener("touchstart",function(e){sx=e.touches[0].clientY},{passive:true});d.addEventListener("touchend",function(e){if(sx!==null&&Math.abs(e.changedTouches[0].clientY-sx)>80)close();sx=null})})});
 $$("[data-share]").forEach(function(b){b.addEventListener("click",function(){var u=location.href.split("#")[0];if(navigator.share){navigator.share({title:b.dataset.title,url:u}).catch(function(){})}else{try{navigator.clipboard.writeText(u).then(function(){var sp=b.querySelector("span"),o=sp.textContent;sp.textContent=L.linkCopied;setTimeout(function(){sp.textContent=o},1800)})}catch(e){prompt("",u)}}})});
 $$("[data-flip]").forEach(function(b){b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true")})});
+// v3: la tessera si inclina leggermente seguendo il puntatore (solo mouse, niente con «riduci animazioni»)
+if(matchMedia("(hover:hover) and (prefers-reduced-motion:no-preference)").matches)$$("[data-tilt]").forEach(function(c){c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transition="transform .15s";c.style.setProperty("--ry",(x*14).toFixed(1)+"deg");c.style.setProperty("--rx",(-y*10).toFixed(1)+"deg")});c.addEventListener("pointerleave",function(){c.style.transition="";c.style.setProperty("--ry","0deg");c.style.setProperty("--rx","0deg")});c.addEventListener("click",function(){c.style.transition=""})});
+// telefono: filtri dell'elenco ripiegabili; descrizione lunga della scheda con «Leggi tutta la descrizione»
+$$(".fopen").forEach(function(b){b.addEventListener("click",function(){var f=b.closest(".filters"),o=!f.classList.contains("open");f.classList.toggle("open",o);b.setAttribute("aria-expanded",o?"true":"false")})});
+$$("[data-more]").forEach(function(d){var p=d.querySelector(".prose");if(!p||!matchMedia("(max-width:700px)").matches||p.scrollHeight<420)return;d.classList.add("cut");var b=document.createElement("button");b.type="button";b.className="pp-more";b.textContent=d.dataset.more;b.setAttribute("aria-expanded","false");b.addEventListener("click",function(){d.classList.remove("cut");b.remove()});d.appendChild(b)});
 $$("[data-lreset]").forEach(function(b){b.addEventListener("click",function(){var r=$("#lreset");if(r)r.click()})});
 // affordability
 var cf=$("#calc");if(cf){var pr=parseFloat(cf.dataset.price);var sl=$("#own");function fmt(n){return "CHF "+Math.round(n).toLocaleString(C.numLocale).replace(/,/g,C.sep)}
@@ -128,7 +133,7 @@ var cf=$("#calc");if(cf){var pr=parseFloat(cf.dataset.price);var sl=$("#own");fu
  function upd(){ticking=false;var y=scrollY,h=document.documentElement.scrollHeight-innerHeight;if(pr)pr.style.transform="scaleX("+(h>0?Math.min(1,y/h):0)+")";
   if(hb&&!rm&&!lite&&y<innerHeight*1.3)hb.style.transform="translateY("+(y*0.22)+"px)";
   formVis=[].slice.call(document.querySelectorAll("form.f,.done")).some(function(f){var r=f.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight});
-  if(cb)cb.classList.toggle("show",y>innerHeight*0.75&&!formVis);if(mb)mb.classList.toggle("show",y>240&&!formVis)}
+  if(cb)cb.classList.toggle("show",y>innerHeight*0.75&&!formVis);if(mb)mb.classList.toggle("show",!formVis)}
  addEventListener("scroll",function(){if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});upd();
  if(!rm&&matchMedia("(hover:hover)").matches)document.querySelectorAll(".btn-gold").forEach(function(b){b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.transform="translate("+((e.clientX-r.left-r.width/2)*0.12).toFixed(1)+"px,"+((e.clientY-r.top-r.height/2)*0.25).toFixed(1)+"px)"});b.addEventListener("mouseleave",function(){b.style.transform=""})});
 })();
