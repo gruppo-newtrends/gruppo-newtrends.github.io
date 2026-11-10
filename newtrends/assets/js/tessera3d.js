@@ -2,7 +2,7 @@
 // Senza WebGL o con «riduci animazioni» resta la tessera 2D. Trascina per girarla, tocca per voltarla, inclina il telefono (se il browser lo permette).
 import * as THREE from './three.module.min.js';
 
-const host = document.querySelector('[data-tessera3d]');
+const host = document.querySelector('[data-tessera3d]');   // v5: nella pagina Community Gold è il riquadro .cg5-stage della prima schermata
 if (host) init(host);
 
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
@@ -43,51 +43,87 @@ async function init(host) {
   const test = document.createElement('canvas');
   if (rm || !(test.getContext('webgl2') || test.getContext('webgl'))) return;   // resta la tessera 2D
   const d = JSON.parse(host.dataset.tessera3d);
+  if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]);
   const { front, back } = await faces(d);
+  const lite = document.documentElement.classList.contains('lite');
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
-  renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1)); renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.setPixelRatio(Math.min(lite ? 1.5 : 2, devicePixelRatio || 1)); renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
   const canvas = renderer.domElement; canvas.className = 't3d'; canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', d.label);
   const scene = new THREE.Scene(); const cam = new THREE.PerspectiveCamera(30, 1, .1, 50); cam.position.set(0, 0, 6.2);
-  const w = 3.2, h = w / 1.586, r = .16, depth = .035;
+
+  // v5: luce da studio (riflessi morbidi su vernice e bordo oro), fatta in codice: tre pannelli luminosi in una stanza blu notte
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const env = new THREE.Scene(); env.background = new THREE.Color(0x0a1633);
+  const panel = (c, i, w, h, x, y, z) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(i), side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m); };
+  panel(0xffffff, 3.2, 6, 2.2, 0, 5, 3);      // luce principale dall'alto
+  panel(0x9DBEF2, 1.6, 2, 6, -6, 0, 2);       // azzurro di lato
+  panel(0xE6CF9F, 2.0, 2, 5, 6, -1, 1.5);     // caldo dall'altro lato
+  panel(0xffffff, .5, 8, 8, 0, 0, -7);
+  scene.environment = pmrem.fromScene(env, .035).texture;
+
+  const w = 3.2, h = w / 1.586, r = .16, depth = .04;
   const shape = new THREE.Shape(); shape.moveTo(-w / 2 + r, -h / 2); shape.lineTo(w / 2 - r, -h / 2); shape.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r); shape.lineTo(w / 2, h / 2 - r);
   shape.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2); shape.lineTo(-w / 2 + r, h / 2); shape.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r); shape.lineTo(-w / 2, -h / 2 + r); shape.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
-  const edge = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 10 }), new THREE.MeshStandardMaterial({ color: 0xC9AE76, metalness: .8, roughness: .35 }));
+  const edge = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 12 }), new THREE.MeshStandardMaterial({ color: 0xD9BD84, metalness: 1, roughness: .26, envMapIntensity: 1.4 }));
   edge.position.z = -depth / 2;
   const card = new THREE.Group(); card.add(edge);
-  const face = (tex, z, flip) => { const g = new THREE.ShapeGeometry(shape, 10); const uv = g.attributes.uv, p = g.attributes.position;
+  const face = (tex, z, flip, back) => { const g = new THREE.ShapeGeometry(shape, 12); const uv = g.attributes.uv, p = g.attributes.position;
     for (let k = 0; k < uv.count; k++) uv.setXY(k, p.getX(k) / w + .5, p.getY(k) / h + .5);   // il retro è girato di 180°: stessa mappa
-    const m = new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ map: tex, roughness: .42, metalness: .05, clearcoat: .6, clearcoatRoughness: .25 })); m.position.z = z; if (flip) m.rotation.y = Math.PI; return m; };
-  card.add(face(front, depth / 2 + .001, false)); card.add(face(back, -depth / 2 - .001, true));
+    const m = new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ map: tex, roughness: back ? .55 : .38, metalness: back ? 0 : .15, clearcoat: 1, clearcoatRoughness: back ? .4 : .12, envMapIntensity: back ? .5 : .9 })); m.position.z = z; if (flip) m.rotation.y = Math.PI; return m; };
+  card.add(face(front, depth / 2 + .001, false, false)); card.add(face(back, -depth / 2 - .001, true, true));
   // riflesso che attraversa la tessera
   const sheenMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { t: { value: -1 } },
     vertexShader: 'varying vec2 v; void main(){ v = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
-    fragmentShader: 'uniform float t; varying vec2 v; void main(){ float x = v.x + v.y * .45 - t; float a = smoothstep(.0,.09,x) * (1.0 - smoothstep(.09,.2,x)); gl_FragColor = vec4(vec3(1.0,.96,.86), a * .32); }' });
-  const sg = new THREE.ShapeGeometry(shape, 10); { const uv = sg.attributes.uv, p = sg.attributes.position; for (let k = 0; k < uv.count; k++) uv.setXY(k, p.getX(k) / w + .5, p.getY(k) / h + .5); }
+    fragmentShader: 'uniform float t; varying vec2 v; void main(){ float x = v.x + v.y * .45 - t; float a = smoothstep(.0,.12,x) * (1.0 - smoothstep(.12,.26,x)); gl_FragColor = vec4(vec3(1.0,.95,.84), a * .22); }' });
+  const sg = new THREE.ShapeGeometry(shape, 12); { const uv = sg.attributes.uv, p = sg.attributes.position; for (let k = 0; k < uv.count; k++) uv.setXY(k, p.getX(k) / w + .5, p.getY(k) / h + .5); }
   const sheen = new THREE.Mesh(sg, sheenMat); sheen.position.z = depth / 2 + .004; card.add(sheen);
   scene.add(card);
-  scene.add(new THREE.HemisphereLight(0xDCE8FF, 0x0C1D44, 1.5));
-  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(2.5, 3, 4); scene.add(key);
-  const rim = new THREE.DirectionalLight(0x9DBEF2, .8); rim.position.set(-3, -1, 2); scene.add(rim);
+  // ombra morbida sotto la tessera
+  const sc = document.createElement('canvas'); sc.width = sc.height = 128; { const g = sc.getContext('2d'); const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(0,0,0,.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); }
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.4, .7), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false }));
+  shadow.position.set(0, -1.55, -.4); scene.add(shadow);
+  scene.add(new THREE.HemisphereLight(0xDCE8FF, 0x0C1D44, .55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(2.5, 3, 4); scene.add(key);
+  const rim = new THREE.DirectionalLight(0x9DBEF2, .7); rim.position.set(-3, -1, 2); scene.add(rim);
 
-  // al posto della tessera 2D (resta nel codice per chi non vede il 3D)
-  const flat = host.querySelector('.tessera'); host.classList.add('is3d'); host.prepend(canvas); if (flat) flat.setAttribute('aria-hidden', 'true');
-  function size() { const W = host.clientWidth; const H = Math.round(W / 1.25); renderer.setSize(W, H, false); canvas.style.width = W + 'px'; canvas.style.height = H + 'px'; cam.aspect = W / H; cam.updateProjectionMatrix(); }
+  // al posto della tessera 2D (resta nel codice per chi non vede il 3D); il riquadro ha già la sua misura: niente salti
+  const flat = host.querySelector('.tessera'); host.prepend(canvas);
+  function size() { const W = host.clientWidth, H = host.clientHeight || Math.round(W / 1.2); renderer.setSize(W, H, false); cam.aspect = W / H;
+    const t = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)); cam.position.z = Math.max((w / .74) / (2 * t * cam.aspect), (h / .62) / (2 * t)); cam.updateProjectionMatrix(); }
   size(); addEventListener('resize', size);
+  renderer.render(scene, cam);
+  requestAnimationFrame(() => { host.classList.add('is3d'); if (flat) { flat.setAttribute('aria-hidden', 'true'); flat.tabIndex = -1; } });
 
-  let ry = -.35, rx = .12, vy = 0, vx = 0, target = 0, drag = null, moved = 0, tiltX = 0, tiltY = 0, visible = true, last = performance.now(), t0 = last;
-  canvas.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; moved = 0; canvas.setPointerCapture(e.pointerId); });
-  canvas.addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag = { x: e.clientX, y: e.clientY }; moved += Math.abs(dx) + Math.abs(dy); vy = dx * .012; vx = dy * .006; ry += vy; rx = Math.max(-.5, Math.min(.5, rx + vx)); });
-  canvas.addEventListener('pointerup', () => { if (moved < 6) target += Math.PI; else target = Math.round((ry) / Math.PI) * Math.PI; drag = null; });
-  canvas.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); target += Math.PI; } });
+  // v5: rotazione lenta continua quando nessuno la tocca; trascina per girarla, tocca per voltarla, poi riparte da sola
+  let ry = -.35, rx = .1, target = ry, drag = null, moved = 0, tiltX = 0, tiltY = 0, px = 0, py = 0, visible = true, last = performance.now(), t0 = last, auto = true, resume = 0;
+  let idleT = 0, base = 0;
+  canvas.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; moved = 0; auto = false; canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing'; });
+  canvas.addEventListener('pointermove', e => { const b = canvas.getBoundingClientRect(); px = ((e.clientX - b.left) / b.width - .5); py = ((e.clientY - b.top) / b.height - .5);
+    if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag = { x: e.clientX, y: e.clientY }; moved += Math.abs(dx) + Math.abs(dy); ry += dx * .012; rx = Math.max(-.5, Math.min(.5, rx + dy * .006)); target = ry; });
+  canvas.addEventListener('pointerleave', () => { px = py = 0; });
+  const release = () => { if (!drag) return; target = moved < 6 ? Math.round(ry / Math.PI) * Math.PI + Math.PI : Math.round(ry / Math.PI) * Math.PI; drag = null; resume = performance.now() + 3500; canvas.style.cursor = ''; };
+  canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
+  canvas.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); auto = false; target = Math.round(ry / Math.PI) * Math.PI + Math.PI; resume = performance.now() + 3500; } });
   canvas.tabIndex = 0;
-  addEventListener('deviceorientation', e => { if (e.gamma == null) return; tiltY = Math.max(-.35, Math.min(.35, e.gamma / 90)); tiltX = Math.max(-.25, Math.min(.25, (e.beta - 45) / 120)); }, { passive: true });
+  addEventListener('deviceorientation', e => { if (e.gamma == null) return; tiltY = Math.max(-.3, Math.min(.3, e.gamma / 90)); tiltX = Math.max(-.2, Math.min(.2, (e.beta - 45) / 120)); }, { passive: true });
   new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) { last = performance.now(); requestAnimationFrame(loop); } }).observe(canvas);
   function loop(now) {
     if (!visible || document.hidden) return;
     const dt = Math.min(.05, (now - last) / 1000); last = now; const tt = (now - t0) / 1000;
-    if (!drag) { ry += (target + Math.sin(tt * .6) * .18 + tiltY - ry) * Math.min(1, dt * 3.2); rx += (.1 + Math.sin(tt * .45) * .05 + tiltX - rx) * Math.min(1, dt * 3); }
-    card.rotation.set(rx, ry, 0); card.position.y = Math.sin(tt * .9) * .04;
-    sheenMat.uniforms.t.value = ((tt * .28) % 1.6) - .3;
+    if (!drag) {
+      if (!auto && now > resume && Math.abs(target - ry) < .02) { auto = true; base = Math.round(ry / (Math.PI * 2)) * Math.PI * 2; idleT = 0; }
+      if (auto) {   // fronte che oscilla piano; ogni 14 s un giro completo lento (mostra anche il retro)
+        idleT += dt; const c = idleT % 14, turn = c > 10.5 ? (1 - Math.cos(Math.PI * Math.min(1, (c - 10.5) / 3.5))) / 2 : 0;
+        const goal = base + (Math.floor(idleT / 14) + turn) * Math.PI * 2 + Math.sin(idleT * .42) * .42; ry += (goal - ry) * Math.min(1, dt * 2.2); target = ry;
+      } else ry += (target - ry) * Math.min(1, dt * 4);
+      rx += (.1 + Math.sin(tt * .45) * .05 + tiltX - py * .25 - rx) * Math.min(1, dt * 3);
+    }
+    card.rotation.set(rx, ry + tiltY + px * .3, Math.sin(tt * .3) * .02);
+    const bob = Math.sin(tt * .9) * .05; card.position.y = .06 + bob;
+    shadow.scale.set(.45 + .55 * Math.abs(Math.cos(ry)), 1, 1); shadow.material.opacity = .75 - bob * 2;
+    key.position.set(2.5 + px * 3, 3 - py * 3, 4);
+    sheenMat.uniforms.t.value = ((tt * .22) % 1.8) - .4;
     renderer.render(scene, cam); requestAnimationFrame(loop);
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden && visible) { last = performance.now(); requestAnimationFrame(loop); } });

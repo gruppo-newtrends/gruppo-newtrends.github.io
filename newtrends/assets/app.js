@@ -117,7 +117,7 @@ var cf=$("#calc");if(cf){var pr=parseFloat(cf.dataset.price);var sl=$("#own");fu
 // 5 nov: entrate allo scroll, contatori, parallasse leggera, barra di avanzamento, barre di conversione, bottoni "magnetici"
 (function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches,H=document.documentElement,lite=H.classList.contains("lite");
  var sel=".sec-head,.card,.path,.stat,.zone,.sit,.quote,.oitem,.step,.gpoint,.team-photo,.score,.alert,.val,.olist,.calc,.contact>div,.two>div,.gold-grid>div,main h2,main .lead,main li,main figure,.cinfo>*,.ccard,.crow,.cpoints li,.ftr-top>div";
- var els=[].slice.call(document.querySelectorAll(sel)).filter(function(e){return !e.closest(".hdr,.mega,.drawer,.hero,form,.done")});els=els.filter(function(e){return !els.some(function(o){return o!==e&&o.contains(e)})});
+ var els=[].slice.call(document.querySelectorAll(sel)).filter(function(e){return !e.closest(".hdr,.mega,.drawer,.hero,form,.done,.cg5")});els=els.filter(function(e){return !els.some(function(o){return o!==e&&o.contains(e)})});
  if(!rm&&"IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
   els.forEach(function(e){var sib=[].slice.call(e.parentNode.children).filter(function(x){return els.indexOf(x)>-1});var k=sib.indexOf(e);e.style.setProperty("--d",(Math.min(k,6)*0.075)+"s");e.classList.add("rv");if(e.tagName==="FIGURE"||e.classList.contains("zone")||e.classList.contains("team-photo"))e.classList.add("rvi");io.observe(e)});
   var tm=0;function chk(){tm=0;var left=0;els.forEach(function(e){if(e.classList.contains("in"))return;left++;if(e.getBoundingClientRect().top<innerHeight){e.classList.add("in");io.unobserve(e)}});if(!left)removeEventListener("scroll",sc)}
@@ -138,3 +138,10 @@ var cf=$("#calc");if(cf){var pr=parseFloat(cf.dataset.price);var sl=$("#own");fu
  addEventListener("scroll",function(){if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});upd();
  if(!rm&&matchMedia("(hover:hover)").matches)document.querySelectorAll(".btn-gold").forEach(function(b){b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.transform="translate("+((e.clientX-r.left-r.width/2)*0.12).toFixed(1)+"px,"+((e.clientY-r.top-r.height/2)*0.25).toFixed(1)+"px)"});b.addEventListener("mouseleave",function(){b.style.transform=""})});
 })();
+
+// v5 squadra: le schede si inclinano piano seguendo il mouse (foto con parallasse); al tocco si abbassano un attimo. Niente con «riduci animazioni».
+(function(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+ [].slice.call(document.querySelectorAll("[data-tm]")).forEach(function(c){var img=c.querySelector(".tm-ph img");
+  if(fine){c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transition="transform .15s";c.style.setProperty("--ty",(x*8).toFixed(2)+"deg");c.style.setProperty("--tx",(-y*6).toFixed(2)+"deg");if(img){img.style.setProperty("--px",(-x*8).toFixed(1)+"px");img.style.setProperty("--py",(-y*8).toFixed(1)+"px")}});
+   c.addEventListener("pointerleave",function(){c.style.transition="";c.style.setProperty("--ty","0deg");c.style.setProperty("--tx","0deg");if(img){img.style.setProperty("--px","0px");img.style.setProperty("--py","0px")}})}
+  else{c.addEventListener("touchstart",function(){c.style.setProperty("--tx","3deg")},{passive:true});c.addEventListener("touchend",function(){c.style.setProperty("--tx","0deg")},{passive:true})}})})();
