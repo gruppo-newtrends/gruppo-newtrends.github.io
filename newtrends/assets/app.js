@@ -75,7 +75,7 @@ $$("form[data-form]").forEach(function(f){f.addEventListener("submit",function(e
  function render(live){box.innerHTML="<h3>"+L.okT+"</h3><p>"+L.ok+" <code>"+data.code+"</code></p><p>"+(live?L.okLive:L.okWa)+"</p><div class='acts'><a class='btn btn-gold' target='_blank' rel='noopener' href='"+wa+"'>"+L.waBtn+"</a><button type='button' class='btn btn-line btn-sm'>"+L.copy+"</button></div><pre data-copy-src hidden></pre>";
   box.querySelector("pre").textContent=txt;box.querySelector("button").addEventListener("click",function(){copyText(txt,this)})}
  // al CRM del gruppo (campi che accetta: name, email, phone, kind, town, message, consent, newsletter, website); se non risponde resta WhatsApp
- var it=f.elements.intent,kind=it?it.options[it.selectedIndex].text:data.form;var extra=lines.slice(1).filter(function(l){return !/^(Nome|Name|Nom|Email|E-Mail|E-mail|Telefono|Telefon|Phone|Téléphone)\b/.test(l)});
+ var it=f.elements.intent,kind=it?it.options[it.selectedIndex].text:data.form;if(f.dataset.kind)kind=f.dataset.kind+" · "+kind;var extra=lines.slice(1).filter(function(l){return !/^(Nome|Name|Nom|Email|E-Mail|E-mail|Telefono|Telefon|Phone|Téléphone)\b/.test(l)});
  var crm={company:C.company||"newtrends",name:data.name||"",email:data.email||"",phone:data.phone||"",kind:kind,town:data.town||"",message:["Modulo: "+data.form+" · "+data.page+" · "+data.lang+" · "+data.code].concat(extra).join("\n"),consent:true,newsletter:false,website:data.website||""};
  if(C.endpoint){fetch(C.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(crm)}).then(function(r){render(r.ok)},function(){render(false)})}else{render(false)}
  f.replaceWith(box);box.scrollIntoView({behavior:"smooth",block:"center"})})});
@@ -86,6 +86,7 @@ $$("[data-lightbox]").forEach(function(b){b.addEventListener("click",function(){
  addEventListener("keydown",k);d.addEventListener("click",function(e){if(e.target!==d.querySelector("img"))close()});
  var sx=null;d.addEventListener("touchstart",function(e){sx=e.touches[0].clientY},{passive:true});d.addEventListener("touchend",function(e){if(sx!==null&&Math.abs(e.changedTouches[0].clientY-sx)>80)close();sx=null})})});
 $$("[data-share]").forEach(function(b){b.addEventListener("click",function(){var u=location.href.split("#")[0];if(navigator.share){navigator.share({title:b.dataset.title,url:u}).catch(function(){})}else{try{navigator.clipboard.writeText(u).then(function(){var sp=b.querySelector("span"),o=sp.textContent;sp.textContent=L.linkCopied;setTimeout(function(){sp.textContent=o},1800)})}catch(e){prompt("",u)}}})});
+$$("[data-flip]").forEach(function(b){b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true")})});
 $$("[data-lreset]").forEach(function(b){b.addEventListener("click",function(){var r=$("#lreset");if(r)r.click()})});
 // affordability
 var cf=$("#calc");if(cf){var pr=parseFloat(cf.dataset.price);var sl=$("#own");function fmt(n){return "CHF "+Math.round(n).toLocaleString(C.numLocale).replace(/,/g,C.sep)}

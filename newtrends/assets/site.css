@@ -536,3 +536,42 @@ h1,h2,h3,.lead,.crumbs{overflow-wrap:break-word;hyphens:auto}
  .mobbar.show{transform:none}.mobbar a{color:#fff;text-decoration:none;text-align:center;padding:.85rem .4rem;border-radius:12px;font-weight:600;font-size:.95rem;background:#ffffff14}.mobbar a.pri{background:var(--sky);color:#0C1D44}
  .ftr{padding-bottom:90px}}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important}.hero-in>*{opacity:1;animation:none;transform:none}}
+/* ---- 10.11.2026: Community Gold, Tessera Gold, proprietari, dossier del CRM (stessi colori e caratteri del sito) ---- */
+.draftnote{margin:16px 0 0;padding:.7rem 1rem;border:1px dashed var(--brass);border-radius:var(--r);background:var(--surface);color:var(--brass-ink);font:500 .8rem var(--f-mono);letter-spacing:.02em}
+.cg-top{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,80px);align-items:start}
+@media (max-width:900px){.cg-top{grid-template-columns:1fr}}
+.cg-long p+p{margin-top:14px}
+.cg-ben{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:22px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cg-ben .gpoint{background:var(--paper);padding:clamp(20px,2.2vw,30px);border:0;gap:8px;align-content:start}
+.cg-ben .gpoint h3{color:var(--ink)}.cg-ben .gpoint p{color:var(--muted)}.cg-ben .k{font:500 .8rem var(--f-mono);color:var(--brass-ink)}
+@media (max-width:600px){.cg-ben{grid-template-columns:1fr}}
+.mcard-wrap{display:grid;gap:12px;justify-items:start;perspective:1200px}
+.tessera{position:relative;width:min(100%,420px);aspect-ratio:1.586;border:0;padding:0;background:none;cursor:pointer;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1);border-radius:16px;font:inherit;color:#fff;text-align:left}
+.tessera[aria-pressed="true"]{transform:rotateY(180deg)}
+.tessera:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
+.t-face{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;display:grid;padding:clamp(16px,5%,26px);box-shadow:0 24px 48px -24px #0C1D44aa}
+.t-front{background:#0C1D44;grid-template-rows:auto 1fr auto}
+.t-front::after{content:"";position:absolute;inset:8px;border:1px solid #9DBEF255;border-radius:10px;pointer-events:none}
+.t-top img{width:48%;height:auto}
+.t-mid{align-self:center;display:grid;gap:10px}
+.t-mid b{font:600 clamp(1.5rem,6vw,2.1rem)/1.05 var(--f-body);letter-spacing:-.02em;color:#fff}
+.t-mid b i{font-family:var(--f-display);font-weight:400;color:var(--sky)}
+.t-rule{display:block;width:56px;height:1.5px;background:var(--sky)}
+.t-bot{display:flex;justify-content:space-between;align-items:end;gap:12px}
+.t-bot em{font-style:normal;font-weight:600;font-size:.95rem;color:#fff}
+.t-no{font:500 .78rem var(--f-mono);letter-spacing:.1em;color:var(--sky)}
+.t-back{transform:rotateY(180deg);background:#fff;color:#0C1830;grid-template-columns:1fr auto;grid-template-rows:1fr auto;gap:10px 14px;box-shadow:0 24px 48px -24px #0C1D44aa,inset 0 0 0 1px #CAD4E3}
+.t-info{display:grid;gap:3px;align-content:start;font-size:.82rem;color:#3D4862}
+.t-info b{font-weight:600;font-size:1rem;color:#0C1830;margin-bottom:4px}
+.t-qr{width:clamp(64px,22vw,88px);aspect-ratio:1;display:grid;grid-template:repeat(7,1fr)/repeat(7,1fr);gap:2px;padding:6px;border:1px solid #CAD4E3;border-radius:6px;align-self:start}
+.t-qr i{background:#0C1D44;border-radius:1px}
+.t-foot{grid-column:1/-1;font:500 .58rem var(--f-mono);letter-spacing:.04em;color:#395591}
+@media (prefers-reduced-motion:reduce){.tessera{transition:none}}
+.cp-ink{color:var(--ink)}
+.cp-ink li::before{background:var(--brass)}
+.ol-band li{border-color:#ffffff2a}
+.ol-band li::before{color:var(--sky)}
+.box .dossier{justify-content:center}
+.pp-media .zoom{height:100%}
+.pp-media .zoom img{height:100%;object-fit:cover}
+
