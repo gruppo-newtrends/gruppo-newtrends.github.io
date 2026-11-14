@@ -88,6 +88,14 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (min-width:700px){.top{margin:0;border-radius:0 0 var(--r) var(--r);height:240px}}
 @media (max-width:360px){.proj{grid-template-columns:84px 1fr 16px}.proj .ph{width:84px;height:76px}.map{width:68px}}
+/* TIPOGRAFIA 14.11.2026: niente sotto 14px, etichette senza maiuscolo spaziato. Indietro: index.github.html.prima-tipografia */
+h2{font-size:.9375rem;letter-spacing:0;text-transform:none}
+.feat .k,.proj .k{font-size:.875rem;letter-spacing:.02em;text-transform:none}
+.rate{font-size:.9375rem}
+.map{font-size:.875rem}
+.zone span{font-size:.8125rem}
+.foot{font-size:.9375rem}.foot .sm{font-size:.875rem}
+.group small,.proj small{font-size:.9375rem}
 </style>
 </head>
 <body>
