@@ -291,3 +291,10 @@
 @media (min-width:901px){.cg5-how:not(.is-pin) .cg5-steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.4vw,40px)}.cg5-how:not(.is-pin) .cg5-v{aspect-ratio:1}}
 @media (prefers-reduced-motion:reduce){.cg5-how.is-pin{height:auto}}
 .cg5-how:not(.is-pin) .cg5-step{grid-template-rows:auto 1fr}.cg5-how:not(.is-pin) .cg5-vin{align-self:end}
+
+/* ---- TIPOGRAFIA 14.11.2026: niente sotto 14px nei testi di aiuto. Tornare indietro: src/css/gold5.css.prima-tipografia ---- */
+.cg5-hint,.cg5-oneof{font-size:.9375rem}
+.cg5-msg small{font-size:.875rem;color:#4A5570}
+.cg5-figs span{font-size:.875rem}
+@media (max-width:620px){.cg5-hint{font-size:.875rem}.cg5-figs span{font-size:.875rem}}
+/* ---- FINE TIPOGRAFIA ---- */

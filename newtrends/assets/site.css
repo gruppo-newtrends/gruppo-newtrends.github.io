@@ -862,6 +862,45 @@ svg.st{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-alig
 .tm-list-mini .tm-mini{padding:0;gap:12px}.tm-list-mini{row-gap:14px}
 @media (max-width:700px){.tm-grid{grid-template-columns:1fr 1fr;gap:12px}.tm-card .tm-b{padding-top:10px}.tm-card .tm-b p{font-size:.84rem}.tm-ph{border-radius:14px}.tm-mosaic{gap:6px}}
 @media (prefers-reduced-motion:reduce){.tm-card,.tm-card:hover,.tm-card.rv,.tm-ph img,.tm-mosaic span,.tm-mosaic img{transition:none!important;transform:none!important}.tm-mosaic span:nth-child(3n+2){transform:translateY(18px)!important}}
+/* ---- TIPOGRAFIA 14.11.2026 (Emanuela: «troppi testi piccoli»): scala unica. Testo 16-17px; secondario/meta 14px; etichette e badge 13px,
+   senza maiuscolo spaziato; niente sotto 12px. Tornare indietro: assets_src.py.prima-tipografia ---- */
+:root{--step-1:clamp(.875rem,.85rem + .1vw,.94rem)}
+.hdr .brand small{display:none}
+.brand small{font:500 .875rem var(--f-body);letter-spacing:.02em;text-transform:none;opacity:1}
+.meyebrow{font:600 .8rem var(--f-body);letter-spacing:.02em;text-transform:none}
+.mcount,.mzone small{font:500 .875rem var(--f-body)}.mcount.soon{font-size:.8rem;text-transform:none;letter-spacing:0}
+.langs{font:500 .875rem var(--f-body)}.langs a{opacity:.85}
+.eyebrow{letter-spacing:.04em}
+.badge{font:600 .8125rem var(--f-body)!important;letter-spacing:0!important;text-transform:none}
+.card-media .zph{font:500 .8125rem var(--f-body);letter-spacing:0;text-transform:none}
+.meta{font-size:.9375rem}
+.fbar label,.search-row label span{font:600 .875rem var(--f-body)!important;letter-spacing:0!important;text-transform:none;color:var(--ink)}
+.facts dt,.cinfo dt{font:500 .875rem var(--f-body);letter-spacing:0;text-transform:none}
+.ftr h4{font:600 .9375rem var(--f-body)!important;letter-spacing:0!important;text-transform:none}
+.ftr-bot{font-size:.875rem}.social a{font-size:.9375rem}
+.hdr .gbar{font-size:.875rem}
+.crumbs{font:500 .875rem var(--f-body)}
+.stat span{font-size:.9375rem}
+.oitem .k,.step .k{font:600 .875rem var(--f-body)}
+.zone .zm{font:500 .9375rem var(--f-body)}
+.crow small{font-size:.875rem;letter-spacing:0}
+.tm-mini small{font-size:.875rem}.tm-card .tm-b p{font-size:.9375rem}
+.note{font-size:.875rem}.calc label{font-size:.9375rem}
+.f .check{font-size:.9375rem}.f .fe{font-size:.9rem}
+.t-info{font-size:.875rem}
+.gb-trust li{font-size:.9375rem}
+@media (max-width:760px){
+  .trust{font-size:.9375rem}
+  .path em{font-size:.9375rem}
+  .zone .zm{font-size:.875rem}
+  .tm-card .tm-b p{font-size:.875rem}
+  #lgrid .price,.sec .grid:not([data-panel-of]) .price{font-size:1.15rem}
+  #lgrid .card-title,.sec .grid:not([data-panel-of]) .card-title{font-size:.9375rem;line-height:1.3}
+  #lgrid .meta,.sec .grid:not([data-panel-of]) .meta{font-size:.875rem;gap:2px 10px}
+  #lgrid .badge,.sec .grid:not([data-panel-of]) .badge{font-size:.8125rem!important;padding:.22rem .45rem}
+  .card-media .zph{font-size:.8125rem}
+}
+/* ---- FINE TIPOGRAFIA ---- */
 
 .rft{padding-block:0 clamp(56px,7vw,104px)}.rft-c{padding-block:clamp(8px,2vw,24px) clamp(28px,4vw,48px)}
 .rft-card{position:relative;display:flex;align-items:flex-end;min-height:clamp(380px,46vw,620px);border-radius:6px;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate;background:#0C1D44}
