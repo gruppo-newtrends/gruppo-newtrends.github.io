@@ -862,3 +862,18 @@ svg.st{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-alig
 .tm-list-mini .tm-mini{padding:0;gap:12px}.tm-list-mini{row-gap:14px}
 @media (max-width:700px){.tm-grid{grid-template-columns:1fr 1fr;gap:12px}.tm-card .tm-b{padding-top:10px}.tm-card .tm-b p{font-size:.84rem}.tm-ph{border-radius:14px}.tm-mosaic{gap:6px}}
 @media (prefers-reduced-motion:reduce){.tm-card,.tm-card:hover,.tm-card.rv,.tm-ph img,.tm-mosaic span,.tm-mosaic img{transition:none!important;transform:none!important}.tm-mosaic span:nth-child(3n+2){transform:translateY(18px)!important}}
+
+.rft{padding-block:0 clamp(56px,7vw,104px)}.rft-c{padding-block:clamp(8px,2vw,24px) clamp(28px,4vw,48px)}
+.rft-card{position:relative;display:flex;align-items:flex-end;min-height:clamp(380px,46vw,620px);border-radius:6px;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate;background:#0C1D44}
+.rft-c .rft-card{min-height:clamp(300px,30vw,420px)}
+.rft-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.4s cubic-bezier(.2,.7,.1,1)}
+.rft-card:hover>img{transform:scale(1.04)}
+.rft-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(6,13,30,.78) 0%,rgba(6,13,30,.35) 55%,rgba(6,13,30,.05) 100%),linear-gradient(180deg,rgba(6,13,30,0) 35%,rgba(6,13,30,.7) 100%)}
+@media (max-width:700px){.rft-shade{background:linear-gradient(180deg,rgba(6,13,30,.45) 0%,rgba(6,13,30,.72) 45%,rgba(6,13,30,.9) 100%)}}
+.rft-in{display:grid;gap:10px;padding:clamp(22px,3.4vw,48px);max-width:720px}
+.rft-k{font-size:var(--step-1);letter-spacing:.16em;text-transform:uppercase;color:var(--sky)}
+.rft-h{font-size:clamp(2.4rem,1.6rem + 4vw,5.4rem);font-weight:600;line-height:.95;letter-spacing:-.04em}
+.rft-h em{font-family:var(--f-display);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.rft-t{font-size:var(--step1);line-height:1.45;color:#ffffffe0}
+.rft-m{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:#ffffffc0}
+.rft-in .btn{justify-self:start;margin-top:8px}
