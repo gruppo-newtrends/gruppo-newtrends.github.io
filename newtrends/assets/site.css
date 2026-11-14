@@ -916,3 +916,8 @@ svg.st{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-alig
 .rft-t{font-size:var(--step1);line-height:1.45;color:#ffffffe0}
 .rft-m{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:#ffffffc0}
 .rft-in .btn{justify-self:start;margin-top:8px}
+
+.vpromo{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:clamp(18px,3vw,28px);border-radius:18px;background:var(--band);color:var(--band-fg);margin:0 0 28px;text-decoration:none}
+.vpromo b{display:block;font-size:1.2rem;margin-bottom:4px;color:#fff}.vpromo span{color:var(--band-muted)}
+.vpromo .btn{justify-self:start}
+@media (max-width:640px){.vpromo{grid-template-columns:1fr}}
