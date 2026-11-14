@@ -174,3 +174,26 @@
 @media (max-width:899px){.rf section[id]{scroll-margin-top:140px}}
 .rf .btn-sm{min-height:44px}
 .rf-u-acts .link{display:inline-flex;align-items:center;min-height:44px}
+
+/* 14.11.2026 sera, Emanuela (foto dal telefono): leggibilità SOLO su telefono/tablet (≤820 px); il computer resta com'è.
+   Contrasti WCAG AA: testo bianco su blu notte ≥ 85%, pulsante chiaro con testo blu notte (≈ 10:1), etichette quasi bianche. */
+@media (max-width:820px){
+  .rf-hero-shade{background:linear-gradient(180deg,rgba(6,13,30,.62) 0%,rgba(6,13,30,.5) 22%,rgba(6,13,30,.8) 40%,rgba(6,13,30,.88) 60%,rgba(6,13,30,.94) 100%)}
+  .rf-hero-img{object-position:30% 60%}
+  .rf-hero-in{text-shadow:0 1px 14px rgba(6,13,30,.75)}
+  .rf-kick{color:#F4F7FD;font-weight:600;letter-spacing:.1em}
+  .rf-kick .rf-line{background:#9DBEF2}
+  .rf-sub{color:#fff;line-height:1.62;text-shadow:0 1px 10px rgba(6,13,30,.85)}
+  .rf-crumbs{color:#fffffff0}
+  .rf-facts{border-top-color:#ffffff59}
+  .rf-facts span{color:#ffffffe6}
+  .rf-hero .btn-gold{background:#9DBEF2;color:#0C1D44;text-shadow:none}
+  .rf-hero .btn-gold:hover{background:#fff;color:#0C1D44}
+  .rf-ghost{border-color:#ffffffcc;background:rgba(6,13,30,.35)}
+  .rf-g figcaption{background:linear-gradient(transparent,rgba(6,13,30,.9));font-weight:600}
+  .rf-intro-fig figcaption,.rf-place-fig figcaption{left:0;right:0;bottom:0;padding:26px 14px 12px;background:linear-gradient(transparent,rgba(6,13,30,.88));text-shadow:none;font-weight:600}
+  .rf-upd{opacity:.88}
+}
+/* tema scuro del telefono: --brass diventa azzurro chiaro, quindi i pulsanti pieni prendono il testo blu notte */
+@media (max-width:820px) and (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rf .btn-gold{color:#0C1D44}}
+@media (max-width:820px){:root[data-theme="dark"] .rf .btn-gold{color:#0C1D44}}
