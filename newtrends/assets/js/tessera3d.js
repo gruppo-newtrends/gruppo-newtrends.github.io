@@ -1,8 +1,8 @@
-// Tessera Gold in 3D (three.js r160, servito dal sito). Caricato solo sulla pagina Community Gold, solo quando la tessera è visibile.
+// Tessera Gold in 3D (three.js r160, servito dal sito). Caricato solo sulla pagina Circuito Gold, solo quando la tessera è visibile.
 // Senza WebGL o con «riduci animazioni» resta la tessera 2D. Trascina per girarla, tocca per voltarla, inclina il telefono (se il browser lo permette).
 import * as THREE from './three.module.min.js';
 
-const host = document.querySelector('[data-tessera3d]');   // v5: nella pagina Community Gold è il riquadro .cg5-stage della prima schermata
+const host = document.querySelector('[data-tessera3d]');   // v5: nella pagina Circuito Gold è il riquadro .cg5-stage della prima schermata
 if (host) init(host);
 
 function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
@@ -22,7 +22,7 @@ async function faces(d) {
     if (logo) { const lw = W * .42; g.drawImage(logo, 64, 58, lw, lw * logo.height / logo.width); }
     const cg = g.createLinearGradient(W - 160, 60, W - 64, 130); cg.addColorStop(0, '#F3E7C9'); cg.addColorStop(1, '#C9AE76'); g.fillStyle = cg; roundRect(g, W - 160, 58, 96, 72, 14); g.fill();
     g.strokeStyle = '#00000030'; g.lineWidth = 2; for (const y of [82, 106]) { g.beginPath(); g.moveTo(W - 160, y); g.lineTo(W - 64, y); g.stroke(); }
-    g.fillStyle = '#DCE8FF'; g.font = `500 26px ${sans}`; g.letterSpacing = '10px'; g.fillText('COMMUNITY', 64, H * .5); g.letterSpacing = '0px';
+    g.fillStyle = '#DCE8FF'; g.font = `500 26px ${sans}`; g.letterSpacing = '10px'; g.fillText('CIRCUITO', 64, H * .5); g.letterSpacing = '0px';
     g.fillStyle = '#E6CF9F'; g.font = `italic 400 150px ${serif}`; g.fillText('Gold', 58, H * .5 + 140);
     g.fillStyle = '#FFFFFF'; g.font = `600 34px ${sans}`; g.fillText(d.name, 64, H - 64);
     g.fillStyle = '#E6CF9F'; g.font = `500 28px ${sans}`; g.textAlign = 'right'; g.fillText('NT-G-0001', W - 64, H - 64);

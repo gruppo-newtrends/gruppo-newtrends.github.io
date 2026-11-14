@@ -1,4 +1,4 @@
-// Community Gold v5: entrate allo scorrimento, sezione fissa «Come funziona», parallasse leggera sulle foto, contatori, scelta a bottoni nel modulo.
+// Circuito Gold v5: entrate allo scorrimento, sezione fissa «Come funziona», parallasse leggera sulle foto, contatori, scelta a bottoni nel modulo.
 // Solo transform/opacity. Con «riduci animazioni» niente movimento (la classe cg5-anim non c'è) e «Come funziona» resta una lista normale.
 (function () {
   window.CG5 = 1;

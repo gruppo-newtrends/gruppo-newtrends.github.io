@@ -536,7 +536,7 @@ h1,h2,h3,.lead,.crumbs{overflow-wrap:break-word;hyphens:auto}
  .mobbar.show{transform:none}.mobbar a{color:#fff;text-decoration:none;text-align:center;padding:.85rem .4rem;border-radius:12px;font-weight:600;font-size:.95rem;background:#ffffff14}.mobbar a.pri{background:var(--sky);color:#0C1D44}
  .ftr{padding-bottom:90px}}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important}.hero-in>*{opacity:1;animation:none;transform:none}}
-/* ---- 10.11.2026: Community Gold, Tessera Gold, proprietari, dossier del CRM (stessi colori e caratteri del sito) ---- */
+/* ---- 10.11.2026: Circuito Gold, Tessera Gold, proprietari, dossier del CRM (stessi colori e caratteri del sito) ---- */
 .draftnote{margin:16px 0 0;padding:.7rem 1rem;border:1px dashed var(--brass);border-radius:var(--r);background:var(--surface);color:var(--brass-ink);font:500 .8rem var(--f-mono);letter-spacing:.02em}
 .cg-top{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,80px);align-items:start}
 @media (max-width:900px){.cg-top{grid-template-columns:1fr}}
@@ -575,7 +575,7 @@ h1,h2,h3,.lead,.crumbs{overflow-wrap:break-word;hyphens:auto}
 .pp-media .zoom{height:100%}
 .pp-media .zoom img{height:100%;object-fit:cover}
 
-/* ==== v3 (10.11.2026): Community Gold più curata + telefono pensato per la conversione. Stessi caratteri e colori del sito. ==== */
+/* ==== v3 (10.11.2026): Circuito Gold più curata + telefono pensato per la conversione. Stessi caratteri e colori del sito. ==== */
 /* Tessera Gold */
 .tessera{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
 .tessera[aria-pressed="true"]{transform:rotateX(var(--rx,0deg)) rotateY(calc(180deg + var(--ry,0deg)))}
@@ -626,7 +626,7 @@ h1,h2,h3,.lead,.crumbs{overflow-wrap:break-word;hyphens:auto}
 .gband-mini .gb-copy h2{font-size:var(--step2)}
 .gband-mini .gb-visual .tessera-static{width:min(100%,340px)}
 @media (max-width:900px){.gb-grid,.gband-mini .gb-grid{grid-template-columns:1fr}.gb-visual{order:-1;justify-items:start}.gb-visual .tessera-static{width:min(78%,320px)}.gb-steps-row{grid-template-columns:1fr}}
-/* Pagina Community Gold */
+/* Pagina Circuito Gold */
 .cg-hero{background:var(--band);color:var(--band-fg);position:relative;overflow:hidden;isolation:isolate;padding-block:clamp(28px,5vw,80px) clamp(48px,7vw,104px)}
 .cg-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(50% 70% at 80% 30%,#9DBEF226,transparent 70%)}
 .cg-hero-in{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,110px);align-items:center}
@@ -693,7 +693,7 @@ h1,h2,h3,.lead,.crumbs{overflow-wrap:break-word;hyphens:auto}
   .sec-head{margin-bottom:22px}
 }
 
-/* Tessera 3D (three.js) sulla pagina Community Gold */
+/* Tessera 3D (three.js) sulla pagina Circuito Gold */
 .mcard-wrap.is3d{width:min(100%,520px)}
 .mcard-wrap.is3d .tessera{display:none}
 canvas.t3d{display:block;width:100%;touch-action:pan-y;cursor:grab;border-radius:18px;outline:none}
@@ -804,7 +804,7 @@ svg.st{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-alig
 .zhero{min-height:min(64svh,620px)}
 .zhero h1 em,.zhero h1{color:#fff}.zhero h1 em{color:#DCE8FF}
 .zhero::after{background:linear-gradient(180deg,#0c1d4466,#0c1d4400 35%,#0c1d44d9)}
-/* Community Gold: titolo su 3-4 righe invece di 5, tessera in equilibrio */
+/* Circuito Gold: titolo su 3-4 righe invece di 5, tessera in equilibrio */
 .cg-hero h1{font-size:clamp(2.3rem,1.4rem + 2.8vw,4.2rem);max-width:17ch;line-height:1.04}
 @media (min-width:901px){.cg-hero-in{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
 .cg-hero-card .mcard-wrap{width:min(100%,460px)}.cg-hero-card .mcard-wrap.is3d{width:min(100%,520px)}.cg-hero-card .tessera{width:100%}
@@ -820,7 +820,7 @@ svg.st{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-alig
 @media (max-width:700px){.ftr{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}}
 /* tessera sopra il titolo su tablet e telefono: più piccola, così il titolo resta nella prima schermata */
 @media (max-width:900px){.cg-hero-card .mcard-wrap,.cg-hero-card .mcard-wrap.is3d{width:min(78%,380px)}.cg-hero{padding-top:20px}}
-/* Community Gold: apertura e «Come funziona» sullo stesso fondo, senza gradino di colore */
+/* Circuito Gold: apertura e «Come funziona» sullo stesso fondo, senza gradino di colore */
 .cg-hero::before{background:radial-gradient(50% 80% at 80% 40%,#9DBEF222,transparent 72%)}
 .cg-hero+.gband::before{background:radial-gradient(40% 60% at 5% 100%,#E6CF9F10,transparent 70%)}
 .cg-hero+.gband{padding-top:clamp(24px,3vw,48px)}
