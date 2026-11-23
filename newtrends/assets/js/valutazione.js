@@ -1,4 +1,4 @@
-/* VALUTAZIONE ONLINE New Trends (14.11.2026): percorso in 6 passi + stima indicativa calcolata NEL BROWSER.
+/* VALUTAZIONE ONLINE New Trends (14.11.2026, 23.11.2026 percorso ridotto a 4 passi: dettagli ed email facoltativi): percorso in 4 passi + stima indicativa calcolata NEL BROWSER.
    Dati: window.NTVAL_DATA (mediane aggregate CHF/m² dal CRM, scritte nella pagina dal generatore; nessun dato personale).
    Testi: window.NTVAL_T (lingua della pagina). Invio: un solo POST al CRM (window.NT.endpoint) quando si preme «Invia»;
    niente salvato sul dispositivo, niente strumenti di misura.
@@ -123,20 +123,17 @@
       if (!/^\d{4}$/.test(val("npa"))) return err(s, T.e_npa, f.npa);
       if (!/^[A-Za-zÀ-ÿ'’ .()\/-]{2,60}$/.test(val("comune"))) return err(s, T.e_comune, f.comune);
       if (!V.regioneNPA(val("npa")) && !val("cantone")) return err(s, T.e_cantone, f.cantone);
-    }
-    if (i === 3) {
       var mq = +val("mq");
       if (!(mq >= 15 && mq <= (t === "terreno" ? 100000 : 3000))) return err(s, T.e_mq, f.mq);
       var a = val("anno"), r = val("anno_ristr"), y = new Date().getFullYear() + 3;
-      if (a && !(+a >= 1500 && +a <= y)) return err(s, T.e_anno, f.anno);
-      if (r && !(+r >= 1900 && +r <= y)) return err(s, T.e_anno, f.anno_ristr);
+      if (a && !(+a >= 1500 && +a <= y)) { var dt = f.anno.closest("details"); if (dt) dt.open = true; return err(s, T.e_anno, f.anno); }
+      if (r && !(+r >= 1900 && +r <= y)) { var dr = f.anno_ristr.closest("details"); if (dr) dr.open = true; return err(s, T.e_anno, f.anno_ristr); }
     }
-    if (i === 4 && !val("entro")) return err(s, T.e_scelta, $$('[name="entro"]', s)[0]);
-    if (i === 5) {
+    if (i === 3) {
       if (val("nome").length < 2) return err(s, T.e_nome, f.nome);
       var tel = val("telefono").replace(/[^\d+]/g, ""), em = val("email");
       if (tel.replace(/\D/g, "").length < 9) return err(s, T.e_tel, f.telefono);
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return err(s, T.e_email, f.email);
+      if (em && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return err(s, T.e_email, f.email);
       if (!f.consenso.checked) return err(s, T.e_consenso, f.consenso);
     }
     return err(s, "");
@@ -149,7 +146,8 @@
     if (cant) { cant.hidden = !(/^\d{4}$/.test(v) && !r); var sel = form.elements.cantone; if (sel && !r && c && !sel.dataset.toccato) sel.value = c === "TI" ? "" : c; }
   }
   if (npa) { npa.addEventListener("input", npaInfo); npaInfo(); }
-  form.addEventListener("change", function (e) { var st = e.target.closest(".vstep"), er = st && $(".verr", st); if (er && !er.hidden) { er.hidden = true; e.target.removeAttribute("aria-invalid"); } });
+  // 23.11.2026 revisione: «input» e non «change»: con «change» l'errore spariva quando il campo perdeva il fuoco, il tasto saliva e il primo tocco su «Invia»/«Avanti» andava a vuoto
+  form.addEventListener("input", function (e) { var st = e.target.closest(".vstep"), er = st && $(".verr", st); if (er && !er.hidden) { er.hidden = true; e.target.removeAttribute("aria-invalid"); } });
   if (form.elements.cantone) form.elements.cantone.addEventListener("change", function () { this.dataset.toccato = 1; });
   // scelte a schede: avanti da solo dopo la scelta (passi 1 e 2)
   $$('.vcards input[type="radio"]', app).forEach(function (r) {
@@ -157,6 +155,13 @@
   });
   $$("[data-next]", app).forEach(function (b) { b.addEventListener("click", function () { if (check(cur)) show(cur + 1, true); }); });
   $$("[data-prev]", app).forEach(function (b) { b.addEventListener("click", function () { show(cur - 1, true); }); });
+  // 23.11.2026 revisione: «Invio»/«Vai» della tastiera nei passi 1-3 = «Avanti» (prima inviava il modulo e saltava al passo 4 con un errore)
+  form.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" || cur >= N - 1 || !e.target.matches("input:not([type=checkbox]):not([type=radio])")) return;
+    e.preventDefault(); if (check(cur)) show(cur + 1, true);
+  });
+  // 23.11.2026 revisione: mentre il percorso è sullo schermo le barre fisse in basso (mobbar, convbar) si nascondono, come per gli altri moduli del sito
+  if ("IntersectionObserver" in root) new IntersectionObserver(function (es) { d.documentElement.classList.toggle("vin", es[0].isIntersecting); }).observe(app);
   var start = $("[data-start]", d);
   if (start) start.addEventListener("click", function (e) { e.preventDefault(); app.hidden = false; app.classList.add("on"); show(0, true); });
 
@@ -169,9 +174,10 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    if (form.dataset.inviato) return;   // 23.11.2026 revisione: un solo invio (anche con «Invio» premuto due volte)
     for (var i = 0; i < N; i++) if (!check(i)) { show(i, true); check(i); return; }
     var x = input(), r = V.stima(D, x), k = code(), btn = $('button[type="submit"]', form);
-    btn.disabled = true; btn.textContent = T.invio || "…";
+    form.dataset.inviato = 1; btn.disabled = true; btn.textContent = T.invio || "…";
     var reg = V.regioneNPA(x.npa), cn = reg ? "TI" : val("cantone");
     var stima = r.ok ? { min: r.min, max: r.max, punto: r.punto, unita: r.deal === "affitto" ? "CHF/mese" : "CHF", fonte: r.fonte, base: r.base, n: r.n, p: r.p, fattore: r.fattore } : { motivo: r.motivo };
     var righe = [T.m_head + " (" + k + ")", T.l_deal + ": " + optText("deal"), T.l_tipo + ": " + optText("tipo"), T.l_dove + ": " + [val("via"), x.npa + " " + val("comune")].filter(Boolean).join(", ") + (reg ? " (" + reg + ")" : " (" + cn + ")"),
@@ -193,7 +199,9 @@
     var out = $(".vres", app), aff = x.deal === "affitto";
     steps.forEach(function (s) { s.hidden = true; });
     $(".vprog", app).hidden = true; out.hidden = false;
-    var h = "";
+    var h = "", acts = '<div class="vacts"><a class="btn btn-gold" href="tel:+41919210031">' + T.chiama + ' +41 91 921 00 31</a><a class="btn btn-line" href="https://wa.me/' + (C.wa || "41768232203") + "?text=" + encodeURIComponent(inviato ? T.wa_txt.replace("{code}", k) : righe.join("\n")) + '" target="_blank" rel="noopener">WhatsApp</a></div>';
+    // 23.11.2026 revisione: se l'invio non è riuscito l'avviso e i tasti Chiamare/WhatsApp vanno in cima (prima erano in fondo, sotto la piega del telefono)
+    if (!inviato) h += '<p class="vko" role="alert">' + T.ko.replace("{code}", "<code>" + k + "</code>") + "</p>" + acts;
     if (r.ok) {
       h += '<p class="eyebrow">' + (aff ? T.r_eyebrow_aff : T.r_eyebrow) + "</p>";
       h += '<p class="vrange"><span>' + chf(r.min) + ' <span class="vdash">–</span></span><span>' + chf(r.max) + "</span>" + (aff ? '<small>' + T.al_mese_netto + "</small>" : "") + "</p>";
@@ -211,11 +219,9 @@
     h += '<div class="vdisc"><b>' + T.d_t + "</b><p>" + T.d_txt + "</p></div>";
     h += '<div class="vnext"><h3>' + T.n_t + '</h3><ol><li><b>' + T.n1 + "</b><span>" + T.n1d + "</span></li><li><b>" + T.n2 + "</b><span>" + T.n2d + "</span></li><li><b>" + T.n3 + "</b><span>" + T.n3d + "</span></li></ol></div>";
     h += '<details class="vcosti"><summary>' + (aff ? T.c_t_aff : T.c_t) + "</summary><div>" + (aff ? T.c_aff : T.c_vend) + "</div></details>";
-    h += inviato ? '<p class="vok" role="status">' + T.ok.replace("{code}", "<code>" + k + "</code>") + "</p>"
-      : '<p class="vko" role="alert">' + T.ko.replace("{code}", "<code>" + k + "</code>") + "</p>";
-    h += '<div class="vacts"><a class="btn btn-gold" href="tel:+41919210031">' + T.chiama + ' +41 91 921 00 31</a><a class="btn btn-line" href="https://wa.me/' + (C.wa || "41768232203") + "?text=" + encodeURIComponent(inviato ? T.wa_txt.replace("{code}", k) : righe.join("\n")) + '" target="_blank" rel="noopener">WhatsApp</a></div>';
+    if (inviato) h += '<p class="vok" role="status">' + T.ok.replace("{code}", "<code>" + k + "</code>") + "</p>" + acts;
     out.innerHTML = h;
-    var t0 = $("h2, .vrange", out); if (t0) { t0.setAttribute("tabindex", "-1"); t0.focus({ preventScroll: true }); }
+    var t0 = $(inviato ? "h2, .vrange" : ".vko", out); if (t0) { t0.setAttribute("tabindex", "-1"); t0.focus({ preventScroll: true }); }
     app.scrollIntoView({ behavior: "auto", block: "start" });
   }
   // con #valuta nell'indirizzo (link dal menu o dal link in bio) il percorso si apre subito
