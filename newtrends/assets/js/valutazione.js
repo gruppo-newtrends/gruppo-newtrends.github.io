@@ -169,6 +169,8 @@
     return { deal: val("deal"), tipo: tipo(), npa: val("npa"), comune: val("comune"), mq: +val("mq"), anno: +val("anno") || 0, annoRistr: +val("anno_ristr") || 0,
       stato: val("stato"), piano: val("piano"), esterno: val("esterno"), box: +val("box") || 0, esterni: +val("esterni") || 0, vista: val("vista"), energia: val("energia") };
   }
+  // 24.11.2026: canale di provenienza (?src= del QR, dell'inserzione o del messaggio privato) per il CRM; solo [a-z0-9-], massimo 40 caratteri
+  function srcPagina() { try { var m = /[?&]src=([^&#]*)/.exec(location.search || ""); return m ? decodeURIComponent(m[1].replace(/\+/g, " ")).toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 40) : ""; } catch (e) { return ""; } }
   function code() { var t = new Date(); return "NT-V" + String(t.getFullYear()).slice(2) + String(t.getMonth() + 1).padStart(2, "0") + String(t.getDate()).padStart(2, "0") + "-" + Math.random().toString(36).slice(2, 6).toUpperCase(); }
   function optText(name) { var el = form.elements[name]; if (!el) return ""; if (el.tagName === "SELECT") return el.value ? el.options[el.selectedIndex].text : ""; var r = $$('[name="' + name + '"]:checked', form).map(function (x) { var l = x.closest("label"), b = l && l.querySelector("b"); return (b || l) ? (b || l).textContent.trim().replace(/\s+/g, " ") : x.value; }); return r.join(", "); }
 
@@ -185,7 +187,7 @@
     if (r.ok) righe.push(T.l_stima + ": " + chf(r.min) + " – " + chf(r.max) + (r.deal === "affitto" ? " " + T.al_mese : ""));
     var payload = { company: C.company || "newtrends", name: val("nome"), email: val("email"), phone: val("telefono"), kind: "Proprietario · valutazione online", town: val("comune"),
       message: righe.join("\n"), consent: true, newsletter: false, website: val("website"),
-      valutazione: { v: 1, codice: k, pagina: location.pathname, lingua_pagina: lang, deal: x.deal, tipo: x.tipo, npa: x.npa, comune: val("comune"), via: val("via"), regione: reg || "", cantone: cn,
+      valutazione: { v: 1, codice: k, pagina: location.pathname, src: srcPagina(), lingua_pagina: lang, deal: x.deal, tipo: x.tipo, npa: x.npa, comune: val("comune"), via: val("via"), regione: reg || "", cantone: cn,
         mq: x.mq, locali: val("locali"), piano: x.piano, anno: x.anno || "", anno_ristr: x.annoRistr || "", stato: x.stato, esterno: x.esterno, box: x.box, esterni: x.esterni, vista: x.vista, energia: x.energia,
         entro: val("entro"), motivo: val("motivo"), mandato: val("mandato"), lingua: val("lingua") || lang, nota: val("nota").slice(0, 800), consenso: true, stima: stima } };
     var done = function (ok) { risultato(r, x, k, ok, righe); };
