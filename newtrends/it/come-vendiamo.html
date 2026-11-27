@@ -115,6 +115,10 @@
 .cv-list{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
 .cv-list li{padding-left:1.6em;position:relative;color:var(--band-fg)}
 .cv-list li::before{content:"";position:absolute;left:0;top:.55em;width:.7em;height:.7em;border-radius:50%;border:2px solid var(--sky)}
+/* video referenza */
+.cv-vid{display:grid;gap:clamp(20px,3vw,48px);align-items:center}
+.cv-vid video{width:100%;max-width:320px;aspect-ratio:9/16;border-radius:18px;background:#0C1D44;display:block;margin-inline:auto;object-fit:cover}
+@media (min-width:860px){.cv-vid{grid-template-columns:320px 1fr}}
 /* recensioni */
 .cv-rev{display:grid;gap:clamp(20px,3vw,48px);align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:clamp(28px,4vw,56px)}
 .cv-rev .sc{display:grid;gap:6px}
@@ -213,6 +217,11 @@
 <div class="cv-rep-b"><div><h4>Pareri dalle visite</h4><p>Cosa è piaciuto, cosa ha frenato, con le parole degli acquirenti.</p></div>
 <div><h4>Prossimi passi</h4><p>Visite in agenda, eventuali proposte, cosa suggeriamo di fare.</p></div></div></div>
 <p class="cv-note">Esempio illustrativo, senza dati reali: i Suoi aggiornamenti riportano i numeri del Suo immobile.</p></div>
+</div></section>
+
+<section class="sec" id="video-referenza"><div class="wrap cv-vid">
+<video controls playsinline preload="none" poster="../assets/come-vendiamo/referenza-vendita.jpg" aria-label="Video: vendere casa con New Trends"><source src="../assets/come-vendiamo/referenza-vendita.mp4" type="video/mp4"></video>
+<div><p class="eyebrow">Una referenza</p><h2 style="font-size:var(--step2);margin:10px 0 10px">Vendere casa <em>con New Trends.</em></h2><p class="lead">Un proprietario racconta, con le sue parole, com'è andata la vendita della sua casa con noi.</p></div>
 </div></section>
 
 <section class="sec" id="recensioni"><div class="wrap"><div class="cv-rev">
