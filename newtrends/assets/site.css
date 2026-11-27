@@ -901,6 +901,26 @@ svg.st{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-alig
   .card-media .zph{font-size:.8125rem}
 }
 /* ---- FINE TIPOGRAFIA ---- */
+/* ==== PC 27.11.2026 (Emanuela: «il sito non è molto ottimizzato per pc»). Stessi colori, caratteri e contenuti.
+   Schermi grandi: griglia più larga e testo un poco più grande (tutto in rem cresce insieme), così a 1920 px il sito non resta
+   una colonna stretta al centro. Tornare indietro: assets_src.py.prima-pc-20261127 ==== */
+@media (min-width:1600px){html{font-size:106.25%}:root{--wrap:1440px}}
+/* pulsante WhatsApp solo icona sugli schermi grandi: con la griglia più larga non copre più la colonna di destra */
+@media (min-width:1600px){.wa span{display:none}.wa{padding:.9rem}}
+@media (min-width:1880px){html{font-size:112.5%}:root{--wrap:1640px}}
+/* scheda immobile: colonna laterale in proporzione allo schermo */
+@media (min-width:1600px){.pp{grid-template-columns:minmax(0,1fr) minmax(380px,460px)}}
+/* moduli e foto con larghezza fissa: crescono con lo schermo */
+@media (min-width:1600px){.ccard{max-width:720px}.team-photo{max-width:540px}body .vapp,body .vnojs,body .vfid{max-width:880px}}
+/* zone: elenco immobili a 4 colonne come l'elenco completo (prima 3 colonne con schede grandi e pagina lunghissima) */
+@media (min-width:1180px){#lista .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 24px}#lista .price{font-size:1.4rem}}
+/* chi siamo: squadra in 6 colonne (11 persone in 2 righe invece di 3 righe di ritratti alti 350 px) */
+@media (min-width:1180px){.tm-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:28px 20px}.tm-card .tm-b p{font-size:.875rem}.tm-card .tm-b p,.tm-card h3{overflow-wrap:anywhere;hyphens:auto}}
+/* vendere / affittare: titolo a sinistra resta in vista accanto all'elenco dei passi (prima metà colonna vuota) */
+@media (min-width:901px){.two>div:first-child:has(+ .ol){position:sticky;top:calc(110px + env(safe-area-inset-top,0px))}.two:has(> .ol){align-items:start}}
+@media (min-width:901px){.ol li{padding:20px 0;font-size:1.15rem}}
+/* chi siamo: il paragrafo da solo a sinistra in corpo «lead» (prima testo piccolo accanto all'elenco del gruppo) */
+@media (min-width:901px){.two>.prose>p:only-child:not(.lead){font-size:var(--step1);line-height:1.5}}
 
 .rft{padding-block:0 clamp(56px,7vw,104px)}.rft-c{padding-block:clamp(8px,2vw,24px) clamp(28px,4vw,48px)}
 .rft-card{position:relative;display:flex;align-items:flex-end;min-height:clamp(380px,46vw,620px);border-radius:6px;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate;background:#0C1D44}
